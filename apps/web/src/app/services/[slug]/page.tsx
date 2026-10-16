@@ -1,0 +1,6 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { services } from "@/data/site";
+
+export function generateStaticParams() { return services.map(({ slug }) => ({ slug })); }
+export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) { const { slug } = await params; const service = services.find((item) => item.slug === slug); if (!service) notFound(); return <main><section className="page-hero"><p className="eyebrow">Service</p><h1>{service.name}</h1><p>{service.description}</p><Link className="button" href="/contact">Discuss your requirements</Link></section><section className="section split-section"><div><p className="eyebrow">How we can help</p><h2>Service support shaped around your requirements.</h2></div><ul className="check-list">{service.inclusions.map((item) => <li key={item}>{item}</li>)}</ul></section><section className="section muted-section"><p className="eyebrow">Next step</p><h2>Tell us about your location and what you need.</h2><p>Our team will review the details and advise on the appropriate next step.</p><Link className="text-link" href="/contact">Contact Kobby&apos;s Intertech <span aria-hidden="true">→</span></Link></section></main>; }
