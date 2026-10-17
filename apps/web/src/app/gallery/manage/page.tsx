@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
 const API = `${API_BASE}/gallery`;
@@ -36,7 +36,12 @@ export default function GalleryManagePage() {
     setLoading(true);
     try {
       const res = await fetch(API);
-      setPhotos(await res.json());
+      if (res.ok) {
+        const data = await res.json();
+        setPhotos(Array.isArray(data) ? data : []);
+      } else {
+        flash('err', 'Failed to load photos');
+      }
     } catch {
       flash('err', 'Failed to load photos');
     } finally {
@@ -44,14 +49,11 @@ export default function GalleryManagePage() {
     }
   }, []);
 
-  useEffect(() => {
-    if (authed) load();
-  }, [authed, load]);
-
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (pw === ADMIN_PASSWORD) {
       setAuthed(true);
+      void load();
     } else {
       setPwError('Incorrect password.');
     }
@@ -84,22 +86,34 @@ export default function GalleryManagePage() {
   const handleDelete = async (id: string, filename: string) => {
     if (!confirm(`Delete "${filename}"? This cannot be undone.`)) return;
     try {
-      await fetch(`${API}/${id}`, { method: 'DELETE' });
-      flash('ok', 'Photo deleted.');
-      load();
+      const res = await fetch(`${API}/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        flash('ok', 'Photo deleted.');
+        load();
+      } else {
+        flash('err', 'Delete failed.');
+      }
     } catch {
       flash('err', 'Delete failed.');
     }
   };
 
   const handleCaptionEdit = async (id: string, caption: string) => {
-    await fetch(`${API}/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ caption }),
-    });
-    flash('ok', 'Caption saved.');
-    load();
+    try {
+      const res = await fetch(`${API}/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ caption }),
+      });
+      if (res.ok) {
+        flash('ok', 'Caption saved.');
+        load();
+      } else {
+        flash('err', 'Failed to save caption.');
+      }
+    } catch {
+      flash('err', 'Failed to save caption.');
+    }
   };
 
   if (!authed) {

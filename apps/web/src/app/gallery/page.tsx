@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: "Gallery | Kobby's Intertech Services",
@@ -28,9 +29,36 @@ async function getPhotos(): Promise<Photo[]> {
   }
 }
 
-export default async function GalleryPage() {
+async function GalleryGrid() {
   const photos = await getPhotos();
 
+  if (photos.length === 0) {
+    return <p className="gallery-empty">No photos yet. Check back soon.</p>;
+  }
+
+  return (
+    <div className="gallery-grid">
+      {photos.map((photo) => (
+        <figure className="gallery-item" key={photo.id}>
+          <div className="gallery-img-wrap">
+            <Image
+              src={`/gallery/${photo.filename}`}
+              alt={photo.caption ?? "Kobby's Intertech Services project photo"}
+              fill
+              sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+              className="gallery-img"
+            />
+          </div>
+          {photo.caption && (
+            <figcaption className="gallery-caption">{photo.caption}</figcaption>
+          )}
+        </figure>
+      ))}
+    </div>
+  );
+}
+
+export default function GalleryPage() {
   return (
     <main>
       <section className="page-hero">
@@ -42,31 +70,12 @@ export default async function GalleryPage() {
       </section>
 
       <section className="section gallery-section">
-        {photos.length === 0 ? (
-          <p className="gallery-empty">No photos yet. Check back soon.</p>
-        ) : (
-          <div className="gallery-grid">
-            {photos.map((photo) => (
-              <figure className="gallery-item" key={photo.id}>
-                <div className="gallery-img-wrap">
-                  <Image
-                    src={`/gallery/${photo.filename}`}
-                    alt={photo.caption ?? "Kobby's Intertech Services project photo"}
-                    fill
-                    sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
-                    className="gallery-img"
-                  />
-                </div>
-                {photo.caption && (
-                  <figcaption className="gallery-caption">{photo.caption}</figcaption>
-                )}
-              </figure>
-            ))}
-          </div>
-        )}
+        <Suspense fallback={<p className="gallery-empty">Loading gallery photos…</p>}>
+          <GalleryGrid />
+        </Suspense>
 
         <div className="gallery-manage-hint">
-          <Link href="/gallery/manage" className="text-link">
+          <Link href="/admin/gallery" className="text-link">
             Manage gallery <span aria-hidden="true">↗</span>
           </Link>
         </div>
