@@ -8,6 +8,6 @@ export function SiteHeader() {
       <span><strong>Kobby&apos;s</strong><small>Intertech Services</small></span>
     </Link>
     <nav aria-label="Main navigation"><Link href="/services">Services</Link><Link href="/about">About</Link><Link href="/faq">FAQ</Link><Link href="/contact">Contact</Link></nav>
-    <Link className="button button-small" href="/contact">Get in touch</Link>
+    <Link className="button button-small" href="/book-service">Book a service</Link>
   </header>;
 }

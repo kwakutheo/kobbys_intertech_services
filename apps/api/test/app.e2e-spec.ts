@@ -2,11 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
+import { PrismaService } from './../src/database/prisma.service.js';
 import { configureApplication } from './../src/app.config.js';
 import { AppModule } from './../src/app.module.js';
 
 describe.sequential('AppController (e2e)', () => {
   let app: INestApplication<App>;
+  let prisma: PrismaService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -16,6 +18,17 @@ describe.sequential('AppController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     configureApplication(app);
     await app.init();
+    prisma = app.get(PrismaService);
+    await prisma.service.upsert({
+      where: { slug: 'cctv-security' },
+      update: { isActive: true },
+      create: {
+        name: 'CCTV & security',
+        slug: 'cctv-security',
+        description: 'Camera supply, installation, upgrades and support.',
+        displayOrder: 1,
+      },
+    });
   });
 
   it('/api/health (GET)', () => {
@@ -29,15 +42,38 @@ describe.sequential('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/api/v1/services')
       .expect(200)
-      .expect([
-        { slug: 'cctv-security', name: 'CCTV & security' },
-        { slug: 'fibre-internet', name: 'Fibre & internet' },
-        { slug: 'networking', name: 'Networks' },
-        { slug: 'satellite', name: 'Satellite support' },
-        { slug: 'electrical-works', name: 'Electrical works' },
-        { slug: 'gps-tracking', name: 'GPS tracking' },
-        { slug: 'mc-event-hosting', name: 'MC & event hosting' },
-      ]);
+      .expect((response) => {
+        expect(response.body).toEqual(
+          expect.arrayContaining([
+          expect.objectContaining({ slug: 'cctv-security', name: 'CCTV & security' }),
+          ]),
+        );
+      });
+  });
+
+  it('/api/v1/enquiries (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/api/v1/enquiries')
+      .set('Idempotency-Key', 'e2e-enquiry-key')
+      .send({
+        fullName: 'Test Customer',
+        email: 'test.customer@example.com',
+        phone: '+233243487160',
+        serviceSlug: 'cctv-security',
+        description: 'Please assess and install security cameras at our office.',
+        address: 'Amasaman, Accra',
+        preferredContactMethod: 'PHONE',
+        privacyAccepted: true,
+      })
+      .expect(201)
+      .expect((response) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            status: 'REQUESTED',
+            reference: expect.stringMatching(/^KIS-SRV-/),
+          }),
+        );
+      });
   });
 
   afterEach(async () => {

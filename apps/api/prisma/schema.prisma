@@ -165,6 +165,7 @@ model Service {
 model ServiceRequest {
   id             String               @id @default(uuid()) @db.Uuid
   reference      String               @unique
+  idempotencyKey String?              @unique
   customerId     String               @db.Uuid
   serviceId      String               @db.Uuid
   description    String

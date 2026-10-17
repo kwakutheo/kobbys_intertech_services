@@ -1,6 +1,10 @@
+import { PrismaService } from '../database/prisma.service.js';
 export declare class ServicesService {
-    listActiveServices(): {
-        slug: string;
+    private readonly prisma;
+    constructor(prisma: PrismaService);
+    listActiveServices(): import("@prisma/client").Prisma.PrismaPromise<{
+        description: string;
         name: string;
-    }[];
+        slug: string;
+    }[]>;
 }
