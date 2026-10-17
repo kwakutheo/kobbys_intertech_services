@@ -322,12 +322,53 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
 .contact-section > div:first-child { max-width: 620px; }
 .contact-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; white-space: nowrap; }
 .dark-link { color: var(--ink); }
-footer { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 28px; padding: 34px max(32px, calc((100vw - 1176px) / 2)); background: var(--surface); color: var(--muted); font-size: 12px; line-height: 1.5; }
-.footer-brand { color: var(--ink); }
-.footer-brand small { color: var(--muted); }
-.footer-links { display: grid; gap: 7px; }
-.footer-links a:hover { color: var(--wine); }
-.copyright { grid-column: 1 / -1; margin: 0; padding-top: 16px; border-top: 1px solid var(--line); }
+/* ─── Footer ───────────────────────────────────────────── */
+.site-footer { background: #0d0d10; color: #a0a3ab; font-size: 14px; line-height: 1.6; }
+.footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.3fr; gap: 56px; max-width: 1240px; margin: 0 auto; padding: 72px 40px 56px; }
+
+/* Brand column */
+.footer-brand-link { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 20px; }
+.footer-wordmark { display: flex; flex-direction: column; line-height: 1; }
+.footer-brand-name { display: flex; gap: 0.5px; font-family: Georgia, serif; font-size: 22px; font-weight: 700; color: #ffffff; letter-spacing: .06em; }
+.footer-brand-sub { font-size: 11px; font-weight: 800; letter-spacing: .15em; color: var(--wine); margin-top: 4px; }
+.footer-tagline { font-size: 13px; color: #6b6e78; line-height: 1.65; margin: 0 0 24px; max-width: 280px; }
+
+/* Contact list */
+.footer-contact-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.footer-contact-list li { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: #8a8d96; }
+.footer-contact-list li svg { flex-shrink: 0; margin-top: 3px; color: var(--wine); }
+.footer-contact-list a { color: #8a8d96; text-decoration: none; transition: color 0.2s; }
+.footer-contact-list a:hover { color: #fff; }
+
+/* Nav columns */
+.footer-nav-col { display: flex; flex-direction: column; }
+.footer-col-heading { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #fff; margin: 0 0 20px; }
+.footer-nav-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.footer-nav-list a { color: #8a8d96; text-decoration: none; font-size: 13px; transition: color 0.2s, padding-left 0.2s; }
+.footer-nav-list a:hover { color: #fff; padding-left: 4px; }
+
+/* CTA column */
+.footer-cta-col { display: flex; flex-direction: column; }
+.footer-cta-text { font-size: 13px; color: #6b6e78; line-height: 1.65; margin: 0 0 20px; }
+.footer-cta-btns { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.footer-btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 11px 20px; background: var(--wine); color: #fff; font-size: 13px; font-weight: 600; border-radius: 6px; text-decoration: none; transition: background 0.2s, transform 0.15s; text-align: center; }
+.footer-btn-primary:hover { background: #b8001f; transform: translateY(-1px); }
+.footer-btn-secondary { display: inline-flex; align-items: center; justify-content: center; padding: 10px 20px; background: transparent; color: #8a8d96; font-size: 13px; font-weight: 600; border-radius: 6px; border: 1px solid #2a2b30; text-decoration: none; transition: border-color 0.2s, color 0.2s, transform 0.15s; text-align: center; }
+.footer-btn-secondary:hover { border-color: #fff; color: #fff; transform: translateY(-1px); }
+.footer-digital-address { display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; background: #16171c; border-radius: 8px; border: 1px solid #1f2026; }
+.footer-da-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--wine); }
+.footer-da-value { font-size: 15px; font-weight: 700; color: #fff; font-family: 'Courier New', monospace; letter-spacing: .05em; }
+
+/* Bottom bar */
+.footer-bottom { border-top: 1px solid #1a1b20; }
+.footer-bottom > * { max-width: 1240px; margin: 0 auto; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-copy { font-size: 12px; color: #4a4d57; margin: 0; }
+.footer-bottom-links { display: flex; align-items: center; gap: 10px; }
+.footer-bottom-links a { font-size: 12px; color: #4a4d57; text-decoration: none; transition: color 0.2s; }
+.footer-bottom-links a:hover { color: #fff; }
+.footer-admin-link { color: #2a2b35 !important; }
+.footer-admin-link:hover { color: #4a4d57 !important; }
+.footer-sep { color: #2a2b30; font-size: 12px; }
 .page-hero { max-width: 1240px; margin: 18px auto 0; padding: 80px 11%; background: var(--ink); color: white; }
 .page-hero h1 { max-width: 780px; margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(44px, 6vw, 72px); line-height: .99; letter-spacing: -.055em; }
 .page-hero > p:not(.eyebrow) { max-width: 640px; margin: 24px 0 0; color: #d1d2d5; font-size: 17px; line-height: 1.55; }
@@ -517,6 +558,7 @@ footer { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 28px; padding
     padding: 14px 16px;
     transform: translateY(-20px);
   }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; padding: 56px 32px 44px; }
 }
 
 @media (max-width: 900px) {
@@ -634,7 +676,8 @@ footer { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 28px; padding
   .service-list article .text-link { grid-column: 2; }
   .service-list h2 { font-size: 23px; }
   .faq-list summary { font-size: 20px; }
-  footer { grid-template-columns: 1fr; padding: 28px 20px; gap: 16px; }
+  .footer-top { grid-template-columns: 1fr; gap: 36px; padding: 48px 24px 36px; }
+  .footer-bottom > * { padding: 18px 24px; flex-direction: column; align-items: flex-start; gap: 8px; }
   .gallery-section { padding: 32px 20px 60px; }
   .gallery-grid { grid-template-columns: 1fr; gap: 18px; }
   .gallery-dropzone { padding: 32px 16px; font-size: 14px; }
