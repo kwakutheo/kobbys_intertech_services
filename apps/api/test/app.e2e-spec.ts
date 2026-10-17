@@ -1,13 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { App } from 'supertest/types';
 import { PrismaService } from './../src/database/prisma.service.js';
 import { configureApplication } from './../src/app.config.js';
 import { AppModule } from './../src/app.module.js';
 
 describe.sequential('AppController (e2e)', () => {
-  let app: INestApplication<App>;
+  let app: INestApplication;
   let prisma: PrismaService;
 
   beforeEach(async () => {
@@ -45,7 +44,7 @@ describe.sequential('AppController (e2e)', () => {
       .expect((response) => {
         expect(response.body).toEqual(
           expect.arrayContaining([
-          expect.objectContaining({ slug: 'cctv-security', name: 'CCTV & security' }),
+            expect.objectContaining({ slug: 'cctv-security', name: 'CCTV & security' }),
           ]),
         );
       });
