@@ -429,3 +429,12 @@ model ConsentRecord {
 
   @@index([customerId, purpose])
 }
+
+model GalleryPhoto {
+  id          String   @id @default(uuid()) @db.Uuid
+  filename    String   @unique
+  caption     String?
+  takenAt     DateTime?
+  uploadedAt  DateTime @default(now())
+  sortOrder   Int      @default(0)
+}

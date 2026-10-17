@@ -4,12 +4,13 @@ import { AppService } from './app.service.js';
 import { AuthModule } from './auth/auth.module.js';
 import { CustomerModule } from './customer/customer.module.js';
 import { PrismaModule } from './database/prisma.module.js';
+import { GalleryModule } from './gallery/gallery.module.js';
 import { ServiceRequestsModule } from './service-requests/service-requests.module.js';
 import { ServicesController } from './services/services.controller.js';
 import { ServicesService } from './services/services.service.js';
 
 @Module({
-  imports: [PrismaModule, AuthModule, CustomerModule, ServiceRequestsModule],
+  imports: [PrismaModule, AuthModule, CustomerModule, ServiceRequestsModule, GalleryModule],
   controllers: [AppController, ServicesController],
   providers: [AppService, ServicesService],
 })

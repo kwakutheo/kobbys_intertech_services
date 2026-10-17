@@ -9,7 +9,6 @@ const services = [
   ['satellite', 'Satellite support', 'Dish installation, signal alignment and technical support.'],
   ['electrical-works', 'Electrical works', 'Electrical work within the company’s qualifications and authorisations.'],
   ['gps-tracking', 'GPS tracking', 'Vehicle-tracking installation and support.'],
-  ['mc-event-hosting', 'MC & event hosting', 'Master of ceremonies and event-hosting services.'],
 ];
 
 async function seed() {

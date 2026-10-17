@@ -5,7 +5,7 @@ Logo: can be found in D:\source_codes\kobbys_intertech_services\images folder.
 Telephone: +233 24 348 7160, another one will be added later
 Whatsapp: +233 24 348 7160
 Email: [kobbysintertech@gmail.com]
-Physical address: P.O. Box 20, Amasaman, Accra-Ghana.
+Physical address: P.O. Box 20, Achimota, Accra-Ghana.
 Digital address: E2-5656-7654
 
 Other social media presence: 

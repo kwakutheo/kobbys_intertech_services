@@ -13,7 +13,6 @@ export const services: Service[] = [
   { slug: "satellite", name: "Satellite support", summary: "Dish installation, signal alignment and technical support.", description: "Satellite installation and support for dependable viewing, clearer signal and multi-channel setups.", inclusions: ["Satellite dish installation", "Signal alignment and optimisation", "Receiver-box setup and configuration", "Satellite dish repair and realignment", "Troubleshooting satellite signal issues", "Multi-satellite installation for multiple channels"] },
   { slug: "electrical-works", name: "Electrical works", summary: "Electrical work within the company’s qualifications and authorisations.", description: "Electrical services delivered within the work the company is qualified and authorised to perform.", inclusions: ["Assessment", "Approved electrical work", "Testing and support"] },
   { slug: "gps-tracking", name: "GPS tracking", summary: "Vehicle-tracking installation and support.", description: "GPS vehicle-tracking installation and ongoing technical support.", inclusions: ["Device installation", "Configuration support", "Troubleshooting"] },
-  { slug: "mc-event-hosting", name: "MC & event hosting", summary: "Master of ceremonies and event-hosting services.", description: "Confident, professional hosting for events and special occasions.", inclusions: ["Event hosting", "Programme coordination", "Audience engagement"] },
 ];
 
 export const faqs = [

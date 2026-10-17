@@ -60,7 +60,7 @@ describe.sequential('AppController (e2e)', () => {
         phone: '+233243487160',
         serviceSlug: 'cctv-security',
         description: 'Please assess and install security cameras at our office.',
-        address: 'Amasaman, Accra',
+        address: 'Achimota, Accra',
         preferredContactMethod: 'PHONE',
         privacyAccepted: true,
       })
