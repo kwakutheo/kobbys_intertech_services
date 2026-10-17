@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
@@ -146,7 +147,11 @@ export default function GalleryManagePage() {
   return (
     <main>
       <section className="page-hero">
-        <p className="eyebrow">Gallery admin</p>
+        <p className="eyebrow">
+          <Link href="/admin" style={{ color: 'inherit', textDecoration: 'none' }}>
+            ← Admin Dashboard
+          </Link>
+        </p>
         <h1>Manage Photos</h1>
         <p>{photos.length} photo{photos.length !== 1 ? 's' : ''} in the gallery.</p>
       </section>

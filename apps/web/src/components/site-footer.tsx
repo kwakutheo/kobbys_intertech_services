@@ -15,7 +15,7 @@ export function SiteFooter() {
     <div><p>Achimota, Accra–Ghana</p>
     <p>Digital address: E2-5656-7654</p>
     </div>
-    <div className="footer-links"><Link href="/services">Services</Link><Link href="/gallery">Gallery</Link><Link href="/request-quote">Request a quotation</Link><Link href="/book-service">Book a service</Link><Link href="/contact">Contact</Link></div>
+    <div className="footer-links"><Link href="/">Home</Link><Link href="/services">Services</Link><Link href="/gallery">Gallery</Link><Link href="/request-quote">Request a quotation</Link><Link href="/book-service">Book a service</Link><Link href="/contact">Contact</Link></div>
     <p className="copyright">© 2026 Kobby&apos;s Intertech Services.</p>
   </footer>;
 }

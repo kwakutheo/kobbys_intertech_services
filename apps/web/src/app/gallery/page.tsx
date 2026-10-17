@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
@@ -73,12 +72,6 @@ export default function GalleryPage() {
         <Suspense fallback={<p className="gallery-empty">Loading gallery photos…</p>}>
           <GalleryGrid />
         </Suspense>
-
-        <div className="gallery-manage-hint">
-          <Link href="/admin/gallery" className="text-link">
-            Manage gallery <span aria-hidden="true">↗</span>
-          </Link>
-        </div>
       </section>
     </main>
   );
