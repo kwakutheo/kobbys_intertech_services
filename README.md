@@ -44,6 +44,13 @@ The platform comprises a public Next.js website, a NestJS API, and a PostgreSQL 
    npx prisma migrate dev --name initial_schema
    ```
 
+### Quick start scripts (Windows)
+
+You can also start and stop the local servers using the batch scripts in the project root:
+
+- `start.bat`: Checks database availability, cleans up stale instances, and launches the NestJS API (`http://localhost:4000`) and Next.js Web app (`http://localhost:3000`) in separate dedicated terminal windows.
+- `stop.bat`: Gracefully terminates all processes and trees listening on ports `3000` and `4000` and closes the respective terminal windows.
+
 ## Verification
 
 Run the appropriate checks before merging a change:
