@@ -35,7 +35,6 @@ export function SiteFooter() {
             </span>
           </Link>
           <p className="footer-tagline">
-            Professional tech solutions tailored to your needs — CCTV, networking, fibre, satellite and more.
           </p>
           {/* Contact block */}
           <ul className="footer-contact-list">
@@ -82,14 +81,10 @@ export function SiteFooter() {
 
         <div className="footer-cta-col">
           <h4 className="footer-col-heading">Get Started</h4>
-          <p className="footer-cta-text">Ready to upgrade your property? Request a quote or book a service today.</p>
+          <p className="footer-cta-text">Ready to upgrade your property? Contact us or book a service today.</p>
           <div className="footer-cta-btns">
-            <Link href="/request-quote" className="footer-btn-primary">Request a Quote</Link>
+            <Link href="/contact" className="footer-btn-primary">Contact Us</Link>
             <Link href="/book-service" className="footer-btn-secondary">Book a Service</Link>
-          </div>
-          <div className="footer-digital-address">
-            <span className="footer-da-label">Digital Address</span>
-            <span className="footer-da-value">E2-5656-7654</span>
           </div>
         </div>
       </div>

@@ -30,8 +30,8 @@ export default function RequestQuotePage() {
         cardRows={[
           {
             icon: "check",
-            value: "Transparent",
-            label: "tailored quotations",
+            value: "Request Quote",
+            label: "Transparent tailored quotations",
           },
           {
             icon: "clock",

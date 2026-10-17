@@ -29,8 +29,8 @@ export default function AboutPage() {
         cardRows={[
           {
             icon: "pin",
-            value: "Achimota",
-            label: "Accra–Ghana headquarters",
+            value: "About Us",
+            label: "",
           },
           {
             icon: "clock",

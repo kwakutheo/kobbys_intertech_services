@@ -31,8 +31,8 @@ export default function ServicesPage() {
         cardRows={[
           {
             icon: "grid",
-            value: `${services.length}`,
-            label: "specialised service areas",
+            value: "Our Services",
+            label: "6 specialised service areas",
           },
           {
             icon: "shield",
@@ -42,18 +42,19 @@ export default function ServicesPage() {
         ]}
       />
 
-      <section className="section">
+      <section className="section services-page-section">
         <div className="service-list">
-          {services.map((service, index) => (
-            <article key={service.slug}>
-              <span>0{index + 1}</span>
-              <div>
+          {services.map((service) => (
+            <article key={service.slug} className="service-row-card">
+              <div className="service-row-content">
                 <h2>{service.name}</h2>
                 <p>{service.description}</p>
               </div>
-              <Link className="text-link" href={`/services/${service.slug}`}>
-                View details <span aria-hidden="true">→</span>
-              </Link>
+              <div className="service-row-action">
+                <Link className="service-row-link" href={`/services/${service.slug}`}>
+                  View details <span aria-hidden="true" className="link-arrow">→</span>
+                </Link>
+              </div>
             </article>
           ))}
         </div>

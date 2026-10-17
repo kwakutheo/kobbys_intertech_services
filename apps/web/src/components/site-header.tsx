@@ -2,10 +2,28 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/services", label: "Our Services" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/about", label: "About Us" },
+  { href: "/contact", label: "Contact Us" },
+  { href: "/faq", label: "FAQ" },
+];
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isLinkActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   return (
     <header className="site-header">
@@ -20,12 +38,15 @@ export function SiteHeader() {
       </Link>
 
       <nav className="desktop-nav" aria-label="Main navigation">
-        <Link href="/">Home</Link>
-        <Link href="/services">Services</Link>
-        <Link href="/gallery">Gallery</Link>
-        <Link href="/about">About</Link>
-        <Link href="/faq">FAQ</Link>
-        <Link href="/contact">Contact</Link>
+        {NAV_LINKS.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={isLinkActive(link.href) ? "active" : ""}
+          >
+            {link.label}
+          </Link>
+        ))}
       </nav>
 
       <div className="header-actions">
@@ -57,12 +78,16 @@ export function SiteHeader() {
       {menuOpen && (
         <div className="mobile-dropdown-menu">
           <nav aria-label="Mobile navigation" className="mobile-dropdown-links">
-            <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
-            <Link href="/services" onClick={() => setMenuOpen(false)}>Services</Link>
-            <Link href="/gallery" onClick={() => setMenuOpen(false)}>Gallery</Link>
-            <Link href="/about" onClick={() => setMenuOpen(false)}>About</Link>
-            <Link href="/faq" onClick={() => setMenuOpen(false)}>FAQ</Link>
-            <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={isLinkActive(link.href) ? "active" : ""}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
             <div className="mobile-dropdown-cta">
               <Link className="button button-small" href="/book-service" onClick={() => setMenuOpen(false)} style={{ width: '100%', textAlign: 'center' }}>
                 Book a service

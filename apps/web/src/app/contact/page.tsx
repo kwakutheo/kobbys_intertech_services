@@ -29,13 +29,13 @@ export default function ContactPage() {
         cardRows={[
           {
             icon: "clock",
-            value: "Mon–Sat",
-            label: "7:30 am–5:00 pm",
+            value: "Contact Us",
+            label: "details below",
           },
           {
             icon: "pin",
             value: "Achimota",
-            label: "Digital: E2-5656-7654",
+            label: "Accra-Ghana",
           },
         ]}
       />

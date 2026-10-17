@@ -30,7 +30,7 @@ export default function BookServicePage() {
         cardRows={[
           {
             icon: "check",
-            value: "Prompt",
+            value: "Book a service",
             label: "review & confirmation",
           },
           {

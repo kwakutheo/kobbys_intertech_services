@@ -81,7 +81,7 @@ export default function GalleryPage() {
         cardRows={[
           {
             icon: "camera",
-            value: "26+",
+            value: "Photo Gallery",
             label: "completed project photos",
           },
           {

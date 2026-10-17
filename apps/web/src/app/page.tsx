@@ -42,8 +42,8 @@ export default function Home() {
                 </svg>
               </div>
               <div className="hero-card-info">
-                <strong className="hero-card-value">{services.length}</strong>
-                <span className="hero-card-label">core service areas</span>
+                <strong className="hero-card-value">Home</strong>
+                <span className="hero-card-label">6 core service areas</span>
               </div>
             </div>
 
@@ -67,8 +67,7 @@ export default function Home() {
 
       <section className="svc-section">
         <div className="svc-heading">
-          <p className="eyebrow">What we do</p>
-          <h2>Solutions Tailored to Your Needs.</h2>
+          <h2>Professional tech solutions tailored to your needs.</h2>
           <p>From a new installation to troubleshooting and ongoing support, we help you make the right technical decisions.</p>
         </div>
         <div className="svc-grid">
@@ -88,34 +87,51 @@ export default function Home() {
       </section>
 
 
-      <section className="section dark-section">
-        <div className="section-heading">
-          <p className="eyebrow">Why Kobby&apos;s Intertech</p>
-          <h2>Professional service, clear communication, dependable results.</h2>
-        </div>
-        <div className="principles">
-          <p>We bring technology, security and communication solutions together in one trusted service.</p>
-          <ul>
-            <li><span>01</span> Customer-focused advice</li>
-            <li><span>02</span> Reliable installation and support</li>
-            <li><span>03</span> Professional, transparent service</li>
-          </ul>
+      <section className="why-section">
+        <div className="why-container">
+          <div className="why-copy">
+            <p className="eyebrow">Why Kobby&apos;s Intertech</p>
+            <h2>Professional service, clear communication, dependable results.</h2>
+            <p className="why-lead">
+              We bring technology, security and communication solutions together in one trusted service.
+            </p>
+            <div className="why-trust-badge">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <polyline points="9 12 11 14 15 10" />
+              </svg>
+              <span>Experienced technicians &amp; ongoing technical support across Ghana</span>
+            </div>
+          </div>
+
+          <div className="why-pillars">
+            <div className="why-pillar-card">
+              <span className="why-pillar-num">01</span>
+              <div className="why-pillar-text">
+                <h3>Customer-focused advice</h3>
+                <p>Objective technical guidance configured around your actual property layout, operational requirements, and budget.</p>
+              </div>
+            </div>
+
+            <div className="why-pillar-card">
+              <span className="why-pillar-num">02</span>
+              <div className="why-pillar-text">
+                <h3>Reliable installation and support</h3>
+                <p>Certified equipment, clean professional cabling, thorough system testing, and dependable after-sales maintenance.</p>
+              </div>
+            </div>
+
+            <div className="why-pillar-card">
+              <span className="why-pillar-num">03</span>
+              <div className="why-pillar-text">
+                <h3>Professional, transparent service</h3>
+                <p>Direct communication, upfront project scoping, honest timelines, and accountability from start to finish.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="contact-section">
-        <div>
-          <p className="eyebrow">Let&apos;s get started</p>
-          <h2>Tell us how we can help.</h2>
-          <p>For a quotation, booking or general enquiry, get in touch with our team.</p>
-        </div>
-        <div className="contact-actions">
-          <Link className="button" href="/contact">Contact us</Link>
-          <a className="text-link dark-link" href="https://wa.me/233243487160">
-            WhatsApp +233 24 348 7160 <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
     </main>
   );
 }
