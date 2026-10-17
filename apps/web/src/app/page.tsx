@@ -65,25 +65,28 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="section-heading">
+      <section className="svc-section">
+        <div className="svc-heading">
           <p className="eyebrow">What we do</p>
           <h2>Solutions Tailored to Your Needs.</h2>
           <p>From a new installation to troubleshooting and ongoing support, we help you make the right technical decisions.</p>
         </div>
-        <div className="service-grid">
+        <div className="svc-grid">
           {services.map((service, index) => (
-            <article className="service-card" key={service.slug}>
-              <span className="service-number">0{index + 1}</span>
-              <h3>{service.name}</h3>
-              <p>{service.summary}</p>
-              <Link href={`/services/${service.slug}`}>
-                Explore service <span aria-hidden="true">↗</span>
-              </Link>
-            </article>
+            <Link href={`/services/${service.slug}`} key={service.slug} className="svc-card">
+              <span className="svc-card-img" style={{ backgroundImage: `url(${service.image})` }} aria-hidden="true" />
+              <span className="svc-card-overlay" />
+              <span className="svc-card-body">
+                <span className="svc-card-num">0{index + 1}</span>
+                <span className="svc-card-name">{service.name}</span>
+                <span className="svc-card-summary">{service.summary}</span>
+                <span className="svc-card-cta">Explore service <span aria-hidden="true">↗</span></span>
+              </span>
+            </Link>
           ))}
         </div>
       </section>
+
 
       <section className="section dark-section">
         <div className="section-heading">
