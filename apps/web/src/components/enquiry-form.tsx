@@ -19,11 +19,12 @@ export function EnquiryForm({ mode }: EnquiryFormProps) {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const formElement = event.currentTarget;
     setError(null);
     setResult(null);
     setIsSubmitting(true);
 
-    const form = new FormData(event.currentTarget);
+    const form = new FormData(formElement);
     idempotencyKey.current ??= crypto.randomUUID();
     const payload = Object.fromEntries(form.entries()) as Record<string, string | boolean>;
     payload.privacyAccepted = form.get("privacyAccepted") === "on";
@@ -44,7 +45,7 @@ export function EnquiryForm({ mode }: EnquiryFormProps) {
         throw new Error(message ?? "We could not send your request. Please try again.");
       }
       setResult(body as SubmissionResult);
-      event.currentTarget.reset();
+      formElement.reset();
       idempotencyKey.current = undefined;
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : "We could not send your request.");
