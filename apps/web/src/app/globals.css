@@ -314,18 +314,18 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
 .service-card a:hover { color: var(--wine); }
 
 /* ─── Homepage Services Image Cards ─────────────────────── */
-.svc-section { padding: 80px max(32px, calc((100vw - 1240px) / 2)); background: #0d0e11; }
-.svc-heading { max-width: 700px; margin-bottom: 52px; }
+.svc-section { padding: 35px max(32px, calc((100vw - 1240px) / 2)) 80px; background: #fff; }
+.svc-heading { max-width: 700px; margin-bottom: 52px; color: var(--ink); }
 .svc-heading .eyebrow { color: var(--wine); }
-.svc-heading h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; color: #fff; margin: 10px 0 16px; line-height: 1.1; letter-spacing: -.03em; }
+.svc-heading h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; color: var(--ink); margin: 10px 0 16px; line-height: 1.1; letter-spacing: -.03em; }
 .svc-heading > p { color: #6b6e78; font-size: 16px; line-height: 1.65; margin: 0; }
 .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.svc-card { position: relative; display: block; min-height: 320px; border-radius: 14px; overflow: hidden; text-decoration: none; background: #1a1b20; }
+.svc-card { position: relative; display: block; min-height: 190px; border-radius: 14px; overflow: hidden; text-decoration: none; background: #1a1b20; }
 .svc-card-img { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.55s cubic-bezier(.25,.46,.45,.94), filter 0.4s; filter: brightness(0.7); }
 .svc-card:hover .svc-card-img { transform: scale(1.06); filter: brightness(0.55); }
 .svc-card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.08) 100%); }
 .svc-card-body { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 26px; }
-.svc-card-num { font-size: 11px; font-weight: 800; letter-spacing: .14em; color: var(--wine); margin-bottom: 10px; }
+.svc-card-num { display: none; }
 .svc-card-name { font-size: 22px; font-weight: 800; color: #fff; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 8px; }
 .svc-card-summary { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.55; margin-bottom: 18px; }
 .svc-card-cta { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 700; color: #fff; border-bottom: 1.5px solid var(--wine); padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; width: fit-content; }
