@@ -22,6 +22,7 @@ export default async function ServicePage({
         eyebrowParts={["SERVICES", service.name.toUpperCase()]}
         title={service.name}
         lead={service.description}
+        backgroundImage={service.image}
         primaryAction={{
           href: "/contact",
           label: "Discuss your requirements",

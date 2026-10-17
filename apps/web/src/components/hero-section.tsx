@@ -24,6 +24,7 @@ export type HeroSectionProps = {
   };
   cardRows?: [HeroCardItem, HeroCardItem];
   id?: string;
+  backgroundImage?: string;
 };
 
 function renderIcon(type?: HeroIconType) {
@@ -90,9 +91,16 @@ export function HeroSection({
   secondaryAction,
   cardRows,
   id = "top",
+  backgroundImage,
 }: HeroSectionProps) {
+  const customBgStyle = backgroundImage
+    ? {
+        backgroundImage: `linear-gradient(90deg, rgba(9, 7, 9, 0.96) 0%, rgba(9, 7, 9, 0.91) 40%, rgba(9, 7, 9, 0.65) 62%, rgba(9, 7, 9, 0.20) 82%, rgba(9, 7, 9, 0.25) 100%), url('${backgroundImage}')`,
+      }
+    : undefined;
+
   return (
-    <section className="hero" id={id}>
+    <section className="hero" id={id} style={customBgStyle}>
       <div className="hero-container">
         <div className="hero-copy">
           <p className="hero-eyebrow">

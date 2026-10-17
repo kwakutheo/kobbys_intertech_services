@@ -30,7 +30,7 @@ export default function AboutPage() {
           {
             icon: "pin",
             value: "About Us",
-            label: "",
+            label: "More details below",
           },
           {
             icon: "clock",
