@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
+import { HeroSection } from '@/components/hero-section';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
 const API = `${API_BASE}/gallery`;
@@ -120,10 +121,32 @@ export default function GalleryManagePage() {
   if (!authed) {
     return (
       <main>
-        <section className="page-hero">
-          <p className="eyebrow">Gallery admin</p>
-          <h1>Sign in to manage photos</h1>
-        </section>
+        <HeroSection
+          eyebrowParts={["GALLERY ADMIN", "SECURITY ACCESS"]}
+          title={
+            <>
+              Sign in to manage <br className="hero-br" />
+              photo gallery.
+            </>
+          }
+          lead="Enter the administrator password to access the photo management system, upload new installations, or edit captions."
+          secondaryAction={{
+            href: "/admin",
+            label: "← Back to Admin Portal",
+          }}
+          cardRows={[
+            {
+              icon: "shield",
+              value: "Protected",
+              label: "admin authorization required",
+            },
+            {
+              icon: "check",
+              value: "Staff Only",
+              label: "authorized management",
+            },
+          ]}
+        />
         <section className="section form-section">
           <form onSubmit={handleLogin} className="enquiry-form" style={{ maxWidth: 360 }}>
             <label>
@@ -146,15 +169,32 @@ export default function GalleryManagePage() {
 
   return (
     <main>
-      <section className="page-hero">
-        <p className="eyebrow">
-          <Link href="/admin" style={{ color: 'inherit', textDecoration: 'none' }}>
-            ← Admin Dashboard
-          </Link>
-        </p>
-        <h1>Manage Photos</h1>
-        <p>{photos.length} photo{photos.length !== 1 ? 's' : ''} in the gallery.</p>
-      </section>
+      <HeroSection
+        eyebrowParts={["GALLERY ADMIN", "PHOTO SHOWCASE"]}
+        title={
+          <>
+            Manage Photo <br className="hero-br" />
+            Gallery.
+          </>
+        }
+        lead={`${photos.length} photo${photos.length !== 1 ? 's' : ''} currently in the live gallery. Upload new installations, edit captions, or delete photos.`}
+        secondaryAction={{
+          href: "/admin",
+          label: "← Back to Admin Portal",
+        }}
+        cardRows={[
+          {
+            icon: "camera",
+            value: `${photos.length}`,
+            label: "photos in database",
+          },
+          {
+            icon: "check",
+            value: "Live Sync",
+            label: "instant website updates",
+          },
+        ]}
+      />
 
       {message && (
         <div className={`form-message ${message.type === 'ok' ? 'form-success' : 'form-error'}`}

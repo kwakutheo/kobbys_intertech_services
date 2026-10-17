@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { HeroSection } from '@/components/hero-section';
 
 export const metadata: Metadata = {
   title: "Admin Portal | Kobby's Intertech Services",
@@ -9,13 +10,36 @@ export const metadata: Metadata = {
 export default function AdminDashboardPage() {
   return (
     <main>
-      <section className="page-hero">
-        <p className="eyebrow">Administration</p>
-        <h1>Admin Portal</h1>
-        <p>
-          Central dashboard to manage services, gallery media, customer requests, and business operations.
-        </p>
-      </section>
+      <HeroSection
+        eyebrowParts={["ADMINISTRATION", "MANAGEMENT", "OPERATIONS"]}
+        title={
+          <>
+            Admin Portal & <br className="hero-br" />
+            Control Center.
+          </>
+        }
+        lead="Central dashboard to manage services, gallery media, customer requests, and business operations."
+        primaryAction={{
+          href: "/admin/gallery",
+          label: "Manage Gallery",
+        }}
+        secondaryAction={{
+          href: "/",
+          label: "View Live Site",
+        }}
+        cardRows={[
+          {
+            icon: "shield",
+            value: "Staff Access",
+            label: "authenticated portal",
+          },
+          {
+            icon: "check",
+            value: "Live API",
+            label: "connected to PostgreSQL",
+          },
+        ]}
+      />
 
       <section className="section" style={{ maxWidth: 1240, margin: '0 auto', padding: '48px 32px 80px' }}>
         <h2 style={{ fontSize: 24, marginBottom: 24 }}>Management Modules</h2>

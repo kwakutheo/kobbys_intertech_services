@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Suspense } from 'react';
+import { HeroSection } from '@/components/hero-section';
 
 export const metadata: Metadata = {
   title: "Gallery | Kobby's Intertech Services",
@@ -60,13 +61,36 @@ async function GalleryGrid() {
 export default function GalleryPage() {
   return (
     <main>
-      <section className="page-hero">
-        <p className="eyebrow">Our work</p>
-        <h1>Photo Gallery</h1>
-        <p>
-          A look at some of our installations and projects across Ghana.
-        </p>
-      </section>
+      <HeroSection
+        eyebrowParts={["PROJECT SHOWCASE", "INSTALLATIONS", "GALLERY"]}
+        title={
+          <>
+            A look at our work in <br className="hero-br" />
+            action across Ghana.
+          </>
+        }
+        lead="Browse recent photos of our CCTV, fibre-optic cabling, networking, satellite, and technical installations completed for homes and businesses."
+        primaryAction={{
+          href: "/book-service",
+          label: "Book a service",
+        }}
+        secondaryAction={{
+          href: "/contact",
+          label: "Discuss your project",
+        }}
+        cardRows={[
+          {
+            icon: "camera",
+            value: "26+",
+            label: "completed project photos",
+          },
+          {
+            icon: "check",
+            value: "Certified",
+            label: "professional installations",
+          },
+        ]}
+      />
 
       <section className="section gallery-section">
         <Suspense fallback={<p className="gallery-empty">Loading gallery photos…</p>}>

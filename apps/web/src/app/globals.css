@@ -53,8 +53,25 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.4;
   white-space: nowrap;
 }
-nav { display: flex; gap: 28px; font-size: 14px; font-weight: 700; }
-nav a:hover, .text-link:hover { color: var(--wine); }
+nav, .desktop-nav { display: flex; gap: 28px; font-size: 14px; font-weight: 700; align-items: center; }
+nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.mobile-menu-btn:hover { background: var(--surface); border-color: #b9bbc0; }
+.mobile-dropdown-menu { display: none; }
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 20px; background: var(--wine); color: white; font-size: 14px; font-weight: 800; transition: background .2s; }
 .button:hover { background: #760014; }
 .button-small { min-height: 38px; padding: 0 16px; font-size: 13px; }
@@ -530,8 +547,13 @@ footer { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 28px; padding
 }
 
 @media (max-width: 720px) {
-  .site-header { padding: 18px 20px; }
-  nav, .site-header .button { display: none; }
+  .site-header { position: relative; padding: 16px 20px; flex-wrap: wrap; }
+  .desktop-nav, .header-desktop-btn { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .mobile-dropdown-menu { display: block; width: 100%; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .mobile-dropdown-links { display: flex; flex-direction: column; gap: 4px; font-size: 15px; font-weight: 700; }
+  .mobile-dropdown-links a { padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+  .mobile-dropdown-cta { margin-top: 12px; }
   .hero {
     border-radius: 0;
     margin: 0 0 45px;

@@ -42,7 +42,7 @@ export default function Home() {
                 </svg>
               </div>
               <div className="hero-card-info">
-                <strong className="hero-card-value">7</strong>
+                <strong className="hero-card-value">{services.length}</strong>
                 <span className="hero-card-label">core service areas</span>
               </div>
             </div>
