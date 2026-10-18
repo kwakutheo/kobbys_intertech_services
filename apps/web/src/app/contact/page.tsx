@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/hero-section";
+import { ContactHub } from "@/components/contact-hub";
 
 export const metadata = {
   title: "Contact | Kobby's Intertech Services",
@@ -40,30 +41,7 @@ export default function ContactPage() {
         ]}
       />
 
-      <section className="section contact-grid">
-        <article>
-          <p className="eyebrow">Call or WhatsApp</p>
-          <h2>+233 24 348 7160</h2>
-          <a className="button" href="https://wa.me/233243487160" target="_blank" rel="noopener noreferrer">
-            Start a WhatsApp chat
-          </a>
-        </article>
-        <article>
-          <p className="eyebrow">Email</p>
-          <h2>kobbysintertech@gmail.com</h2>
-          <a className="text-link" href="mailto:kobbysintertech@gmail.com">
-            Send an email <span aria-hidden="true">→</span>
-          </a>
-        </article>
-        <article>
-          <p className="eyebrow">Address</p>
-          <h2>Achimota, Accra–Ghana</h2>
-          <p>
-            P.O. Box 20<br />
-            Digital address: E2-5656-7654
-          </p>
-        </article>
-      </section>
+      <ContactHub />
     </main>
   );
 }

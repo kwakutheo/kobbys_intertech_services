@@ -133,9 +133,50 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section muted-section">
-        <p className="eyebrow">Our vision</p>
-        <h2>To be a leading provider of technology, security and communication solutions in Ghana.</h2>
+      <section className="about-vision-section">
+        <div className="about-vision-card">
+          <div className="about-vision-copy">
+            <div className="about-vision-badge">
+              <span className="about-vision-dot" aria-hidden="true" />
+              <span className="eyebrow">Our vision</span>
+            </div>
+            <h2 className="about-vision-title">
+              To be a leading provider of technology, security and communication solutions in Ghana.
+            </h2>
+            <p className="about-vision-lead">
+              We are driven by a long-term commitment to empower homes and enterprises across Ghana through dependable infrastructure, forward-thinking innovation, and responsive technical support.
+            </p>
+          </div>
+
+          <div className="about-vision-highlights">
+            <div className="about-vision-item">
+              <div className="about-vision-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              </div>
+              <div>
+                <strong>Nationwide Reach</strong>
+                <p>Delivering dependable, certified technical solutions throughout Ghana.</p>
+              </div>
+            </div>
+
+            <div className="about-vision-item">
+              <div className="about-vision-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <polyline points="9 12 11 14 15 10" />
+                </svg>
+              </div>
+              <div>
+                <strong>Modern Security &amp; Networks</strong>
+                <p>Smart surveillance, high-speed fibre internet, and durable infrastructure.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   );
