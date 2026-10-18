@@ -26,8 +26,15 @@ export function SiteHeader() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setMobileServicesOpen(false);
+  };
+
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${menuOpen ? " menu-is-open" : ""}`}>
       <Link className="brand" href="/" aria-label="Kobby's Intertech Services home">
         <Image src="/brand/logo.png" alt="" width={42} height={42} priority />
         <span className="brand-wordmark">
@@ -93,15 +100,19 @@ export function SiteHeader() {
           aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={menuOpen}
           aria-controls="mobile-navigation"
-          onClick={() => setMenuOpen((prev) => !prev)}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            toggleMenu();
+          }}
+          onClick={toggleMenu}
         >
           {menuOpen ? (
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" style={{ pointerEvents: 'none' }}>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           ) : (
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" style={{ pointerEvents: 'none' }}>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" aria-hidden="true">
               <line x1="4" y1="7" x2="20" y2="7" />
               <line x1="4" y1="12" x2="20" y2="12" />
               <line x1="4" y1="17" x2="20" y2="17" />
@@ -110,68 +121,77 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {menuOpen && (
-        <div className="mobile-dropdown-menu" id="mobile-navigation">
-          <nav aria-label="Mobile navigation" className="mobile-dropdown-links">
-            <Link href="/" className={isLinkActive("/") ? "active" : ""} onClick={() => setMenuOpen(false)}>
-              Home
-            </Link>
+      {/* Mobile nav — always in DOM; visibility driven by .menu-is-open on <header> */}
+      <div
+        className="mobile-dropdown-menu"
+        id="mobile-navigation"
+        aria-hidden={!menuOpen}
+      >
+        <nav aria-label="Mobile navigation" className="mobile-dropdown-links">
+          <Link href="/" className={isLinkActive("/") ? "active" : ""} onClick={closeMenu}>
+            Home
+          </Link>
 
-            <div className="mobile-nav-group">
-              <div className="mobile-nav-header">
-                <Link
-                  href="/services"
-                  className={isLinkActive("/services") ? "active" : ""}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Our Services
-                </Link>
-                <button
-                  type="button"
-                  className="mobile-subnav-toggle"
-                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                  aria-label="Toggle services list"
-                >
-                  <span className="chevron">{mobileServicesOpen ? "▴" : "▾"}</span>
-                </button>
-              </div>
-              {mobileServicesOpen && (
-                <div className="mobile-sublinks">
-                  {SERVICES_LIST.map((svc) => (
-                    <Link
-                      key={svc.href}
-                      href={svc.href}
-                      className={`mobile-sublink ${pathname === svc.href ? "active" : ""}`}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {svc.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <Link href="/gallery" className={isLinkActive("/gallery") ? "active" : ""} onClick={() => setMenuOpen(false)}>
-              Gallery
-            </Link>
-            <Link href="/about" className={isLinkActive("/about") ? "active" : ""} onClick={() => setMenuOpen(false)}>
-              About Us
-            </Link>
-            <Link href="/contact" className={isLinkActive("/contact") ? "active" : ""} onClick={() => setMenuOpen(false)}>
-              Contact Us
-            </Link>
-            <Link href="/faq" className={isLinkActive("/faq") ? "active" : ""} onClick={() => setMenuOpen(false)}>
-              FAQ
-            </Link>
-
-            <div className="mobile-dropdown-cta">
-              <Link className="button button-small" href="/book-service" onClick={() => setMenuOpen(false)} style={{ width: '100%', textAlign: 'center' }}>
-                Book a service
+          <div className="mobile-nav-group">
+            <div className="mobile-nav-header">
+              <Link
+                href="/services"
+                className={isLinkActive("/services") ? "active" : ""}
+                onClick={closeMenu}
+              >
+                Our Services
               </Link>
+              <button
+                type="button"
+                className="mobile-subnav-toggle"
+                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                aria-label="Toggle services list"
+                aria-expanded={mobileServicesOpen}
+              >
+                <span className="chevron">{mobileServicesOpen ? "▴" : "▾"}</span>
+              </button>
             </div>
-          </nav>
-        </div>
-      )}
+            {mobileServicesOpen && (
+              <div className="mobile-sublinks">
+                {SERVICES_LIST.map((svc) => (
+                  <Link
+                    key={svc.href}
+                    href={svc.href}
+                    className={`mobile-sublink ${pathname === svc.href ? "active" : ""}`}
+                    onClick={closeMenu}
+                  >
+                    {svc.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link href="/gallery" className={isLinkActive("/gallery") ? "active" : ""} onClick={closeMenu}>
+            Gallery
+          </Link>
+          <Link href="/about" className={isLinkActive("/about") ? "active" : ""} onClick={closeMenu}>
+            About Us
+          </Link>
+          <Link href="/contact" className={isLinkActive("/contact") ? "active" : ""} onClick={closeMenu}>
+            Contact Us
+          </Link>
+          <Link href="/faq" className={isLinkActive("/faq") ? "active" : ""} onClick={closeMenu}>
+            FAQ
+          </Link>
+
+          <div className="mobile-dropdown-cta">
+            <Link
+              className="button button-small"
+              href="/book-service"
+              onClick={closeMenu}
+              style={{ width: "100%", textAlign: "center" }}
+            >
+              Book a service
+            </Link>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }
