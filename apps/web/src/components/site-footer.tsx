@@ -96,10 +96,9 @@ export function SiteFooter() {
           <Link href="/privacy">Privacy Policy</Link>
           <span className="footer-sep">·</span>
           <Link href="/contact">Contact Us</Link>
-          <span className="footer-sep">·</span>
-          <Link href="/admin" className="footer-admin-link">Admin</Link>
         </div>
       </div>
+
     </footer>
   );
 }
