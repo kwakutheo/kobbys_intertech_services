@@ -3,10 +3,14 @@ import { PrismaService } from '../database/prisma.service.js';
 import { CreateEnquiryDto } from './dto/create-enquiry.dto.js';
 import { createPublicRequestReference } from './request-status.js';
 import { ServiceRequestStatus, type Prisma } from '@prisma/client';
+import { NotificationsService } from '../notifications/notifications.service.js';
 
 @Injectable()
 export class ServiceRequestsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificationsService: NotificationsService,
+  ) {}
 
   async createPublicEnquiry(input: CreateEnquiryDto, idempotencyKey?: string) {
     const normalizedIdempotencyKey = idempotencyKey?.trim();
@@ -76,6 +80,29 @@ export class ServiceRequestsService {
           });
 
           return created;
+        });
+
+        // Trigger instant admin email alert via Resend asynchronously (non-blocking)
+        void this.notificationsService.sendNewBookingNotification({
+          id: request.id,
+          reference: request.reference,
+          description: request.description,
+          address: request.address,
+          gpsAddress: request.gpsAddress,
+          preferredDate: request.preferredDate,
+          timeWindow: request.timeWindow,
+          createdAt: request.createdAt,
+          customer: {
+            fullName: input.fullName.trim(),
+            email: input.email.toLowerCase(),
+            phone: input.phone.trim(),
+            organisationName: input.organisationName?.trim(),
+            preferredContactMethod: input.preferredContactMethod,
+          },
+          service: {
+            name: service.name,
+            slug: service.slug,
+          },
         });
 
         return this.toPublicResponse(request);
