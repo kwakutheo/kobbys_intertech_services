@@ -218,23 +218,90 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   flex: 1;
 }
 
+/* ─── Services Toggle Button ─────────────────────── */
 .mobile-subnav-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
-  border: none;
+  border: 1px solid var(--line);
+  border-radius: 6px;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 5px 8px;
   color: var(--ink);
-  font-size: 16px;
+  touch-action: manipulation;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.mobile-subnav-toggle:active {
+  transform: scale(0.92);
+}
+/* Wine highlight when services sub-menu is open */
+.services-open .mobile-subnav-toggle {
+  background: #fff5f7;
+  border-color: var(--wine);
+  color: var(--wine);
 }
 
+/* ─── Chevron Rotation ───────────────────────────── */
+.subnav-chevron {
+  display: block;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.services-open .subnav-chevron {
+  transform: rotate(180deg);
+}
+
+/* ─── Services Sub-Links Panel ───────────────────── */
 .mobile-sublinks {
   display: flex;
   flex-direction: column;
-  padding: 4px 0 10px 14px;
-  gap: 2px;
+  padding-left: 14px;
+  gap: 0;
   border-left: 2px solid var(--line);
   margin-left: 6px;
+  /* Animation: collapsed by default */
+  visibility: hidden;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition:
+    max-height  0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity     0.25s ease,
+    transform   0.25s ease,
+    visibility  0s linear 0.3s,
+    margin      0.35s ease,
+    padding     0.35s ease;
+  margin-bottom: 0;
+}
+.services-open .mobile-sublinks {
+  visibility: visible;
+  opacity: 1;
+  max-height: 320px;
+  transform: translateY(0);
+  pointer-events: auto;
+  padding-top: 4px;
+  padding-bottom: 10px;
   margin-bottom: 6px;
+  transition:
+    max-height  0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity     0.25s ease,
+    transform   0.25s ease,
+    visibility  0s linear 0s,
+    margin      0.35s ease,
+    padding     0.35s ease;
+}
+
+/* ─── Sub-link stagger animation ─────────────────── */
+@keyframes sublinkIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.services-open .mobile-sublink {
+  animation: sublinkIn 0.25s ease both;
+  animation-delay: calc(0.06s + var(--i, 0) * 0.04s);
 }
 
 .mobile-sublink {
@@ -244,11 +311,12 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   text-decoration: none;
   font-weight: 600;
   border-bottom: none !important;
+  transition: color 0.15s ease, padding-left 0.15s ease;
 }
-
 .mobile-sublink:hover,
 .mobile-sublink.active {
   color: var(--wine) !important;
+  padding-left: 4px;
 }
 
 .mobile-dropdown-links a.active {
@@ -257,6 +325,8 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   padding-left: 10px;
 }
 .header-actions { display: flex; align-items: center; gap: 12px; }
+
+/* ─── Mobile Menu Button ─────────────────────────── */
 .mobile-menu-btn {
   display: none;
   align-items: center;
@@ -272,7 +342,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   cursor: pointer;
   padding: 0;
   touch-action: manipulation;
-  -webkit-tap-highlight-color: rgba(154, 0, 26, 0.1);
+  -webkit-tap-highlight-color: rgba(154, 0, 26, 0.08);
   -webkit-user-select: none;
   user-select: none;
   position: relative;
@@ -281,35 +351,60 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   outline: none;
   -webkit-appearance: none;
   appearance: none;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
-}
-.mobile-menu-btn svg {
-  pointer-events: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
 .mobile-menu-btn:hover {
   background: var(--surface);
   border-color: #b9bbc0;
 }
 .mobile-menu-btn:active {
-  background: var(--surface);
-  transform: scale(0.95);
+  transform: scale(0.92);
 }
-/* Mobile dropdown: always in DOM, hidden by default, shown via .menu-is-open on <header> */
+/* Wine border + subtle bg when open */
+.menu-is-open .mobile-menu-btn {
+  border-color: var(--wine);
+  background: #fff5f7;
+}
+
+/* ─── Animated Hamburger Icon ─────────────────────── */
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+.hamburger-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transform-origin: center center;
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity   0.25s ease,
+    width     0.25s ease;
+}
+/* Open state: bars morph into × */
+.menu-is-open .mobile-menu-btn .bar-top {
+  transform: translateY(7px) rotate(45deg);
+}
+.menu-is-open .mobile-menu-btn .bar-mid {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.menu-is-open .mobile-menu-btn .bar-bot {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ─── Mobile Dropdown Menu ────────────────────────── */
+/* On desktop: completely out of layout flow */
 .mobile-dropdown-menu {
   display: none;
-  width: 100%;
-  visibility: hidden;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, visibility 0.3s ease;
-}
-.menu-is-open .mobile-dropdown-menu {
-  display: block;
-  visibility: visible;
-  width: 100%;
-  max-height: calc(100vh - 75px);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 20px; background: var(--wine); color: white; font-size: 14px; font-weight: 800; transition: background .2s; }
 .button:hover { background: #760014; }
@@ -2168,9 +2263,6 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
     flex-wrap: wrap;
     background: #ffffff;
   }
-  .menu-is-open.site-header {
-    flex-wrap: wrap;
-  }
   .desktop-nav,
   .header-desktop-btn {
     display: none !important;
@@ -2178,20 +2270,41 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   .mobile-menu-btn {
     display: flex !important;
   }
-  /* Mobile dropdown visibility inside media query */
+
+  /* ── Mobile dropdown: display:block always on mobile so transitions work ── */
   .mobile-dropdown-menu {
-    display: none;
+    display: block;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transform: translateY(-10px);
+    pointer-events: none;
+    margin-top: 14px;
+    border-top: 1px solid var(--line);
+    transition:
+      max-height  0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity     0.3s ease,
+      transform   0.3s ease,
+      visibility  0s linear 0.35s;
   }
   .menu-is-open .mobile-dropdown-menu {
-    display: block !important;
-    visibility: visible !important;
-    max-height: calc(100vh - 75px) !important;
-    margin-top: 14px;
-    padding-top: 12px;
-    border-top: 1px solid var(--line);
+    visibility: visible;
+    opacity: 1;
+    max-height: calc(100vh - 80px);
+    transform: translateY(0);
+    pointer-events: auto;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    padding-top: 12px;
+    transition:
+      max-height  0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity     0.3s ease,
+      transform   0.3s ease,
+      visibility  0s linear 0s;
   }
+
   .mobile-dropdown-links {
     display: flex;
     flex-direction: column;

@@ -106,18 +106,11 @@ export function SiteHeader() {
           }}
           onClick={toggleMenu}
         >
-          {menuOpen ? (
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" aria-hidden="true">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" aria-hidden="true">
-              <line x1="4" y1="7" x2="20" y2="7" />
-              <line x1="4" y1="12" x2="20" y2="12" />
-              <line x1="4" y1="17" x2="20" y2="17" />
-            </svg>
-          )}
+          <span className="hamburger-icon" aria-hidden="true">
+            <span className="hamburger-bar bar-top" />
+            <span className="hamburger-bar bar-mid" />
+            <span className="hamburger-bar bar-bot" />
+          </span>
         </button>
       </div>
 
@@ -132,7 +125,7 @@ export function SiteHeader() {
             Home
           </Link>
 
-          <div className="mobile-nav-group">
+          <div className={`mobile-nav-group${mobileServicesOpen ? " services-open" : ""}`}>
             <div className="mobile-nav-header">
               <Link
                 href="/services"
@@ -148,23 +141,36 @@ export function SiteHeader() {
                 aria-label="Toggle services list"
                 aria-expanded={mobileServicesOpen}
               >
-                <span className="chevron">{mobileServicesOpen ? "▴" : "▾"}</span>
+                <svg
+                  className="subnav-chevron"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
               </button>
             </div>
-            {mobileServicesOpen && (
-              <div className="mobile-sublinks">
-                {SERVICES_LIST.map((svc) => (
-                  <Link
-                    key={svc.href}
-                    href={svc.href}
-                    className={`mobile-sublink ${pathname === svc.href ? "active" : ""}`}
-                    onClick={closeMenu}
-                  >
-                    {svc.label}
-                  </Link>
-                ))}
-              </div>
-            )}
+            {/* Always rendered — shown/hidden via .services-open class */}
+            <div className="mobile-sublinks">
+              {SERVICES_LIST.map((svc, i) => (
+                <Link
+                  key={svc.href}
+                  href={svc.href}
+                  className={`mobile-sublink ${pathname === svc.href ? "active" : ""}`}
+                  onClick={closeMenu}
+                  style={{ "--i": i } as React.CSSProperties}
+                >
+                  {svc.label}
+                </Link>
+              ))}
+            </div>
           </div>
 
           <Link href="/gallery" className={isLinkActive("/gallery") ? "active" : ""} onClick={closeMenu}>
