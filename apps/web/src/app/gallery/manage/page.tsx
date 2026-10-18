@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
 import { HeroSection } from '@/components/hero-section';
+import { getApiBaseUrl } from '@/lib/api-url';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
+const API_BASE = getApiBaseUrl();
 const API = `${API_BASE}/gallery`;
 const ADMIN_PASSWORD = 'kobbys2026'; // simple front-door protection
 

@@ -7,7 +7,13 @@ export const metadata = {
     "Book an installation, maintenance, or repair service online with Kobby's Intertech Services in Ghana.",
 };
 
-export default function BookServicePage() {
+export default async function BookServicePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ service?: string }>;
+}) {
+  const { service } = await searchParams;
+
   return (
     <main>
       <HeroSection
@@ -42,7 +48,7 @@ export default function BookServicePage() {
       />
 
       <section className="section form-section">
-        <EnquiryForm mode="booking" />
+        <EnquiryForm mode="booking" initialServiceSlug={service} />
       </section>
     </main>
   );

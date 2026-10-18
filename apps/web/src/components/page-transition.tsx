@@ -8,11 +8,16 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
-    setIsNavigating(true);
-    const timer = setTimeout(() => {
+    const startTimer = setTimeout(() => {
+      setIsNavigating(true);
+    }, 0);
+    const stopTimer = setTimeout(() => {
       setIsNavigating(false);
     }, 450);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(startTimer);
+      clearTimeout(stopTimer);
+    };
   }, [pathname]);
 
   return (

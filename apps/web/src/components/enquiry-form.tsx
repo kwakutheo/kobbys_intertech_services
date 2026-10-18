@@ -2,16 +2,18 @@
 
 import { FormEvent, useRef, useState } from "react";
 import { services } from "@/data/site";
+import { getApiBaseUrl } from "@/lib/api-url";
 
 type EnquiryFormProps = {
   mode: "booking" | "quote";
+  initialServiceSlug?: string;
 };
 
 type SubmissionResult = { reference: string; status: string };
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+const apiUrl = getApiBaseUrl();
 
-export function EnquiryForm({ mode }: EnquiryFormProps) {
+export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
   const idempotencyKey = useRef<string | undefined>(undefined);
   const [result, setResult] = useState<SubmissionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -63,7 +65,7 @@ export function EnquiryForm({ mode }: EnquiryFormProps) {
         <label>Organisation <span>(optional)</span><input name="organisationName" autoComplete="organization" maxLength={160} /></label>
         <label>Email address<input name="email" type="email" autoComplete="email" required maxLength={254} /></label>
         <label>Telephone number<input name="phone" type="tel" autoComplete="tel" required minLength={7} maxLength={30} /></label>
-        <label>Service<select name="serviceSlug" required defaultValue=""><option value="" disabled>Select a service</option>{services.map((service) => <option key={service.slug} value={service.slug}>{service.name}</option>)}</select></label>
+        <label>Service<select name="serviceSlug" required defaultValue={initialServiceSlug ?? ""}><option value="" disabled>Select a service</option>{services.map((service) => <option key={service.slug} value={service.slug}>{service.name}</option>)}</select></label>
         <label>Preferred contact method<select name="preferredContactMethod" defaultValue="PHONE"><option value="PHONE">Phone call</option><option value="WHATSAPP">WhatsApp</option><option value="EMAIL">Email</option></select></label>
         <label className="form-wide">What do you need?<textarea name="description" required minLength={10} maxLength={5000} rows={5} placeholder="Tell us about the installation, support or event service you need." /></label>
         <label className="form-wide">Property or service location<textarea name="address" required minLength={3} maxLength={500} rows={2} placeholder="Town, area and any useful location details" /></label>

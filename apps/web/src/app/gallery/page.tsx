@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Suspense } from 'react';
 import { HeroSection } from '@/components/hero-section';
+import { getApiBaseUrl } from '@/lib/api-url';
 
 export const metadata: Metadata = {
   title: "Gallery | Kobby's Intertech Services",
@@ -18,7 +19,7 @@ type Photo = {
 
 async function getPhotos(): Promise<Photo[]> {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
+    const apiUrl = getApiBaseUrl();
     const res = await fetch(`${apiUrl}/gallery`, {
       cache: 'no-store',
     });

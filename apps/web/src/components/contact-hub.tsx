@@ -3,8 +3,9 @@
 import React, { FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 import { services } from "@/data/site";
+import { getApiBaseUrl } from "@/lib/api-url";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+const apiUrl = getApiBaseUrl();
 
 const WHATSAPP_NUMBER = "233243487160";
 const EMAIL_ADDRESS = "kobbysintertech@gmail.com";
@@ -30,29 +31,6 @@ const WHATSAPP_PRESETS = [
     label: "General Technical Inquiry",
     icon: "chat",
     message: "Hello Kobby's Intertech, I have a general technical inquiry about your services.",
-  },
-];
-
-const CONTACT_FAQS = [
-  {
-    question: "Which areas in Ghana do you serve?",
-    answer:
-      "Kobby’s Intertech Services is based in Achimota, Accra and provides on-site installations across Greater Accra, with certified technician dispatch nationwide across Ghana.",
-  },
-  {
-    question: "How does the quotation and site assessment work?",
-    answer:
-      "Tell us what you need and your property location. We evaluate the project requirements, schedule an on-site survey where appropriate, and provide a clear, itemised quotation before work begins.",
-  },
-  {
-    question: "Do you offer emergency or weekend support?",
-    answer:
-      "Our core operational hours are Monday to Saturday, 7:30 am to 5:00 pm. For urgent security or network breakdowns, you can reach out via WhatsApp for fast priority scheduling.",
-  },
-  {
-    question: "How quickly will your team respond to my message?",
-    answer:
-      "WhatsApp chats are typically answered within 15 to 30 minutes during business hours. Online contact form submissions and emails are reviewed within 2 to 4 business hours.",
   },
 ];
 
@@ -468,80 +446,6 @@ export function ContactHub() {
               </div>
             </div>
           </aside>
-        </div>
-      </section>
-
-      {/* ─── 3. Location & Embedded Interactive Map ─── */}
-      <section className="contact-map-section">
-        <div className="map-card-container">
-          <div className="map-card-header">
-            <div>
-              <div className="map-badge">
-                <span className="badge-dot" aria-hidden="true" />
-                <span className="eyebrow">OUR LOCATION &amp; DISPATCH</span>
-              </div>
-              <h2 className="map-title">Based in Achimota, serving homes and businesses in Ghana.</h2>
-            </div>
-            <div className="map-gps-pill">
-              <span className="gps-label">GHANAPOST GPS:</span>
-              <strong className="gps-val">{GPS_ADDRESS}</strong>
-            </div>
-          </div>
-
-          <div className="map-frame-wrapper">
-            <iframe
-              title="Kobby's Intertech Services location in Achimota, Accra"
-              src="https://maps.google.com/maps?q=Achimota%2C%20Accra%2C%20Ghana&t=&z=14&ie=UTF8&iwloc=&output=embed"
-              width="100%"
-              height="380"
-              style={{ border: 0 }}
-              allowFullScreen={false}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
-
-          <div className="map-card-footer">
-            <div className="map-feature">
-              <div className="map-feat-dot" aria-hidden="true" />
-              <span>Greater Accra Coverage (Fast On-Site Surveys)</span>
-            </div>
-            <div className="map-feature">
-              <div className="map-feat-dot" aria-hidden="true" />
-              <span>Nationwide Travel &amp; Multi-Site Projects</span>
-            </div>
-            <div className="map-feature">
-              <div className="map-feat-dot" aria-hidden="true" />
-              <span>Certified Installation &amp; Ongoing Support</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── 4. Pre-Contact FAQ Accordion ─── */}
-      <section className="contact-faq-section">
-        <div className="faq-container-inner">
-          <div className="faq-header">
-            <div className="faq-badge">
-              <span className="badge-dot" aria-hidden="true" />
-              <span className="eyebrow">COMMON QUESTIONS</span>
-            </div>
-            <h2 className="faq-title">Helpful answers before you reach out.</h2>
-          </div>
-
-          <div className="contact-faq-grid">
-            {CONTACT_FAQS.map((faq) => (
-              <details key={faq.question} className="contact-faq-item">
-                <summary className="contact-faq-summary">
-                  <span>{faq.question}</span>
-                  <span className="faq-icon" aria-hidden="true">+</span>
-                </summary>
-                <div className="contact-faq-answer">
-                  <p>{faq.answer}</p>
-                </div>
-              </details>
-            ))}
-          </div>
         </div>
       </section>
     </div>

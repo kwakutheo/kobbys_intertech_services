@@ -7,7 +7,13 @@ export const metadata = {
     "Request an itemised quotation for CCTV, fibre internet, networking, satellite, or electrical services across Ghana.",
 };
 
-export default function RequestQuotePage() {
+export default async function RequestQuotePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ service?: string }>;
+}) {
+  const { service } = await searchParams;
+
   return (
     <main>
       <HeroSection
@@ -42,7 +48,7 @@ export default function RequestQuotePage() {
       />
 
       <section className="section form-section">
-        <EnquiryForm mode="quote" />
+        <EnquiryForm mode="quote" initialServiceSlug={service} />
       </section>
     </main>
   );
