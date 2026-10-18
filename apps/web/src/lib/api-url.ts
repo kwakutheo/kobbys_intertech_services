@@ -6,6 +6,16 @@
  * - During server-side rendering, it falls back to http://localhost:4000/api/v1.
  */
 export function getApiBaseUrl(): string {
+  if (typeof window !== 'undefined' && window.location?.hostname) {
+    const protocol = window.location.protocol || 'http:';
+    const hostname = window.location.hostname;
+
+    // When accessing from another device (phone, laptop) on LAN, route to that machine's port 4000
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return `${protocol}//${hostname}:4000/api/v1`;
+    }
+  }
+
   if (process.env.NEXT_PUBLIC_API_URL) {
     return process.env.NEXT_PUBLIC_API_URL;
   }

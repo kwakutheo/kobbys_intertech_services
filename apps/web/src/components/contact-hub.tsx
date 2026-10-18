@@ -203,7 +203,7 @@ export function ContactHub() {
 
             <h2 className="contact-main-value">Achimota, Accra–Ghana</h2>
             <p className="contact-card-sub">
-              P.O. Box 20 · Digital Address: <strong className="gps-code">{GPS_ADDRESS}</strong>
+              Digital Address: <strong className="gps-code">{GPS_ADDRESS}</strong>
             </p>
 
             <div className="contact-card-actions">

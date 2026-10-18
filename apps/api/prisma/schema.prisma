@@ -431,10 +431,14 @@ model ConsentRecord {
 }
 
 model GalleryPhoto {
-  id          String   @id @default(uuid()) @db.Uuid
-  filename    String   @unique
+  id          String    @id @default(uuid()) @db.Uuid
+  filename    String    @unique
   caption     String?
   takenAt     DateTime?
-  uploadedAt  DateTime @default(now())
-  sortOrder   Int      @default(0)
+  uploadedAt  DateTime  @default(now())
+  sortOrder   Int       @default(0)
+  /// Full public URL of the photo (Cloudflare R2 CDN or null for legacy local files)
+  url         String?
+  /// The object key stored in R2 (used to delete from the bucket)
+  r2Key       String?
 }

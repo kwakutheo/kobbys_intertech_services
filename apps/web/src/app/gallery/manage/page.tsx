@@ -6,20 +6,25 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { getApiBaseUrl } from '@/lib/api-url';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
 
-const API_BASE = getApiBaseUrl();
-const API = `${API_BASE}/gallery`;
+function getGalleryApi(): string {
+  return `${getApiBaseUrl()}/gallery`;
+}
 
 type Photo = {
   id: string;
   filename: string;
   caption: string | null;
   uploadedAt: string;
+  url?: string | null;
+  r2Key?: string | null;
 };
 
 export default function GalleryManagePage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<string>('');
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [uploadCaption, setUploadCaption] = useState('');
   const [dragOver, setDragOver] = useState(false);
   const [message, setMessage] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
@@ -27,21 +32,21 @@ export default function GalleryManagePage() {
 
   const flash = (type: 'ok' | 'err', text: string) => {
     setMessage({ type, text });
-    setTimeout(() => setMessage(null), 4000);
+    setTimeout(() => setMessage(null), 5000);
   };
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(API);
+      const res = await fetch(getGalleryApi());
       if (res.ok) {
         const data = await res.json();
         setPhotos(Array.isArray(data) ? data : []);
       } else {
-        flash('err', 'Failed to load photos');
+        flash('err', `Failed to load photos: ${res.status} ${res.statusText}`);
       }
-    } catch {
-      flash('err', 'Failed to load photos');
+    } catch (err: unknown) {
+      flash('err', `Failed to connect to API: ${err instanceof Error ? err.message : 'Network error'}`);
     } finally {
       setLoading(false);
     }
@@ -56,43 +61,67 @@ export default function GalleryManagePage() {
     setUploading(true);
     let ok = 0;
     let fail = 0;
-    for (const file of Array.from(files)) {
+    let lastError = '';
+    const fileList = Array.from(files);
+
+    for (let i = 0; i < fileList.length; i++) {
+      const file = fileList[i];
+      setUploadStatus(`Uploading ${i + 1} of ${fileList.length}: ${file.name}…`);
       const fd = new FormData();
       fd.append('file', file);
-      if (uploadCaption) fd.append('caption', uploadCaption);
+      if (uploadCaption.trim()) fd.append('caption', uploadCaption.trim());
+
       try {
-        const res = await fetch(API, { method: 'POST', body: fd });
-        if (res.ok) ok++;
-        else fail++;
-      } catch {
+        const res = await fetch(getGalleryApi(), { method: 'POST', body: fd });
+        if (res.ok) {
+          ok++;
+        } else {
+          fail++;
+          const errData = await res.json().catch(() => null);
+          lastError = errData?.message || `Server returned ${res.status} ${res.statusText}`;
+        }
+      } catch (err: unknown) {
         fail++;
+        lastError = err instanceof Error ? err.message : 'Network error (check if API is running)';
       }
     }
+
     setUploading(false);
+    setUploadStatus('');
     setUploadCaption('');
     if (fileRef.current) fileRef.current.value = '';
-    flash(fail === 0 ? 'ok' : 'err', `Uploaded ${ok} photo(s)${fail ? `, ${fail} failed` : ''}.`);
+
+    if (fail === 0) {
+      flash('ok', `Successfully uploaded ${ok} photo${ok === 1 ? '' : 's'} to Cloudflare R2.`);
+    } else {
+      flash('err', `Uploaded ${ok} photo${ok === 1 ? '' : 's'}, ${fail} failed: ${lastError}`);
+    }
     load();
   };
 
   const handleDelete = async (id: string, filename: string) => {
-    if (!confirm(`Delete "${filename}"? This cannot be undone.`)) return;
+    const displayName = filename.includes('/') ? filename.split('/').pop() || filename : filename;
+    if (!confirm(`Delete "${displayName}"? This cannot be undone.`)) return;
+    setDeletingId(id);
     try {
-      const res = await fetch(`${API}/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${getGalleryApi()}/${id}`, { method: 'DELETE' });
       if (res.ok) {
-        flash('ok', 'Photo deleted successfully.');
+        flash('ok', `Photo "${displayName}" deleted successfully.`);
         load();
       } else {
-        flash('err', 'Delete failed. Please try again.');
+        const errData = await res.json().catch(() => null);
+        flash('err', `Delete failed: ${errData?.message || res.statusText || 'Unknown error'}`);
       }
-    } catch {
-      flash('err', 'Delete failed. Please try again.');
+    } catch (err: unknown) {
+      flash('err', `Delete failed: ${err instanceof Error ? err.message : 'Network error'}`);
+    } finally {
+      setDeletingId(null);
     }
   };
 
   const handleCaptionEdit = async (id: string, caption: string) => {
     try {
-      const res = await fetch(`${API}/${id}`, {
+      const res = await fetch(`${getGalleryApi()}/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ caption }),
@@ -235,7 +264,7 @@ export default function GalleryManagePage() {
                     <circle cx="8" cy="8" r="6" stroke="rgba(192,0,46,0.35)" strokeWidth="2" />
                     <path d="M8 2a6 6 0 0 1 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   </svg>
-                  Uploading photos…
+                  {uploadStatus || 'Uploading photos to Cloudflare R2…'}
                 </div>
               ) : (
                 <>
@@ -245,7 +274,7 @@ export default function GalleryManagePage() {
                     </svg>
                   </div>
                   <div className="admin-dropzone-text">Drag &amp; drop images here, or click to browse</div>
-                  <div className="admin-dropzone-hint">JPG, PNG, WebP · Multiple files supported</div>
+                  <div className="admin-dropzone-hint">JPG, PNG, WebP, HEIC · Directly stored in Cloudflare R2</div>
                 </>
               )}
               <input
@@ -292,19 +321,49 @@ export default function GalleryManagePage() {
 
           {!loading && photos.length > 0 && (
             <div className="admin-gallery-grid">
-              {photos.map((photo) => (
-                <div className="admin-gallery-item" key={photo.id}>
-                  <div className="admin-gallery-img-wrap">
-                    <Image
-                      src={`/gallery/${photo.filename}`}
-                      alt={photo.caption ?? photo.filename}
-                      fill
-                      sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 25vw"
-                      className="admin-gallery-img"
-                    />
-                  </div>
+              {photos.map((photo) => {
+                const photoSrc =
+                  photo.url ||
+                  (photo.filename.startsWith('http')
+                    ? photo.filename
+                    : `/gallery/${photo.filename}`);
+                const displayName = photo.filename.includes('/')
+                  ? photo.filename.split('/').pop() || photo.filename
+                  : photo.filename;
+                const isR2 = Boolean(photo.url || photo.r2Key);
+                const isDeleting = deletingId === photo.id;
+
+                return (
+                  <div className="admin-gallery-item" key={photo.id}>
+                    <div className="admin-gallery-img-wrap">
+                      <Image
+                        src={photoSrc}
+                        alt={photo.caption ?? displayName}
+                        fill
+                        unoptimized={Boolean(photo.url)}
+                        sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 25vw"
+                        className="admin-gallery-img"
+                      />
+                    </div>
                   <div className="admin-gallery-bar">
-                    <div className="admin-gallery-filename">{photo.filename}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                      <div className="admin-gallery-filename" title={photo.filename}>{displayName}</div>
+                      <span
+                        style={{
+                          fontSize: '10px',
+                          fontWeight: 600,
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          letterSpacing: '0.04em',
+                          textTransform: 'uppercase',
+                          background: isR2 ? 'rgba(244, 129, 32, 0.15)' : 'rgba(255, 255, 255, 0.1)',
+                          color: isR2 ? '#f48120' : '#888',
+                          border: isR2 ? '1px solid rgba(244, 129, 32, 0.3)' : '1px solid rgba(255, 255, 255, 0.15)',
+                        }}
+                      >
+                        {isR2 ? 'Cloudflare R2' : 'Local'}
+                      </span>
+                    </div>
                     <CaptionEditor
                       initial={photo.caption ?? ''}
                       onSave={(v) => handleCaptionEdit(photo.id, v)}
@@ -312,17 +371,20 @@ export default function GalleryManagePage() {
                     <button
                       className="admin-delete-btn"
                       onClick={() => handleDelete(photo.id, photo.filename)}
-                      aria-label={`Delete ${photo.filename}`}
+                      disabled={isDeleting}
+                      style={{ opacity: isDeleting ? 0.6 : 1 }}
+                      aria-label={`Delete ${displayName}`}
                     >
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6" /><path d="M9 6V4h6v2" />
                       </svg>
-                      Delete photo
+                      {isDeleting ? 'Deleting…' : 'Delete photo'}
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
+              );
+            })}
+          </div>
           )}
         </main>
       </div>

@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,6 +23,12 @@ const serviceLinks = [
 ];
 
 export function SiteFooter() {
+  const [year, setYear] = useState('2026');
+
+  useEffect(() => {
+    setYear(String(new Date().getFullYear()));
+  }, []);
+
   return (
     <footer className="site-footer">
       {/* Top bar */}
@@ -91,7 +100,7 @@ export function SiteFooter() {
 
       {/* Bottom bar */}
       <div className="footer-bottom">
-        <p className="footer-copy">© {new Date().getFullYear()} Kobby&apos;s Intertech Services. All rights reserved.</p>
+        <p className="footer-copy">© {year} Kobby&apos;s Intertech Services. All rights reserved.</p>
         <div className="footer-bottom-links">
           <Link href="/privacy">Privacy Policy</Link>
           <span className="footer-sep">·</span>

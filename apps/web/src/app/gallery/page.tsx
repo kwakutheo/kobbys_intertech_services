@@ -15,6 +15,7 @@ type Photo = {
   filename: string;
   caption: string | null;
   uploadedAt: string;
+  url?: string | null;
 };
 
 async function getPhotos(): Promise<Photo[]> {
@@ -39,22 +40,31 @@ async function GalleryGrid() {
 
   return (
     <div className="gallery-grid">
-      {photos.map((photo) => (
-        <figure className="gallery-item" key={photo.id}>
-          <div className="gallery-img-wrap">
-            <Image
-              src={`/gallery/${photo.filename}`}
-              alt={photo.caption ?? "Kobby's Intertech Services project photo"}
-              fill
-              sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
-              className="gallery-img"
-            />
-          </div>
-          {photo.caption && (
-            <figcaption className="gallery-caption">{photo.caption}</figcaption>
-          )}
-        </figure>
-      ))}
+      {photos.map((photo) => {
+        const photoSrc =
+          photo.url ||
+          (photo.filename.startsWith('http')
+            ? photo.filename
+            : `/gallery/${photo.filename}`);
+
+        return (
+          <figure className="gallery-item" key={photo.id}>
+            <div className="gallery-img-wrap">
+              <Image
+                src={photoSrc}
+                alt={photo.caption ?? "Kobby's Intertech Services project photo"}
+                fill
+                unoptimized={Boolean(photo.url)}
+                sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+                className="gallery-img"
+              />
+            </div>
+            {photo.caption && (
+              <figcaption className="gallery-caption">{photo.caption}</figcaption>
+            )}
+          </figure>
+        );
+      })}
     </div>
   );
 }

@@ -12,26 +12,10 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import * as path from 'node:path';
-import * as crypto from 'node:crypto';
-import { GalleryService, getGalleryDir } from './gallery.service.js';
+import { memoryStorage } from 'multer';
+import { GalleryService } from './gallery.service.js';
 
-const storage = diskStorage({
-  destination: (_req, _file, cb) => {
-    try {
-      const dir = getGalleryDir();
-      cb(null, dir);
-    } catch (err) {
-      cb(err as Error, '');
-    }
-  },
-  filename: (_req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
-    const name = `photo_${Date.now()}_${crypto.randomBytes(4).toString('hex')}${ext}`;
-    cb(null, name);
-  },
-});
+const storage = memoryStorage();
 
 @Controller('gallery')
 export class GalleryController {
@@ -54,11 +38,11 @@ export class GalleryController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage,
-      limits: { fileSize: 15 * 1024 * 1024 }, // 15 MB
+      limits: { fileSize: 25 * 1024 * 1024 }, // 25 MB
       fileFilter: (_req, file, cb) => {
-        const allowed = /\.(jpg|jpeg|png|webp|gif)$/i;
-        if (!allowed.test(file.originalname)) {
-          return cb(new BadRequestException('Only image files are allowed'), false);
+        const allowed = /\.(jpg|jpeg|png|webp|gif|avif|heic|heif)$/i;
+        if (!allowed.test(file.originalname) && !file.mimetype?.startsWith('image/')) {
+          return cb(new BadRequestException('Only image files are allowed (JPG, PNG, WebP, GIF, AVIF, HEIC)'), false);
         }
         cb(null, true);
       },
@@ -71,7 +55,13 @@ export class GalleryController {
   ) {
     if (!file) throw new BadRequestException('No file uploaded');
     const parsedSort = sortOrder !== undefined ? parseInt(String(sortOrder), 10) : undefined;
-    return this.galleryService.create(file.filename, caption, Number.isNaN(parsedSort) ? undefined : parsedSort);
+    return this.galleryService.create(
+      file.buffer,
+      file.originalname,
+      file.mimetype,
+      caption,
+      Number.isNaN(parsedSort) ? undefined : parsedSort,
+    );
   }
 
   /** PATCH /api/v1/gallery/:id — update photo caption / sortOrder */
