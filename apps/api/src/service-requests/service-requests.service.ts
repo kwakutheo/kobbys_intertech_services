@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { PrismaService } from '../database/prisma.service.js';
 import { CreateEnquiryDto } from './dto/create-enquiry.dto.js';
 import { createPublicRequestReference } from './request-status.js';
+import { ServiceRequestStatus, type Prisma } from '@prisma/client';
 
 @Injectable()
 export class ServiceRequestsService {
@@ -91,6 +92,100 @@ export class ServiceRequestsService {
     }
 
     throw new BadRequestException('Unable to create the enquiry. Please try again.');
+  }
+
+  async findAll(status?: ServiceRequestStatus, search?: string) {
+    const where: Prisma.ServiceRequestWhereInput = {};
+
+    if (status && Object.values(ServiceRequestStatus).includes(status)) {
+      where.status = status;
+    }
+
+    if (search && search.trim()) {
+      const q = search.trim();
+      where.OR = [
+        { reference: { contains: q, mode: 'insensitive' } },
+        { description: { contains: q, mode: 'insensitive' } },
+        { address: { contains: q, mode: 'insensitive' } },
+        { gpsAddress: { contains: q, mode: 'insensitive' } },
+        { customer: { fullName: { contains: q, mode: 'insensitive' } } },
+        { customer: { email: { contains: q, mode: 'insensitive' } } },
+        { customer: { phone: { contains: q, mode: 'insensitive' } } },
+        { customer: { organisationName: { contains: q, mode: 'insensitive' } } },
+      ];
+    }
+
+    return this.prisma.serviceRequest.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        customer: true,
+        service: true,
+        events: {
+          orderBy: { createdAt: 'desc' },
+          take: 5,
+        },
+      },
+    });
+  }
+
+  async findOne(id: string) {
+    const request = await this.prisma.serviceRequest.findFirst({
+      where: {
+        OR: [{ id }, { reference: id }],
+      },
+      include: {
+        customer: true,
+        service: true,
+        events: {
+          orderBy: { createdAt: 'desc' },
+        },
+        appointments: true,
+        quotes: true,
+        workOrders: true,
+      },
+    });
+    if (!request) throw new NotFoundException('Service request not found.');
+    return request;
+  }
+
+  async updateStatus(id: string, newStatus: ServiceRequestStatus, note?: string) {
+    const existing = await this.prisma.serviceRequest.findFirst({
+      where: { OR: [{ id }, { reference: id }] },
+    });
+    if (!existing) throw new NotFoundException('Service request not found.');
+
+    return this.prisma.$transaction(async (tx) => {
+      const updated = await tx.serviceRequest.update({
+        where: { id: existing.id },
+        data: { status: newStatus },
+      });
+
+      await tx.requestEvent.create({
+        data: {
+          requestId: existing.id,
+          eventType: 'STATUS_UPDATED',
+          oldStatus: existing.status,
+          newStatus,
+          customerVisible: true,
+          detail: note ? { note } : undefined,
+        },
+      });
+
+      return updated;
+    });
+  }
+
+  async remove(id: string) {
+    const existing = await this.prisma.serviceRequest.findFirst({
+      where: { OR: [{ id }, { reference: id }] },
+    });
+    if (!existing) throw new NotFoundException('Service request not found.');
+
+    await this.prisma.serviceRequest.delete({
+      where: { id: existing.id },
+    });
+    return { success: true, id: existing.id, reference: existing.reference };
   }
 
   private toPublicResponse(request: { reference: string; status: string; createdAt: Date }) {

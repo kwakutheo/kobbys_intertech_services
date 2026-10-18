@@ -35,6 +35,12 @@ export default function AdminDashboardPage() {
             </svg>
             Dashboard
           </Link>
+          <Link href="/admin/bookings" className="admin-nav-link">
+            <svg className="admin-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+            Service Bookings
+          </Link>
           <Link href="/admin/gallery" className="admin-nav-link">
             <svg className="admin-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
@@ -124,21 +130,21 @@ export default function AdminDashboardPage() {
             </Link>
 
             {/* Bookings */}
-            <div className="admin-module-card">
+            <Link href="/admin/bookings" className="admin-module-card">
               <div className="admin-module-icon-wrap">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
               </div>
-              <div className="admin-module-eyebrow">Operations</div>
-              <h2 className="admin-module-title">Service Bookings</h2>
+              <div className="admin-module-eyebrow">Operations &amp; Schedule</div>
+              <h2 className="admin-module-title">Service Bookings &amp; Quotes</h2>
               <p className="admin-module-desc">
-                Review incoming client bookings, site visit schedules, and job statuses submitted through the online booking form.
+                Review incoming client bookings, manage site visit schedules, update job statuses, and contact customers via WhatsApp or Phone.
               </p>
-              <Link href="/book-service" className="admin-module-cta">
-                View Booking Form ↗
-              </Link>
-            </div>
+              <span className="admin-module-cta">
+                Open Bookings Manager →
+              </span>
+            </Link>
 
             {/* Quotes */}
             <div className="admin-module-card">
