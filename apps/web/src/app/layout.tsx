@@ -7,6 +7,13 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Kobby's Intertech Services | Technology, Security & Communication",
   description: "Technology, security and communication solutions across Ghana.",
+  icons: {
+    icon: [
+      { url: "/brand/footer_logo.png", type: "image/png" },
+    ],
+    shortcut: "/brand/footer_logo.png",
+    apple: "/brand/footer_logo.png",
+  },
 };
 
 export const viewport: Viewport = {
