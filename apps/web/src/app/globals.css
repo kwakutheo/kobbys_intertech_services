@@ -4851,3 +4851,339 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   border-color: var(--admin-wine);
 }
 
+/* ==========================================================================
+   404 (Not Found) & Error Boundaries
+   ========================================================================== */
+
+.not-found-main {
+  min-height: 80vh;
+}
+
+.not-found-content-section {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 60px 40px 100px;
+}
+
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.not-found-header {
+  max-width: 700px;
+}
+
+.not-found-heading {
+  font-size: clamp(26px, 3.5vw, 36px);
+  letter-spacing: -0.03em;
+  margin: 8px 0 10px;
+  color: var(--ink);
+}
+
+.not-found-sub {
+  color: var(--muted);
+  font-size: 16px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.not-found-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.not-found-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.not-found-card:hover {
+  transform: translateY(-3px);
+  border-color: #9b0b1e;
+  box-shadow: 0 10px 24px rgba(155, 11, 30, 0.08);
+}
+
+.not-found-card-arrow {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  font-size: 16px;
+  color: #9b0b1e;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.2s ease;
+}
+
+.not-found-card:hover .not-found-card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.not-found-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.not-found-card:hover .not-found-card-title {
+  color: #9b0b1e;
+}
+
+.not-found-card-desc {
+  font-size: 14px;
+  color: var(--body);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.not-found-help-banner {
+  margin-top: 20px;
+  background: var(--ink);
+  color: #ffffff;
+  border-radius: 14px;
+  padding: 36px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.not-found-help-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fca5a5;
+  margin-bottom: 8px;
+}
+
+.not-found-help-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.not-found-help-desc {
+  font-size: 14.5px;
+  color: #a1a1aa;
+  margin: 0;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.not-found-help-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.not-found-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25d366;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.not-found-wa-btn:hover {
+  background: #20ba5a;
+  transform: translateY(-1px);
+}
+
+.not-found-tel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.not-found-tel-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* 500 Error Screen */
+.error-main {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  background: #0f1013;
+}
+
+.error-card-container {
+  width: 100%;
+  max-width: 620px;
+}
+
+.error-card {
+  background: #16171c;
+  border: 1px solid #23242c;
+  border-radius: 16px;
+  padding: 44px 40px;
+  color: #ffffff;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.error-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(185, 28, 28, 0.18);
+  border: 1px solid rgba(185, 28, 28, 0.35);
+  color: #fca5a5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  margin-bottom: 20px;
+}
+
+.error-dot {
+  width: 6px;
+  height: 6px;
+  background: #ef4444;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ef4444;
+}
+
+.error-title {
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0 0 14px;
+  line-height: 1.2;
+}
+
+.error-desc {
+  font-size: 15px;
+  color: #a1a1aa;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.error-digest {
+  font-size: 12px;
+  color: #71717a;
+  margin: -12px 0 24px;
+}
+
+.error-digest code {
+  color: #e4e4e7;
+  background: #23242c;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.error-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.error-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #9b0b1e;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 22px;
+  border-radius: 8px;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.error-btn-primary:hover {
+  background: #b81028;
+  transform: translateY(-1px);
+}
+
+.error-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #d4d4d8;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 12px 16px;
+  transition: color 0.2s ease;
+}
+
+.error-btn-secondary:hover {
+  color: #ffffff;
+}
+
+.error-footer-help {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #23242c;
+  font-size: 13px;
+  color: #71717a;
+  line-height: 1.5;
+}
+
+.error-footer-help a {
+  color: #d4d4d8;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.error-footer-help a:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .not-found-content-section {
+    padding: 40px 20px 60px;
+  }
+  .not-found-grid {
+    grid-template-columns: 1fr;
+  }
+  .not-found-help-banner {
+    padding: 24px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .error-card {
+    padding: 32px 24px;
+  }
+}
+
+
