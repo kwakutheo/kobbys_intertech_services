@@ -25,10 +25,16 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_URL ||
+      (process.env.NODE_ENV === 'production'
+        ? 'https://kobbys-intertech-services.onrender.com/api/v1'
+        : 'http://localhost:4000/api/v1');
+
     return [
       {
         source: '/api/v1/:path*',
-        destination: 'http://localhost:4000/api/v1/:path*',
+        destination: `${apiUrl.replace(/\/$/, '')}/:path*`,
       },
     ];
   },

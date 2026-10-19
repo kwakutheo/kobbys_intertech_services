@@ -99,7 +99,7 @@ export default function AdminDashboardPage() {
             <div className="admin-stat-card">
               <div className="admin-stat-label">API</div>
               <div className="admin-stat-value" style={{ fontSize: 18 }}>PostgreSQL</div>
-              <div className="admin-stat-sub">connected at :4000</div>
+              <div className="admin-stat-sub">connected to API</div>
             </div>
             <div className="admin-stat-card">
               <div className="admin-stat-label">Access</div>

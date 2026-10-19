@@ -15,6 +15,9 @@ export function configureApplication(app) {
                 return callback(null, true);
             if (customOrigins.includes(origin))
                 return callback(null, true);
+            if (/^https:\/\/([a-zA-Z0-9_-]+\.)?vercel\.app$/.test(origin)) {
+                return callback(null, true);
+            }
             if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
                 return callback(null, true);
             }

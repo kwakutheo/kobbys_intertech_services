@@ -1,27 +1,28 @@
 /**
- * One-off script: Syncs existing photos from Cloudflare R2 into the Supabase GalleryPhoto table.
+ * Syncs photos from Cloudflare R2 into the Supabase GalleryPhoto table.
  * Run from apps/api: node prisma/sync-r2-to-db.mjs
- *
- * Uses the DATABASE_URL from .env.production and R2 credentials from environment.
  */
 import { PrismaClient } from '@prisma/client';
 import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { config } from 'dotenv';
-import { resolve } from 'node:path';
+import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-config({ path: resolve(__dirname, '../.env.production') });
+config({ path: resolve(__dirname, '../.env.production'), override: true });
 
-const DB_URL = process.env.DATABASE_URL;
+let dbUrl = process.env.DATABASE_URL;
+if (dbUrl && !dbUrl.includes('sslmode=')) {
+  dbUrl += (dbUrl.includes('?') ? '&' : '?') + 'sslmode=require';
+}
+
 const ACCOUNT_ID = process.env.CF_R2_ACCOUNT_ID;
 const ACCESS_KEY_ID = process.env.CF_R2_ACCESS_KEY_ID;
 const SECRET_ACCESS_KEY = process.env.CF_R2_SECRET_ACCESS_KEY;
 const BUCKET = process.env.CF_R2_BUCKET ?? 'kobbys-intertech';
-const PUBLIC_URL = (process.env.CF_R2_PUBLIC_URL ?? '').replace(/\/$/, '');
+const PUBLIC_URL = (process.env.CF_R2_PUBLIC_URL ?? 'https://pub-55a5586b0fb34f5aa26d2c343a67ac5b.r2.dev').replace(/\/$/, '');
 
-const prisma = new PrismaClient({ datasources: { db: { url: DB_URL } } });
+const prisma = new PrismaClient({ datasources: { db: { url: dbUrl } } });
 
 const s3 = new S3Client({
   region: 'auto',
@@ -30,14 +31,16 @@ const s3 = new S3Client({
 });
 
 async function main() {
+  await prisma.$connect();
   console.log('Listing R2 bucket objects...');
   const result = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET }));
   const objects = (result.Contents ?? []).filter(
-    (o) => o.Key && /\.(jpg|jpeg|png|webp|gif)$/i.test(o.Key),
+    (o) => o.Key && /\.(jpg|jpeg|png|webp|gif|avif)$/i.test(o.Key),
   );
 
   console.log(`Found ${objects.length} photos in R2.`);
   let inserted = 0;
+  let updated = 0;
   let skipped = 0;
 
   for (const obj of objects) {
@@ -46,17 +49,15 @@ async function main() {
 
     const existing = await prisma.galleryPhoto.findUnique({ where: { filename: key } });
     if (existing) {
-      // Update url and r2Key if missing
       if (!existing.url || !existing.r2Key) {
         await prisma.galleryPhoto.update({
           where: { id: existing.id },
           data: { url, r2Key: key },
         });
-        inserted++; // count updates too
+        updated++;
         console.log(`  Updated: ${key} -> ${url}`);
       } else {
         skipped++;
-        console.log(`  Skipped (already has url): ${key}`);
       }
     } else {
       await prisma.galleryPhoto.create({
@@ -64,6 +65,7 @@ async function main() {
           filename: key,
           url,
           r2Key: key,
+          sortOrder: 0,
         },
       });
       inserted++;
@@ -71,7 +73,7 @@ async function main() {
     }
   }
 
-  console.log(`\nDone. Inserted: ${inserted}, Updated existing, Skipped: ${skipped}`);
+  console.log(`\nDone. Inserted: ${inserted}, Updated: ${updated}, Skipped: ${skipped}`);
 }
 
-await main().finally(() => prisma.$disconnect());
+main().finally(() => prisma.$disconnect());

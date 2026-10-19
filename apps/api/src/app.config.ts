@@ -25,6 +25,11 @@ export function configureApplication(app: INestApplication) {
       // Explicitly allowed origins from environment variable
       if (customOrigins.includes(origin)) return callback(null, true);
 
+      // Allow Vercel deployments (production and preview branches)
+      if (/^https:\/\/([a-zA-Z0-9_-]+\.)?vercel\.app$/.test(origin)) {
+        return callback(null, true);
+      }
+
       // Allow localhost and loopback (any port)
       if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
         return callback(null, true);
