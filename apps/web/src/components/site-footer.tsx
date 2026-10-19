@@ -100,11 +100,21 @@ export function SiteFooter() {
 
       {/* Bottom bar */}
       <div className="footer-bottom">
-        <p className="footer-copy">© {year} Kobby&apos;s Intertech Services. All rights reserved.</p>
-        <div className="footer-bottom-links">
-          <Link href="/privacy">Privacy Policy</Link>
-          <span className="footer-sep">·</span>
-          <Link href="/contact">Contact Us</Link>
+        <div className="footer-bottom-inner">
+          <p className="footer-copy">
+            <span>© {year} Kobby&apos;s Intertech Services. All rights reserved.</span>
+            <span className="footer-sep">·</span>
+            <Link href="/privacy" className="footer-privacy-link">Privacy Policy</Link>
+          </p>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="footer-back-to-top"
+            aria-label="Back to top"
+          >
+            <span>Back to top</span>
+            <span aria-hidden="true">↑</span>
+          </button>
         </div>
       </div>
 

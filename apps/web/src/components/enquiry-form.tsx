@@ -87,34 +87,35 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
     <form className="enquiry-form" onSubmit={submit}>
       <div className="enquiry-form-header">
         <span className="enquiry-form-badge">
-          {isBooking ? "Service Booking" : "Quote Request"}
+          {isBooking ? "Service Booking & Scheduling" : "Free Project Quotation"}
         </span>
         <p className="enquiry-form-lead">
           {isBooking
-            ? "Fill in the details below and we\u2019ll confirm your appointment within one business day."
-            : "Describe your project and we\u2019ll prepare a transparent, itemised quotation for you."}
+            ? "Tell us what needs fixing or installing and pick your preferred arrival date. We will confirm your scheduled visit within one business day."
+            : "Describe your project scope and specifications. We will calculate equipment, cabling, and labour costs to provide a transparent, itemised quotation."}
         </p>
       </div>
 
       <div className="form-grid">
+        {/* Contact details */}
         <label>
           Full name
           <input name="fullName" autoComplete="name" required minLength={2} maxLength={120} placeholder="e.g. Kwabena Asante" />
         </label>
         <label>
-          Organisation <span>(optional)</span>
-          <input name="organisationName" autoComplete="organization" maxLength={160} placeholder="Company or school name" />
+          Organisation / Company <span>(optional)</span>
+          <input name="organisationName" autoComplete="organization" maxLength={160} placeholder="e.g. Asante Holdings / Homeowner" />
         </label>
         <label>
           Email address
           <input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="you@example.com" />
         </label>
         <label>
-          Telephone number
+          Telephone / WhatsApp number
           <input name="phone" type="tel" autoComplete="tel" required minLength={7} maxLength={30} placeholder="+233 24 000 0000" />
         </label>
         <label>
-          Service
+          Service required
           <select name="serviceSlug" required defaultValue={initialServiceSlug ?? ""}>
             <option value="" disabled>Select a service</option>
             {services.map((service) => (
@@ -130,56 +131,103 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
             <option value="EMAIL">Email</option>
           </select>
         </label>
-        <label className="form-wide">
-          What do you need?
-          <textarea
-            name="description"
-            required
-            minLength={10}
-            maxLength={5000}
-            rows={5}
-            placeholder={
-              isBooking
-                ? "Describe the installation, maintenance, or repair service you need."
-                : "Describe your project \u2014 scope, scale, any existing equipment, and what you\u2019re hoping to achieve."
-            }
-          />
-        </label>
-        <label className="form-wide">
-          Property or service location
-          <textarea
-            name="address"
-            required
-            minLength={3}
-            maxLength={500}
-            rows={2}
-            placeholder="Town, area and any useful landmark details"
-          />
-        </label>
-        <label>
-          GhanaPost GPS address <span>(optional)</span>
-          <input name="gpsAddress" maxLength={100} placeholder="e.g. GA-123-4567" />
-        </label>
-        <label>
-          {isBooking ? "Preferred date" : "Preferred assessment date"}
-          <input name="preferredDate" type="date" />
-        </label>
-        <label>
-          Preferred time window <span>(optional)</span>
-          <input name="timeWindow" maxLength={100} placeholder="e.g. Morning, 9:00\u201312:00" />
-        </label>
+
+        {/* ── MODE SPECIFIC FIELDS ── */}
+        {isBooking ? (
+          <>
+            <label className="form-wide">
+              What service or repair do you need?
+              <textarea
+                name="description"
+                required
+                minLength={10}
+                maxLength={5000}
+                rows={4}
+                placeholder="Describe what needs to be installed, repaired, or inspected (e.g. 4 CCTV cameras not showing feed, new fibre router setup, inverter diagnostic)."
+              />
+            </label>
+            <label className="form-wide">
+              Installation / Job location
+              <textarea
+                name="address"
+                required
+                minLength={3}
+                maxLength={500}
+                rows={2}
+                placeholder="Town/city, neighbourhood, street name and notable landmark"
+              />
+            </label>
+            <label>
+              GhanaPost GPS address <span>(recommended for technician arrival)</span>
+              <input name="gpsAddress" maxLength={100} placeholder="e.g. GA-123-4567 / AK-456-7890" />
+            </label>
+            <label>
+              Preferred technician arrival date
+              <input name="preferredDate" type="date" required />
+            </label>
+            <label className="form-wide">
+              Preferred time window
+              <select name="timeWindow" defaultValue="Morning (8:00 AM – 12:00 PM)">
+                <option value="Morning (8:00 AM – 12:00 PM)">Morning (8:00 AM – 12:00 PM)</option>
+                <option value="Early Afternoon (12:00 PM – 3:00 PM)">Early Afternoon (12:00 PM – 3:00 PM)</option>
+                <option value="Late Afternoon (3:00 PM – 5:00 PM)">Late Afternoon (3:00 PM – 5:00 PM)</option>
+                <option value="Flexible / Urgent (As soon as possible)">Flexible / Urgent (As soon as possible)</option>
+              </select>
+            </label>
+          </>
+        ) : (
+          <>
+            <label className="form-wide">
+              Project scope & technical requirements
+              <textarea
+                name="description"
+                required
+                minLength={10}
+                maxLength={5000}
+                rows={5}
+                placeholder="Detail your requirements for pricing: e.g. Number of camera channels or network points required, building layout (single floor / multi-storey), existing cabling, and any brand preferences."
+              />
+            </label>
+            <label className="form-wide">
+              Site / Project city or area
+              <textarea
+                name="address"
+                required
+                minLength={3}
+                maxLength={500}
+                rows={2}
+                placeholder="Where will the project take place? (City, district, or town)"
+              />
+            </label>
+            <label>
+              Digital GPS address <span>(optional)</span>
+              <input name="gpsAddress" maxLength={100} placeholder="e.g. GA-123-4567" />
+            </label>
+            <label>
+              Target project timeline <span>(optional)</span>
+              <select name="timeWindow" defaultValue="Within 2 to 4 weeks">
+                <option value="Immediate / Ready to start">Immediate / Ready to start</option>
+                <option value="Within 2 to 4 weeks">Within 2 to 4 weeks</option>
+                <option value="Next 1 to 3 months">Next 1 to 3 months</option>
+                <option value="Budgeting & Planning stage only">Budgeting & Planning stage only</option>
+              </select>
+            </label>
+          </>
+        )}
       </div>
 
       <label className="consent">
         <input name="privacyAccepted" type="checkbox" required />
         <span>
-          I agree that Kobby&apos;s Intertech Services may use these details to respond to this{" "}
-          {isBooking ? "booking" : "quotation"} request.
+          I agree that Kobby&apos;s Intertech Services may contact me regarding this{" "}
+          {isBooking ? "service booking" : "quotation request"}.
         </span>
       </label>
 
       <p className="form-note">
-        Your request will be reviewed before an appointment or quotation is confirmed. We typically respond within one business day.
+        {isBooking
+          ? "Our operations team will review your chosen date & location, then confirm your appointment via phone or WhatsApp."
+          : "We review your scope and provide a comprehensive itemised quote with materials and labour specified."}
       </p>
 
       {error && (
@@ -195,10 +243,10 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
               <circle cx="8" cy="8" r="6" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
               <path d="M8 2a6 6 0 0 1 6 6" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
             </svg>
-            Sending\u2026
+            Sending…
           </>
         ) : (
-          isBooking ? "Send booking request" : "Request quotation"
+          isBooking ? "Confirm Booking Request →" : "Request Free Quotation →"
         )}
       </button>
     </form>

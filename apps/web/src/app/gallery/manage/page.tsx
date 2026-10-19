@@ -347,22 +347,9 @@ export default function GalleryManagePage() {
                     </div>
                   <div className="admin-gallery-bar">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                      <div className="admin-gallery-filename" title={photo.filename}>{displayName}</div>
-                      <span
-                        style={{
-                          fontSize: '10px',
-                          fontWeight: 600,
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          letterSpacing: '0.04em',
-                          textTransform: 'uppercase',
-                          background: isR2 ? 'rgba(244, 129, 32, 0.15)' : 'rgba(255, 255, 255, 0.1)',
-                          color: isR2 ? '#f48120' : '#888',
-                          border: isR2 ? '1px solid rgba(244, 129, 32, 0.3)' : '1px solid rgba(255, 255, 255, 0.15)',
-                        }}
-                      >
-                        {isR2 ? 'Cloudflare R2' : 'Local'}
-                      </span>
+                      <div 
+                      className="admin-gallery-filename" title={photo.filename}>{displayName}
+                      </div>
                     </div>
                     <CaptionEditor
                       initial={photo.caption ?? ''}
