@@ -61,7 +61,7 @@ export default function NotFound() {
         }}
         cardRows={[
           {
-            value: "Error 404",
+            value: "Page not found",
           },
         ]}
       />

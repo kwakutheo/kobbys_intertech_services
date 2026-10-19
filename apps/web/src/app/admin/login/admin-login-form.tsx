@@ -48,7 +48,6 @@ export function AdminLoginForm() {
   return (
     <div className="admin-login-shell">
       <div className="admin-login-card">
-        <div className="admin-login-logo">KI</div>
         <h1 className="admin-login-title">Admin Control Center</h1>
         <p className="admin-login-sub">
           Enter your administrator credentials to manage website media, bookings, and services.

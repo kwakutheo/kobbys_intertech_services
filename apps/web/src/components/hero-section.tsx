@@ -106,7 +106,7 @@ export function HeroSection({
           <p className="hero-eyebrow">
             {eyebrowParts.map((part, index) => (
               <React.Fragment key={part}>
-                {index > 0 && <span className="hero-dot">·</span>}
+                {index > 0 && <span className="hero-dot">|</span>}
                 <span>{part}</span>
               </React.Fragment>
             ))}

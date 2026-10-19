@@ -9,9 +9,9 @@ export default function Home() {
           <div className="hero-copy">
             <p className="hero-eyebrow">
               <span>TECHNOLOGY</span>
-              <span className="hero-dot">·</span>
+              <span className="hero-dot">|</span>
               <span>SECURITY</span>
-              <span className="hero-dot">·</span>
+              <span className="hero-dot">|</span>
               <span>COMMUNICATION</span>
             </p>
             <h1 className="hero-title">
