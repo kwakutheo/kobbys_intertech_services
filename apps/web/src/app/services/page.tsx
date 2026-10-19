@@ -30,14 +30,7 @@ export default function ServicesPage() {
         }}
         cardRows={[
           {
-            icon: "grid",
             value: "Our Services",
-            label: "6 specialised service areas",
-          },
-          {
-            icon: "shield",
-            value: "Nationwide",
-            label: "residential & corporate",
           },
         ]}
       />

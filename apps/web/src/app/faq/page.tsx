@@ -67,14 +67,7 @@ export default function FaqPage() {
         }}
         cardRows={[
           {
-            icon: "pin",
-            value: "Ghana",
-            label: "nationwide availability",
-          },
-          {
-            icon: "phone",
-            value: "Direct Help",
-            label: "+233 24 348 7160",
+            value: "FAQ",
           },
         ]}
       />

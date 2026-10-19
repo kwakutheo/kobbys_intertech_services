@@ -61,14 +61,7 @@ export default function AboutPage() {
         }}
         cardRows={[
           {
-            icon: "pin",
             value: "About Us",
-            label: "More details below",
-          },
-          {
-            icon: "clock",
-            value: "Mon–Sat",
-            label: "7:30 am–5:00 pm",
           },
         ]}
       />

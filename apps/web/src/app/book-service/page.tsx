@@ -35,14 +35,7 @@ export default async function BookServicePage({
         }}
         cardRows={[
           {
-            icon: "check",
             value: "Book a service",
-            label: "review & confirmation",
-          },
-          {
-            icon: "phone",
-            value: "Call/Chat",
-            label: "+233 24 348 7160",
           },
         ]}
       />

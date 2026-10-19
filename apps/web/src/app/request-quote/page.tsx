@@ -35,14 +35,7 @@ export default async function RequestQuotePage({
         }}
         cardRows={[
           {
-            icon: "check",
             value: "Request Quote",
-            label: "Transparent tailored quotations",
-          },
-          {
-            icon: "clock",
-            value: "Rapid",
-            label: "review & response",
           },
         ]}
       />

@@ -91,14 +91,7 @@ export default function GalleryPage() {
         }}
         cardRows={[
           {
-            icon: "camera",
             value: "Photo Gallery",
-            label: "completed project photos",
-          },
-          {
-            icon: "check",
-            value: "Certified",
-            label: "professional installations",
           },
         ]}
       />

@@ -60,14 +60,7 @@ export default async function ServicePage({
         }}
         cardRows={[
           {
-            icon: "shield",
             value: "Certified Tech",
-            label: "expert installation & warranty",
-          },
-          {
-            icon: "clock",
-            value: "Mon–Sat",
-            label: "7:30 am–5:00 pm (Nationwide)",
           },
         ]}
       />

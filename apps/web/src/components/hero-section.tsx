@@ -7,7 +7,7 @@ export type HeroCardItem = {
   icon?: HeroIconType;
   customIcon?: React.ReactNode;
   value: string;
-  label: string;
+  label?: string;
 };
 
 export type HeroSectionProps = {
@@ -22,7 +22,7 @@ export type HeroSectionProps = {
     href: string;
     label: string;
   };
-  cardRows?: [HeroCardItem, HeroCardItem];
+  cardRows?: HeroCardItem[];
   id?: string;
   backgroundImage?: string;
 };
@@ -132,29 +132,36 @@ export function HeroSection({
           )}
         </div>
 
-        {cardRows && (
+        {cardRows && cardRows.length > 0 && (
           <aside className="hero-card" aria-label="Key operational details">
             <div className="hero-card-row">
-              <div className="hero-icon-box" aria-hidden="true">
-                {cardRows[0].customIcon ?? renderIcon(cardRows[0].icon)}
-              </div>
+              {(cardRows[0].customIcon || cardRows[0].icon) && (
+                <div className="hero-icon-box" aria-hidden="true">
+                  {cardRows[0].customIcon ?? renderIcon(cardRows[0].icon)}
+                </div>
+              )}
               <div className="hero-card-info">
                 <strong className="hero-card-value">{cardRows[0].value}</strong>
-                <span className="hero-card-label">{cardRows[0].label}</span>
+                {cardRows[0].label && <span className="hero-card-label">{cardRows[0].label}</span>}
               </div>
             </div>
 
-            <div className="hero-card-divider" />
-
-            <div className="hero-card-row">
-              <div className="hero-icon-box" aria-hidden="true">
-                {cardRows[1].customIcon ?? renderIcon(cardRows[1].icon)}
-              </div>
-              <div className="hero-card-info">
-                <strong className="hero-card-value">{cardRows[1].value}</strong>
-                <span className="hero-card-label">{cardRows[1].label}</span>
-              </div>
-            </div>
+            {cardRows.length > 1 && cardRows[1] && (
+              <>
+                <div className="hero-card-divider" />
+                <div className="hero-card-row">
+                  {(cardRows[1].customIcon || cardRows[1].icon) && (
+                    <div className="hero-icon-box" aria-hidden="true">
+                      {cardRows[1].customIcon ?? renderIcon(cardRows[1].icon)}
+                    </div>
+                  )}
+                  <div className="hero-card-info">
+                    <strong className="hero-card-value">{cardRows[1].value}</strong>
+                    {cardRows[1].label && <span className="hero-card-label">{cardRows[1].label}</span>}
+                  </div>
+                </div>
+              </>
+            )}
           </aside>
         )}
       </div>

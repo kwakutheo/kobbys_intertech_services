@@ -33,32 +33,8 @@ export default function Home() {
 
           <aside className="hero-card" aria-label="Key operational details">
             <div className="hero-card-row">
-              <div className="hero-icon-box" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                  <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                  <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                  <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                </svg>
-              </div>
               <div className="hero-card-info">
                 <strong className="hero-card-value">Home</strong>
-                <span className="hero-card-label">6 core service areas</span>
-              </div>
-            </div>
-
-            <div className="hero-card-divider" />
-
-            <div className="hero-card-row">
-              <div className="hero-icon-box" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="9" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-              </div>
-              <div className="hero-card-info">
-                <strong className="hero-card-value">Mon–Sat</strong>
-                <span className="hero-card-label">7:30 am–5:00 pm</span>
               </div>
             </div>
           </aside>

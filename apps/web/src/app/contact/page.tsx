@@ -29,14 +29,7 @@ export default function ContactPage() {
         }}
         cardRows={[
           {
-            icon: "clock",
             value: "Contact Us",
-            label: "details below",
-          },
-          {
-            icon: "pin",
-            value: "Achimota",
-            label: "Accra-Ghana",
           },
         ]}
       />
