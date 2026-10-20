@@ -6,11 +6,11 @@ import Link from "next/link";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
+  { label: "Our Services", href: "/services" },
   { label: "Gallery", href: "/gallery" },
-  { label: "About", href: "/about" },
+  { label: "About Us", href: "/about" },
   { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 const serviceLinks = [
@@ -104,7 +104,7 @@ export function SiteFooter() {
           <p className="footer-copy">
             <span>© {year} Kobby&apos;s Intertech Services. All rights reserved.</span>
             <span className="footer-sep">·</span>
-            <Link href="/privacy" className="footer-privacy-link">Privacy Policy</Link>
+            <Link href="/privacy" className="footer-privacy-link">| Privacy Policy |</Link>
           </p>
           <button
             type="button"
@@ -112,8 +112,8 @@ export function SiteFooter() {
             className="footer-back-to-top"
             aria-label="Back to top"
           >
-            <span>Back to top</span>
-            <span aria-hidden="true">↑</span>
+            <span> | Back to top </span>
+            <span aria-hidden="true">↑ |</span>
           </button>
         </div>
       </div>

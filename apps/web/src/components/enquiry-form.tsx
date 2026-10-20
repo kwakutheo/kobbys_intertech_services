@@ -99,23 +99,23 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
       <div className="form-grid">
         {/* Contact details */}
         <label>
-          Full name
+          Full name <span>(required)</span>
           <input name="fullName" autoComplete="name" required minLength={2} maxLength={120} placeholder="e.g. Kwabena Asante" />
         </label>
         <label>
-          Organisation / Company <span>(optional)</span>
+          Organisation / Company<span>(optional)</span>
           <input name="organisationName" autoComplete="organization" maxLength={160} placeholder="e.g. Asante Holdings / Homeowner" />
         </label>
         <label>
-          Email address
+          Email address<span>(required)</span>
           <input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="you@example.com" />
         </label>
         <label>
-          Telephone / WhatsApp number
+          Telephone / WhatsApp number <span>(required)</span>
           <input name="phone" type="tel" autoComplete="tel" required minLength={7} maxLength={30} placeholder="+233 24 000 0000" />
         </label>
         <label>
-          Service required
+          Service required<span>(required)</span>
           <select name="serviceSlug" required defaultValue={initialServiceSlug ?? ""}>
             <option value="" disabled>Select a service</option>
             {services.map((service) => (
@@ -124,7 +124,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
           </select>
         </label>
         <label>
-          Preferred contact method
+          Preferred contact method<span>(required)</span>
           <select name="preferredContactMethod" defaultValue="PHONE">
             <option value="PHONE">Phone call</option>
             <option value="WHATSAPP">WhatsApp</option>
@@ -136,7 +136,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
         {isBooking ? (
           <>
             <label className="form-wide">
-              What service or repair do you need?
+              What service or repair do you need?<span>(required)</span>
               <textarea
                 name="description"
                 required
@@ -147,7 +147,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
               />
             </label>
             <label className="form-wide">
-              Installation / Job location
+              Installation / Job location<span>(required)</span>
               <textarea
                 name="address"
                 required
@@ -158,15 +158,15 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
               />
             </label>
             <label>
-              GhanaPost GPS address <span>(recommended for technician arrival)</span>
+              GhanaPost GPS address<span>(optional but would help if you provide one)</span>
               <input name="gpsAddress" maxLength={100} placeholder="e.g. GA-123-4567 / AK-456-7890" />
             </label>
             <label>
-              Preferred technician arrival date
+              Preferred technician arrival date<span>(required)</span>
               <input name="preferredDate" type="date" required />
             </label>
             <label className="form-wide">
-              Preferred time window
+              Preferred time window<span>(required)</span>
               <select name="timeWindow" defaultValue="Morning (8:00 AM – 12:00 PM)">
                 <option value="Morning (8:00 AM – 12:00 PM)">Morning (8:00 AM – 12:00 PM)</option>
                 <option value="Early Afternoon (12:00 PM – 3:00 PM)">Early Afternoon (12:00 PM – 3:00 PM)</option>
@@ -200,7 +200,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
               />
             </label>
             <label>
-              Digital GPS address <span>(optional)</span>
+              Digital GPS address <span>(optional but would help if you provide one)</span>
               <input name="gpsAddress" maxLength={100} placeholder="e.g. GA-123-4567" />
             </label>
             <label>

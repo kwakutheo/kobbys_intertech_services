@@ -441,4 +441,7 @@ model GalleryPhoto {
   url         String?
   /// The object key stored in R2 (used to delete from the bucket)
   r2Key       String?
+  /// Service category tag (e.g. "cctv-security", "fibre-internet", "networking", etc.)
+  category    String?
 }
+

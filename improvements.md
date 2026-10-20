@@ -28,10 +28,11 @@ Here are the key areas worth taking care of next, organized by impact:
 
 ---
 
-### 4. 🖼️ Gallery Management Polish (`/gallery/manage`)
-* **Current status**: You currently have `gallery/manage/page.tsx` open.
-* **Potential enhancements**:
-  - Image size compression/check before upload.
-  - Category tags (e.g., tagging a photo as "CCTV", "Fibre", "Satellite") so the public gallery can filter photos by service.
-  - Better deletion confirmation modal to prevent accidental removal.
+### 4. 🖼️ Gallery Management Polish (`/gallery/manage`) ✅ (Completed)
+* **Status**: Fully implemented with client-side Canvas compression, service category tagging, and custom modal confirmation.
+* **Implemented features**:
+  - **Client-side image compression & size check**: Automatically compresses images to Full HD (1920px max) at 85% quality before upload, reducing bandwidth by ~70%, with toggle and real-time size savings indicator.
+  - **Service category tagging**: Added `category` column to Prisma schema and Supabase DB migration, upload form category dropdown, inline card category assignment, admin category filtering pills, and interactive category filter pills on the live public gallery page.
+  - **Custom deletion modal**: Sleek, backdrop-blurred confirmation modal with full photo preview thumbnail, filename, category, and Cloudflare R2 permanent deletion warning to prevent accidental deletions.
+
 

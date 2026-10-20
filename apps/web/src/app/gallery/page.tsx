@@ -10,15 +10,9 @@ export const metadata: Metadata = {
     "Photos of our installations, projects and work across Ghana — CCTV, networking, fibre, satellite and more.",
 };
 
-type Photo = {
-  id: string;
-  filename: string;
-  caption: string | null;
-  uploadedAt: string;
-  url?: string | null;
-};
+import { PublicGalleryView, type PublicPhoto } from '@/components/public-gallery-view';
 
-async function getPhotos(): Promise<Photo[]> {
+async function getPhotos(): Promise<PublicPhoto[]> {
   try {
     const apiUrl = getApiBaseUrl();
     const res = await fetch(`${apiUrl}/gallery`, {
@@ -31,42 +25,14 @@ async function getPhotos(): Promise<Photo[]> {
   }
 }
 
-async function GalleryGrid() {
+async function GallerySection() {
   const photos = await getPhotos();
 
   if (photos.length === 0) {
     return <p className="gallery-empty">No photos yet. Check back soon.</p>;
   }
 
-  return (
-    <div className="gallery-grid">
-      {photos.map((photo) => {
-        const photoSrc =
-          photo.url ||
-          (photo.filename.startsWith('http')
-            ? photo.filename
-            : `/gallery/${photo.filename}`);
-
-        return (
-          <figure className="gallery-item" key={photo.id}>
-            <div className="gallery-img-wrap">
-              <Image
-                src={photoSrc}
-                alt={photo.caption ?? "Kobby's Intertech Services project photo"}
-                fill
-                unoptimized={Boolean(photo.url)}
-                sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
-                className="gallery-img"
-              />
-            </div>
-            {photo.caption && (
-              <figcaption className="gallery-caption">{photo.caption}</figcaption>
-            )}
-          </figure>
-        );
-      })}
-    </div>
-  );
+  return <PublicGalleryView initialPhotos={photos} />;
 }
 
 export default function GalleryPage() {
@@ -98,7 +64,7 @@ export default function GalleryPage() {
 
       <section className="section gallery-section">
         <Suspense fallback={<p className="gallery-empty">Loading gallery photos…</p>}>
-          <GalleryGrid />
+          <GallerySection />
         </Suspense>
       </section>
     </main>

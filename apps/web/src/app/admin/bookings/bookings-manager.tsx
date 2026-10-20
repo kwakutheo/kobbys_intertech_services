@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getApiBaseUrl } from '@/lib/api-url';
@@ -200,7 +201,14 @@ export function BookingsManager() {
       {/* Topbar */}
       <header className="admin-topbar">
         <Link href="/admin" className="admin-topbar-logo">
-          <div className="admin-topbar-logo-mark">KI</div>
+          <Image
+            src="/brand/footer_logo.png"
+            alt="Kobby's Intertech"
+            width={34}
+            height={34}
+            style={{ mixBlendMode: 'screen', objectFit: 'contain' }}
+            priority
+          />
           <span className="admin-topbar-name">Kobby&apos;s Intertech</span>
         </Link>
         <div className="admin-topbar-divider" />

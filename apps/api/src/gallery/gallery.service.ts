@@ -39,8 +39,9 @@ export class GalleryService {
     private readonly r2: R2Service,
   ) {}
 
-  async findAll() {
+  async findAll(category?: string) {
     return this.prisma.galleryPhoto.findMany({
+      where: category ? { category } : undefined,
       orderBy: [{ sortOrder: 'asc' }, { uploadedAt: 'desc' }],
     });
   }
@@ -61,6 +62,7 @@ export class GalleryService {
     mimeType: string,
     caption?: string,
     sortOrder?: number,
+    category?: string,
   ) {
     const r2Configured =
       process.env.CF_R2_ACCOUNT_ID &&
@@ -91,6 +93,7 @@ export class GalleryService {
         caption: caption ?? null,
         url: url ?? null,
         r2Key: r2Key ?? null,
+        category: category ?? null,
         ...(sortOrder !== undefined ? { sortOrder } : {}),
       },
     });
@@ -116,7 +119,7 @@ export class GalleryService {
     return this.prisma.galleryPhoto.delete({ where: { id } });
   }
 
-  async update(id: string, data: { caption?: string; sortOrder?: number }) {
+  async update(id: string, data: { caption?: string; sortOrder?: number; category?: string | null }) {
     const photo = await this.prisma.galleryPhoto.findUnique({ where: { id } });
     if (!photo) throw new NotFoundException('Photo not found');
     return this.prisma.galleryPhoto.update({
@@ -124,6 +127,7 @@ export class GalleryService {
       data: {
         ...(data.caption !== undefined ? { caption: data.caption } : {}),
         ...(data.sortOrder !== undefined ? { sortOrder: data.sortOrder } : {}),
+        ...(data.category !== undefined ? { category: data.category } : {}),
       },
     });
   }

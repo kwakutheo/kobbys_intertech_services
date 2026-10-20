@@ -10,6 +10,7 @@ import {
   Body,
   BadRequestException,
   ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
@@ -21,10 +22,10 @@ const storage = memoryStorage();
 export class GalleryController {
   constructor(private readonly galleryService: GalleryService) {}
 
-  /** GET /api/v1/gallery — public listing */
+  /** GET /api/v1/gallery — public listing (optional ?category= filter) */
   @Get()
-  findAll() {
-    return this.galleryService.findAll();
+  findAll(@Query('category') category?: string) {
+    return this.galleryService.findAll(category);
   }
 
   /** GET /api/v1/gallery/:id — get single photo */
@@ -52,6 +53,7 @@ export class GalleryController {
     @UploadedFile() file: Express.Multer.File,
     @Body('caption') caption?: string,
     @Body('sortOrder') sortOrder?: string | number,
+    @Body('category') category?: string,
   ) {
     if (!file) throw new BadRequestException('No file uploaded');
     const parsedSort = sortOrder !== undefined ? parseInt(String(sortOrder), 10) : undefined;
@@ -61,20 +63,23 @@ export class GalleryController {
       file.mimetype,
       caption,
       Number.isNaN(parsedSort) ? undefined : parsedSort,
+      category || undefined,
     );
   }
 
-  /** PATCH /api/v1/gallery/:id — update photo caption / sortOrder */
+  /** PATCH /api/v1/gallery/:id — update photo caption / sortOrder / category */
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('caption') caption?: string,
     @Body('sortOrder') sortOrder?: string | number,
+    @Body('category') category?: string,
   ) {
     const parsedSort = sortOrder !== undefined ? parseInt(String(sortOrder), 10) : undefined;
     return this.galleryService.update(id, {
       caption,
       sortOrder: Number.isNaN(parsedSort) ? undefined : parsedSort,
+      category: category !== undefined ? (category || null) : undefined,
     });
   }
 

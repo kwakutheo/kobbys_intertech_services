@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
 
@@ -13,7 +14,14 @@ export default function AdminDashboardPage() {
       {/* Topbar */}
       <header className="admin-topbar">
         <Link href="/admin" className="admin-topbar-logo">
-          <div className="admin-topbar-logo-mark">KI</div>
+          <Image
+            src="/brand/footer_logo.png"
+            alt="Kobby's Intertech"
+            width={34}
+            height={34}
+            style={{ mixBlendMode: 'screen', objectFit: 'contain' }}
+            priority
+          />
           <span className="admin-topbar-name">Kobby&apos;s Intertech</span>
         </Link>
         <div className="admin-topbar-divider" />
@@ -80,7 +88,7 @@ export default function AdminDashboardPage() {
             <div className="admin-page-eyebrow">Admin Portal</div>
             <h1 className="admin-page-title">Control Center</h1>
             <p className="admin-page-lead">
-              Manage gallery media, review customer requests, and oversee Kobby&apos;s Intertech Services operations from a single dashboard.
+              Manage gallery media, review customer requests, and oversee Kobby&apos;s Intertech Services operations from here.
             </p>
           </div>
 
