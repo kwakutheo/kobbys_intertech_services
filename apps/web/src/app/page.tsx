@@ -1,7 +1,24 @@
 import Link from "next/link";
 import { services } from "@/data/site";
+import { getApiBaseUrl } from "@/lib/api-url";
+import { HomeGalleryCarousel } from "@/components/home-gallery-carousel";
 
-export default function Home() {
+async function getGalleryPhotos() {
+  try {
+    const res = await fetch(`${getApiBaseUrl()}/gallery`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+export default async function Home() {
+  const galleryPhotos = await getGalleryPhotos();
+
   return (
     <main>
       <section className="hero" id="top">
@@ -40,6 +57,9 @@ export default function Home() {
           </aside>
         </div>
       </section>
+
+      {/* Recent Project Installations Carousel (First 10 Admin-Uploaded Photos + Curated Fallbacks) */}
+      <HomeGalleryCarousel photos={galleryPhotos} />
 
       <section className="svc-section">
         <div className="svc-heading">
