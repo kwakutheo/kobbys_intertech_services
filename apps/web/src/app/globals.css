@@ -436,7 +436,6 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   background-size: cover;
   background-repeat: no-repeat;
   color: #ffffff;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .hero-container {
@@ -5665,7 +5664,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   letter-spacing: 0.12em;
   color: var(--wine);
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .home-carousel-dot {
@@ -5709,7 +5708,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   color: var(--wine);
   text-decoration: none;
   padding: 8px 18px;
-  border-radius: 9999px;
+  border-radius: 8px;
   background: rgba(192, 0, 46, 0.12);
   border: 1px solid rgba(192, 0, 46, 0.3);
   transition: all 0.2s ease;
@@ -5773,16 +5772,14 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   border-radius: 16px;
   overflow: hidden;
   background: #150f13;
-  border: 2px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  border: 2px solid var(--wine);
   user-select: none;
   -webkit-user-select: none;
 }
 
 .home-carousel-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(192, 0, 46, 0.45);
-  box-shadow: 0 16px 36px rgba(192, 0, 46, 0.18), 0 0 0 1px rgba(192, 0, 46, 0.3);
+  border-color: var(--wine);
 }
 
 .home-carousel-img-wrap {
@@ -5885,7 +5882,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 16px;
+  margin-top: 0px;
   padding: 0 4px;
 }
 

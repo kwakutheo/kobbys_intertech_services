@@ -90,7 +90,6 @@ const FALLBACK_PHOTOS: GalleryCarouselItem[] = [
 export function HomeGalleryCarousel({ photos }: HomeGalleryCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [lightboxPhoto, setLightboxPhoto] = useState<GalleryCarouselItem | null>(null);
   const [isPaused, setIsPaused] = useState(false);
 
   // Take the first 10 photos, backfilling with fallback items if fewer than 10
@@ -152,23 +151,16 @@ export function HomeGalleryCarousel({ photos }: HomeGalleryCarouselProps) {
     scrollToSlide(target);
   };
 
-  // Autoplay loop every 4.5 seconds (pauses on hover or when lightbox is open)
+  // Autoplay loop every 2.5 seconds (pauses on hover or touch)
   useEffect(() => {
-    if (isPaused || lightboxPhoto) return;
+    if (isPaused) return;
     const timer = setInterval(() => {
       nextSlide();
-    }, 4500);
+    }, 2500);
     return () => clearInterval(timer);
-  }, [activeIndex, isPaused, lightboxPhoto]);
+  }, [activeIndex, isPaused]);
 
-  // Close lightbox on Escape key
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setLightboxPhoto(null);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
+
 
   return (
     <section
@@ -236,7 +228,6 @@ export function HomeGalleryCarousel({ photos }: HomeGalleryCarouselProps) {
                 role="group"
                 aria-roledescription="slide"
                 aria-label={`${idx + 1} of ${carouselItems.length}: ${item.caption || categoryLabel}`}
-                onClick={() => setLightboxPhoto(item)}
               >
                 {/* Image Container with Consistent Ratio & object-fit: cover */}
                 <div className="home-carousel-img-wrap">
