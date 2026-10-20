@@ -43,37 +43,6 @@ export function PublicGalleryView({ initialPhotos }: PublicGalleryViewProps) {
 
   return (
     <div>
-      {/* Category Filter Pills */}
-      {initialPhotos.length > 0 && (
-        <div className="gallery-filter-wrap">
-          <nav className="gallery-filter-nav" aria-label="Filter gallery by service">
-            <button
-              type="button"
-              className={`gallery-filter-btn${activeCategory === 'all' ? ' gallery-filter-btn--active' : ''}`}
-              onClick={() => setActiveCategory('all')}
-            >
-              <span>All Projects</span>
-              <span className="gallery-filter-count">{counts.all}</span>
-            </button>
-            {GALLERY_CATEGORIES.map((cat) => {
-              const count = counts[cat.id] || 0;
-              // Keep categories visible so clients can explore services
-              return (
-                <button
-                  type="button"
-                  key={cat.id}
-                  className={`gallery-filter-btn${activeCategory === cat.id ? ' gallery-filter-btn--active' : ''}`}
-                  onClick={() => setActiveCategory(cat.id)}
-                >
-                  <span>{cat.label}</span>
-                  {count > 0 && <span className="gallery-filter-count">{count}</span>}
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-      )}
-
       {/* Grid of Photos */}
       {filteredPhotos.length === 0 ? (
         <div className="gallery-empty">

@@ -117,48 +117,123 @@ export function HomeGalleryCarousel({ photos }: HomeGalleryCarouselProps) {
     return [...uploadedItems, ...backfill];
   }, [photos]);
 
-  // Update active slide on scroll
-  const handleScroll = useCallback(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const cardWidth = el.firstElementChild
-      ? (el.firstElementChild as HTMLElement).offsetWidth + 16
-      : el.offsetWidth;
-    const index = Math.round(el.scrollLeft / cardWidth);
-    setActiveIndex(Math.min(Math.max(index, 0), carouselItems.length - 1));
-  }, [carouselItems.length]);
+  const isProgrammaticScroll = useRef(false);
 
-  const scrollToSlide = (index: number) => {
+  // Scroll to slide placing it in the middle by default, unless at start (0, 1) or end (last, second-to-last)
+  const scrollToSlide = useCallback((index: number) => {
     const el = containerRef.current;
     if (!el) return;
-    const cardWidth = el.firstElementChild
-      ? (el.firstElementChild as HTMLElement).offsetWidth + 16
-      : el.offsetWidth;
+    const cards = Array.from(el.children) as HTMLElement[];
+    if (!cards[index]) return;
+
+    const total = cards.length;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    let targetScroll = 0;
+
+    if (index <= 1) {
+      // First and second ones: keep aligned near the start
+      if (index === 0) {
+        targetScroll = 0;
+      } else {
+        const isMobile = el.clientWidth < 720;
+        targetScroll = isMobile
+          ? cards[1].offsetLeft - (el.clientWidth - cards[1].offsetWidth) / 2
+          : 0;
+      }
+    } else if (index >= total - 2) {
+      // Last and second-to-last ones: align near the end
+      if (index === total - 1) {
+        targetScroll = maxScroll;
+      } else {
+        const isMobile = el.clientWidth < 720;
+        targetScroll = isMobile
+          ? cards[index].offsetLeft - (el.clientWidth - cards[index].offsetWidth) / 2
+          : maxScroll;
+      }
+    } else {
+      // Default: position the card right in the middle of the viewport
+      targetScroll = cards[index].offsetLeft - (el.clientWidth - cards[index].offsetWidth) / 2;
+    }
+
+    targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
+
+    isProgrammaticScroll.current = true;
+    setActiveIndex(index);
+
     el.scrollTo({
-      left: index * cardWidth,
+      left: targetScroll,
       behavior: 'smooth',
     });
-    setActiveIndex(index);
-  };
 
-  const nextSlide = () => {
-    const target = activeIndex >= carouselItems.length - 1 ? 0 : activeIndex + 1;
+    // Reset programmatic scroll flag after animation completes
+    setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 450);
+  }, []);
+
+  // Update active slide on user manual scroll (touch swipe or trackpad)
+  const handleScroll = useCallback(() => {
+    if (isProgrammaticScroll.current) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const cards = Array.from(el.children) as HTMLElement[];
+    if (cards.length === 0) return;
+
+    const scrollLeft = el.scrollLeft;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const isMobile = el.clientWidth < 720;
+
+    if (!isMobile && scrollLeft <= 25) {
+      if (activeIndex !== 0 && activeIndex !== 1) {
+        setActiveIndex(0);
+      }
+      return;
+    }
+
+    if (!isMobile && scrollLeft >= maxScroll - 25) {
+      if (activeIndex !== cards.length - 1 && activeIndex !== cards.length - 2) {
+        setActiveIndex(cards.length - 1);
+      }
+      return;
+    }
+
+    // Default: find the card whose center is closest to the middle of the viewport
+    const viewportCenter = scrollLeft + el.clientWidth / 2;
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const distance = Math.abs(viewportCenter - cardCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = idx;
+      }
+    });
+
+    setActiveIndex(closestIndex);
+  }, [activeIndex]);
+
+  const nextSlide = useCallback(() => {
+    const total = carouselItems.length;
+    const target = activeIndex >= total - 1 ? 0 : activeIndex + 1;
     scrollToSlide(target);
-  };
+  }, [activeIndex, carouselItems.length, scrollToSlide]);
 
-  const prevSlide = () => {
-    const target = activeIndex <= 0 ? carouselItems.length - 1 : activeIndex - 1;
+  const prevSlide = useCallback(() => {
+    const total = carouselItems.length;
+    const target = activeIndex <= 0 ? total - 1 : activeIndex - 1;
     scrollToSlide(target);
-  };
+  }, [activeIndex, carouselItems.length, scrollToSlide]);
 
-  // Autoplay loop every 2.5 seconds (pauses on hover or touch)
+  // Autoplay loop every 3.5 seconds (pauses on hover or touch)
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(() => {
       nextSlide();
-    }, 2500);
+    }, 3500);
     return () => clearInterval(timer);
-  }, [activeIndex, isPaused]);
+  }, [isPaused, nextSlide]);
 
 
 
@@ -221,13 +296,15 @@ export function HomeGalleryCarousel({ photos }: HomeGalleryCarouselProps) {
         >
           {carouselItems.map((item, idx) => {
             const categoryLabel = getCategoryLabel(item.category);
+            const isActive = idx === activeIndex;
             return (
               <div
                 key={item.id + idx}
-                className="home-carousel-card"
+                className={`home-carousel-card${isActive ? ' home-carousel-card--active' : ' home-carousel-card--inactive'}`}
                 role="group"
                 aria-roledescription="slide"
                 aria-label={`${idx + 1} of ${carouselItems.length}: ${item.caption || categoryLabel}`}
+                onClick={() => scrollToSlide(idx)}
               >
                 {/* Image Container with Consistent Ratio & object-fit: cover */}
                 <div className="home-carousel-img-wrap">
@@ -240,14 +317,6 @@ export function HomeGalleryCarousel({ photos }: HomeGalleryCarouselProps) {
                     unoptimized={item.src.startsWith('http')}
                     priority={idx < 3}
                   />
-
-
-                  {/* Click to Zoom indicator icon */}
-                  <span className="home-carousel-zoom-hint" title="Click to view full photo">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polyline points="15 3 21 3 21 9" /><polyline points="9 21 3 21 3 15" /><line x1="21" y1="3" x2="14" y2="10" /><line x1="3" y1="21" x2="10" y2="14" />
-                    </svg>
-                  </span>
 
                   {/* Gradient Overlay & Caption */}
                   <div className="home-carousel-overlay">
