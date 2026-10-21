@@ -64,7 +64,7 @@ export default async function Home() {
       <section className="svc-section">
         <div className="svc-heading">
           <h2>Technology and technical services for everyday needs.</h2>
-          <p>Whether you are installing a new system, improving your connectivity or troubleshooting an existing setup, we help you explore practical options for your property or business.</p>
+          <p>From installation and upgrades to troubleshooting, we provide practical connectivity solutions for your property or business.</p>
         </div>
         <div className="svc-grid">
           {services.map((service, index) => (

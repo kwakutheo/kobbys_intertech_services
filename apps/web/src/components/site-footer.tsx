@@ -78,7 +78,7 @@ export function SiteFooter() {
         </div>
 
         <div className="footer-nav-col">
-          <h4 className="footer-col-heading">Our Services</h4>
+          <h4 className="footer-col-heading">Services Menu</h4>
           <ul className="footer-nav-list">
             {serviceLinks.map((l) => (
               <li key={l.href}>
