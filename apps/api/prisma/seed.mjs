@@ -3,10 +3,10 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const services = [
-  ['cctv-security', 'CCTV & security', 'Camera supply, installation, upgrades and support.'],
-  ['fibre-internet', 'Fibre & satellite internet', 'Fibre, wireless internet and connectivity support.'],
-  ['networking', 'Networks', 'Home and office network design, installation and support.'],
-  ['satellite', 'Satellite tv', 'Satellite dish installation, signal alignment and technical support.'],
+  ['cctv-security', 'CCTV & Security', 'Camera supply, installation, upgrades and support.'],
+  ['fibre-internet', 'Fibre & Satellite Internet', 'Fibre, wireless internet and connectivity support.'],
+  ['networking', 'Network Infrastructure', 'Home and office network design, installation and support.'],
+  ['satellite', 'Satellite TV', 'Satellite dish installation, signal alignment and technical support.'],
   ['electrical-works', 'Electrical works', 'Electrical work within the company’s qualifications and authorisations.'],
   ['gps-tracking', 'GPS tracking', 'Vehicle-tracking installation and support.'],
 ];
