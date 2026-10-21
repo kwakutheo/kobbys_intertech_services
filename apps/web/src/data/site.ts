@@ -32,57 +32,134 @@ export type Service = {
 };
 
 export const services: Service[] = [
-  {
+{
     slug: "cctv-security",
-    name: "CCTV & Security",
-    summary: "Camera supply, installation, upgrades and support.",
-    badge: "Surveillance & Access",
-    tagline: "High-definition 24/7 video monitoring, smart detection and mobile access.",
-    description: "Security systems for indoor and outdoor surveillance, configured around your property layout, perimeter risks and monitoring needs.",
+    name: "CCTV Installation & Security Systems",
+    summary: "CCTV camera installation, recording systems, remote monitoring, upgrades and maintenance for homes and businesses across Ghana.",
+    badge: "Video Surveillance & Property Security",
+    tagline: "Protect your property with professionally installed cameras, dependable recording and secure remote viewing.",
+    description: "We design, install and maintain CCTV surveillance systems for homes, shops, schools, churches, offices, warehouses, hospitality businesses and other properties across Ghana. Each installation is planned around the property's layout, entry points, lighting, security concerns, available power and budget. Depending on the selected equipment, systems may include HD or 4K cameras, night vision, full-colour low-light recording, motion alerts, human or vehicle detection, and remote viewing through a compatible mobile app or computer. We also provide DVR and NVR configuration, recording storage, structured cabling, suitable surge protection, optional backup power and ongoing technical support. Camera performance, remote access, smart detection and recording retention depend on the equipment, installation conditions, network connectivity and storage configuration.",
     inclusions: [
-      "High-Definition (HD & 4K) IP and Analog Camera Installation",
-      "Perimeter & Outdoor Weatherproof (IP67) Surveillance",
-      "Infrared Night Vision & ColorVu Low-Light Sensors",
-      "Real-Time Remote Live Viewing & Playback on iOS & Android",
-      "NVR / DVR Setup with Redundant Hard Drive Storage",
-      "Motion Detection Alerts, AI Human / Vehicle Filtering & Maintenance"
+      "HD, Full HD, 4MP, 4K IP & Compatible Analog CCTV Camera Installation",
+      "Indoor, Outdoor, Entrance, Reception & Perimeter Surveillance",
+      "Night Vision, Infrared Illumination & Compatible Full-Colour Low-Light Cameras",
+      "DVR and NVR Installation, Configuration & Recording Playback",
+      "Remote Live Viewing and Playback Through Compatible Mobile Apps or Computers",
+      "Motion Detection, Human or Vehicle Detection & Intrusion Alerts Where Supported",
+      "Camera Placement Planning to Reduce Blind Spots and Improve Coverage",
+      "Security Cameras for Gates, Parking Areas, Shops, Offices & Building Entrances",
+      "PoE IP Camera Systems and Suitable Network Switch Configuration",
+      "Coaxial, Ethernet, Conduit & Protected Cable Installation as Required",
+      "Hard Drive Installation, Recording Schedule Setup & Storage Capacity Planning",
+      "UPS and Suitable Backup Power Options for Cameras and Recording Equipment",
+      "Surge Protection, Proper Earthing Assessment & Protection Against Power Disturbances",
+      "Secure Remote Access Setup, User Permissions & Default Password Replacement",
+      "Existing CCTV Troubleshooting, Camera Replacement & System Upgrades",
+      "Periodic Inspection, Cleaning, Recording Checks & Preventive Maintenance",
+      "Customer Training on Live Viewing, Playback, Exporting Footage & Basic Troubleshooting"
     ],
     workflow: [
       {
         step: "01",
-        title: "Site Survey & Vulnerability Audit",
-        description: "Our technicians inspect your premises, identifying blind spots, lighting conditions, cable pathways and entry points."
+        title: "Site Survey & Security Requirements",
+        description: "We inspect the property and identify entrances, exits, reception areas, parking spaces, perimeter risks, lighting conditions and likely camera blind spots. We discuss the customer's priorities, privacy considerations, available internet service, power reliability and budget before recommending a system."
       },
       {
         step: "02",
         title: "System Design & Itemised Quotation",
-        description: "We select the optimal camera resolutions, lenses, recorder capacity, and supply transparent pricing."
+        description: "We recommend suitable camera types, resolution, lens angles, night-vision capabilities, recorder capacity and storage based on the site. The quotation identifies the proposed equipment, number of cameras, cabling, installation work and optional items such as remote viewing, UPS backup and maintenance. Expected recording retention and any recurring service costs are explained before approval."
       },
       {
         step: "03",
-        title: "Concealed Cabling & Installation",
-        description: "Cameras and conduits are neatly installed with surge protection, weatherproof junctions and clean cable dressing."
+        title: "Professional Installation & Configuration",
+        description: "We install cameras in appropriate locations, route and secure cables, protect outdoor connections and configure the DVR or NVR. Where required, we set up PoE networking, suitable surge protection, backup power and internet connectivity. Camera views are adjusted to improve useful coverage while respecting neighbouring properties and areas where people reasonably expect privacy."
       },
       {
         step: "04",
-        title: "App Setup, Testing & Training",
-        description: "We configure phone remote access, set motion alert notifications, test backup storage, and train your staff or family."
+        title: "Testing, Secure Access & Handover",
+        description: "We test each camera's live view, image quality, night performance, recording, playback and supported alerts. Where remote access is required, we configure the compatible app or platform using secure account settings and appropriate user permissions. We demonstrate how to search and export footage, explain storage limitations and provide guidance on maintenance and support."
       }
     ],
     technicalSpecs: [
-      { label: "Resolution", value: "2MP to 4K Ultra HD", detail: "Crystal-clear facial and vehicle license recognition" },
-      { label: "Night Vision", value: "Smart IR & Full Color", detail: "Active illumination up to 40m in total darkness" },
-      { label: "Ingress Protection", value: "IP67 Weatherproof", detail: "Heavy tropical rain, dust and heat resistant" },
-      { label: "Storage", value: "H.265+ Compression", detail: "30+ days continuous or smart motion-activated recording" }
+      {
+        label: "Camera Resolution",
+        value: "HD to 4K, Depending on Requirements",
+        detail: "Resolution and lens selection are based on the required viewing distance, field of view, lighting and intended level of detail. Identification of faces or vehicle registration plates cannot be guaranteed solely by selecting a higher-resolution camera."
+      },
+      {
+        label: "Night Surveillance",
+        value: "Infrared or Compatible Full-Colour Night Vision",
+        detail: "Night performance depends on the camera sensor, illumination, ambient lighting, lens, mounting position and distance to the subject. Advertised illumination ranges vary by model and site conditions."
+      },
+      {
+        label: "Outdoor Protection",
+        value: "Weather-Rated Cameras and Protected Connections",
+        detail: "Camera enclosures and accessories are selected for the installation environment. Weather resistance depends on the device rating, cable entries, junction boxes, mounting, installation quality and ongoing maintenance."
+      },
+      {
+        label: "Recording & Storage",
+        value: "DVR / NVR with Suitable Surveillance Storage",
+        detail: "Recording duration depends on the number of cameras, resolution, frame rate, bitrate, compression, audio settings, recording schedule and hard-drive capacity. Retention is estimated during system design and verified after configuration."
+      },
+      {
+        label: "Network & Remote Viewing",
+        value: "Compatible IP Cameras and Remote-Access Platform",
+        detail: "Remote access requires compatible equipment and working connectivity. Local recording may continue during an internet outage if the recorder, cameras and power supply remain operational. Secure configuration and software updates are important."
+      },
+      {
+        label: "Power Continuity",
+        value: "Suitable Power Protection and Optional UPS",
+        detail: "Power protection and backup runtime are selected according to the equipment load and expected outage duration. A UPS only provides the runtime its capacity and connected load allow; it does not guarantee uninterrupted operation indefinitely."
+      },
+      {
+        label: "Smart Detection",
+        value: "Model-Dependent Analytics and Alerts",
+        detail: "Human detection, vehicle classification, line crossing and intrusion-zone alerts are available only on compatible equipment. Accuracy varies with camera position, lighting, obstructions and system settings."
+      }
     ],
     benefits: [
-      { title: "24/7 Peace of Mind", description: "Keep constant watch over your property, loved ones, inventory, and staff from anywhere in the world." },
-      { title: "Deter Crime & Intrusion", description: "Visible premium security cameras significantly discourage theft, trespassing, and unauthorized activity." },
-      { title: "Verifiable Video Evidence", description: "Timestamped high-resolution footage ready for legal, insurance, or police verification when needed." },
-      { title: "Clean, Protected Workmanship", description: "No loose hanging cables or messy penetrations; all wiring is securely trunked and protected." }
+      {
+        title: "Better Visibility Around Your Property",
+        description: "Monitor important areas such as entrances, reception points, tills, corridors, parking spaces and approved perimeter locations."
+      },
+      {
+        title: "Review Incidents After They Occur",
+        description: "Search recorded footage by date and time, review relevant events and export available recordings for authorised internal investigations or requests from the appropriate authorities."
+      },
+      {
+        title: "Monitor Remotely When Away",
+        description: "Use a compatible phone or computer to check camera views and recorded footage when the system, internet connection and remote-access service are available."
+      },
+      {
+        title: "Improve Security Awareness",
+        description: "Visible cameras and appropriately configured alerts can help discourage unauthorised activity and bring certain events to the attention of authorised users."
+      },
+      {
+        title: "Reduce Avoidable Downtime",
+        description: "Suitable power protection, optional backup power and routine equipment checks can help reduce interruptions caused by power disturbances, equipment faults and neglected maintenance."
+      },
+      {
+        title: "A System Designed for Your Budget",
+        description: "Choose a practical camera count and feature set, with room to expand where the recorder, network, storage and power arrangements support future additions."
+      },
+      {
+        title: "More Controlled Access to Footage",
+        description: "Configure authorised user accounts and permissions, replace default passwords and apply suitable security settings to reduce unnecessary access to surveillance recordings."
+      }
     ],
-    idealFor: ["Residential Homes & Gated Estates", "Retail Stores & Supermarkets", "Commercial Offices & Banking", "Warehouses, Factories & Sites"],
-    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about CCTV & Security installation for my property.",
+    idealFor: [
+      "Homes, Apartments & Gated Residential Properties",
+      "Shops, Retail Outlets & Supermarkets",
+      "Schools, Colleges & Educational Facilities",
+      "Churches, Mosques & Other Places of Worship",
+      "Offices, Clinics & Professional Premises",
+      "Warehouses, Workshops & Manufacturing Facilities",
+      "Hotels, Guest Houses, Restaurants & Hospitality Businesses",
+      "Construction Sites, Depots & Equipment Storage Areas",
+      "Parking Areas, Estate Entrances & Approved Perimeter Locations",
+      "Businesses Upgrading or Repairing Existing CCTV Systems"
+    ],
+    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about CCTV camera installation, remote monitoring or upgrading the security system at my property.",
     image: "/services/cctv_and_security.jpg"
   },
 {
@@ -195,218 +272,464 @@ export const services: Service[] = [
     whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about Fibre Optics & Satellite Internet installation and connectivity services.",
     image: "/services/fibre_and_internet.jpg"
   },
-  {
+{
     slug: "networking",
-    name: "Networks",
-    summary: "Home and office network design, installation and support.",
-    badge: "Structured Cabling & LAN/WAN",
-    tagline: "Enterprise-grade wired & wireless architectures designed for speed, security and uptime.",
-    description: "Networking solutions for secure, reliable connections across homes, offices and large institutional working spaces in Ghana.",
+    name: "Network Design & Infrastructure",
+    summary: "Professional network design, structured cabling, wireless networking, security and ongoing technical support.",
+    badge: "Secure & Scalable Networking",
+    tagline: "Reliable wired and wireless networks engineered for performance, security, scalability and business continuity.",
+    description: "We design, install, configure and maintain reliable computer networks for homes, offices, schools, hotels and commercial facilities across Ghana. From structured Ethernet cabling and managed switching to enterprise Wi-Fi, network segmentation, firewall configuration and fault diagnosis, we build network infrastructure tailored to your operational requirements, security needs and future growth.",
     inclusions: [
-      "LAN / WAN Architecture Design & Structured Cabling",
-      "Managed Network Switches, Patch Panels & Server Racks",
-      "Enterprise Mesh Wi-Fi (UniFi / Omada) for Seamless Roaming",
-      "Hardware Firewall Setup, VPNs & VLAN Segmentation",
-      "Network Cable Certification (Cat6 / Cat6A Fluke Testing)",
-      "Network Troubleshooting, Packet Loss Resolution & Upgrades"
+      "LAN / WAN Network Design, Architecture Planning & Implementation",
+      "Structured Ethernet Cabling, Cable Routing, Termination & Labelling",
+      "Managed Network Switches, Patch Panels, Network Cabinets & Server Racks",
+      "Business Wi-Fi Design, Access Point Installation & Coverage Optimisation",
+      "Enterprise Wireless Networking, Mesh Wi-Fi & Seamless Roaming Configuration",
+      "Router, Firewall, VLAN Segmentation & Network Access Control Configuration",
+      "Guest Wi-Fi Isolation, Staff Network Separation & Secure Remote Access VPNs",
+      "Network Cable Testing, Continuity Checks & Certification Where Supported",
+      "Network Troubleshooting, Packet Loss Investigation & Performance Optimisation",
+      "IP Address Planning, DHCP, DNS & Network Device Configuration",
+      "Network Expansion, Equipment Upgrades & Multi-Branch Connectivity",
+      "Network Documentation, Configuration Backup & Maintenance Support"
     ],
     workflow: [
       {
         step: "01",
-        title: "Network Load & Architecture Analysis",
-        description: "We evaluate the number of workstations, servers, IP phones, printers, and smart IoT endpoints."
+        title: "Network Assessment & Requirements Analysis",
+        description: "We assess the site layout, number of users and devices, applications, existing infrastructure, internet connections, security requirements and expected network traffic to determine the appropriate design."
       },
       {
         step: "02",
-        title: "Rack & Pathway Engineering",
-        description: "Drafting schematic diagrams, switch port allocations, server cabinet positions, and trunking conduits."
+        title: "Network Architecture & Installation Planning",
+        description: "We plan cable routes, network cabinet locations, switch capacities, access point positions, IP addressing, VLANs, equipment requirements and network expansion options."
       },
       {
         step: "03",
-        title: "Structured Pulling, Punchdown & Labelling",
-        description: "Clean cable runs inside conduits, punchdown into keystones, and meticulous port-by-port labelling."
+        title: "Structured Installation & Configuration",
+        description: "We install and label network cables, terminate outlets and patch panels, organise network racks, configure switches and routers, deploy wireless access points, and implement the agreed network security policies."
       },
       {
         step: "04",
-        title: "VLAN Config, Security & Certification",
-        description: "Setting up guest networks, staff isolation, DHCP pools, bandwidth limits, and cable continuity testing."
+        title: "Testing, Security Verification & Handover",
+        description: "We test network connectivity, cable performance where applicable, wireless coverage, device communication, VLAN isolation, internet access and configured security controls. We document the installation and provide a customer handover."
       }
     ],
     technicalSpecs: [
-      { label: "Cable Rating", value: "100% Pure Bare Copper Cat6", detail: "Guaranteed gigabit transfer with zero crosstalk" },
-      { label: "Switching Capacity", value: "Gigabit & 10G SFP+ Uplinks", detail: "High-throughput backbone for heavy server transfers" },
-      { label: "Roaming", value: "802.11k/v/r Fast Roaming", detail: "Move room-to-room on calls without disconnecting" },
-      { label: "Security", value: "VLAN & Stateful Firewall", detail: "Isolates guest devices and protects confidential company files" }
+      {
+        label: "Structured Cabling",
+        value: "Cat6 / Cat6A & Fibre-Optic Links",
+        detail: "Cabling and termination selected according to distance, bandwidth, installation environment and project requirements."
+      },
+      {
+        label: "Network Switching",
+        value: "Gigabit Ethernet & 10GbE Where Required",
+        detail: "Managed switches, suitable uplinks, PoE support where needed, and switching capacity matched to connected devices and traffic."
+      },
+      {
+        label: "Wireless Networking",
+        value: "Wi-Fi 6 & Compatible Enterprise Wi-Fi",
+        detail: "Access point selection, channel planning, coverage optimisation and supported roaming features based on the deployed hardware."
+      },
+      {
+        label: "Network Security",
+        value: "VLANs, Firewalls & Access Controls",
+        detail: "Network segmentation, guest isolation, traffic filtering and secure remote access where supported by the selected equipment."
+      },
+      {
+        label: "IP Network Services",
+        value: "IPv4, DHCP, DNS & Routing",
+        detail: "IP address allocation, subnet planning, routing, name resolution and network service configuration."
+      },
+      {
+        label: "Testing & Diagnostics",
+        value: "Cable Tests & Network Performance Analysis",
+        detail: "Connectivity verification, cable testing, throughput checks, latency measurements and fault investigation using appropriate tools."
+      }
     ],
     benefits: [
-      { title: "No Dropped Connections", description: "Engineered mesh access points hand over devices smoothly as you walk through your building." },
-      { title: "Tidy, Labeled Server Racks", description: "All cables color-coded, labeled, and neatly arranged in ventilated, lockable wall or floor racks." },
-      { title: "Segregated Guest Access", description: "Keep your internal databases and computers secure by providing visitors with isolated guest Wi-Fi." },
-      { title: "Future-Proof Foundation", description: "Infrastructure built to easily expand when you add more staff, computers, cameras, or equipment." }
+      {
+        title: "Reliable Network Connectivity",
+        description: "Reduce avoidable connection interruptions through proper network design, suitable hardware, structured installation and systematic troubleshooting."
+      },
+      {
+        title: "Stronger Network Security",
+        description: "Separate guest and internal traffic, apply appropriate access controls, and reduce unnecessary exposure of business systems and devices."
+      },
+      {
+        title: "Consistent Wireless Coverage",
+        description: "Improve Wi-Fi coverage throughout offices, classrooms, hotels and multi-storey buildings with appropriately positioned access points and a site-specific wireless design."
+      },
+      {
+        title: "Organised, Documented Infrastructure",
+        description: "Keep network cabinets, patch panels and cable runs organised, labelled and documented to simplify maintenance and future fault diagnosis."
+      },
+      {
+        title: "Scalable Network Architecture",
+        description: "Plan capacity and infrastructure so additional staff, computers, printers, IP phones, access points and other devices can be accommodated as requirements grow."
+      },
+      {
+        title: "Simpler Maintenance & Fault Resolution",
+        description: "Use clear documentation, structured troubleshooting and configuration backups where supported to make ongoing network administration more manageable."
+      }
     ],
-    idealFor: ["Corporate Headquarters & Branch Offices", "Schools, Universities & Labs", "Hospitals & Medical Centres", "Modern Multi-Story Residences"],
-    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about Network design and cabling services.",
+    idealFor: [
+      "Corporate Offices & Multi-Branch Businesses",
+      "Small and Medium-Sized Enterprises (SMEs)",
+      "Schools, Universities, Training Centres & Computer Labs",
+      "Hospitals, Clinics & Healthcare Facilities",
+      "Hotels, Guest Houses, Restaurants & Commercial Venues",
+      "Warehouses, Workshops & Operational Facilities",
+      "Homes, Apartments & Multi-Storey Residential Buildings"
+    ],
+    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about professional network design, installation, security and structured cabling services.",
     image: "/services/network.jpg"
   },
-  {
+{
     slug: "satellite",
-    name: "Satellite Support",
-    summary: "Dish installation, signal alignment and technical support.",
-    badge: "Television & Satellite Systems",
-    tagline: "Precision dish alignment, multi-room distribution and crystal-clear digital reception.",
-    description: "Satellite installation and technical support for dependable viewing, stronger signal lock, clean cabling, and multi-channel decoders across Ghana.",
+    name: "Satellite TV Installation & Support",
+    summary: "TV installation, decoder setup, signal troubleshooting and reception support for leading television services in Ghana.",
+    badge: "Digital TV & Satellite Systems",
+    tagline: "Professional dish installation, decoder configuration and reliable television reception for homes and businesses.",
+    description: "We provide television installation, configuration, maintenance and troubleshooting services across Ghana. We support DStv, Multi TV, HD+, StarTimes, Strong Digital TV and GOtv, helping customers with compatible dish or antenna installation, decoder setup, signal optimisation, channel scanning, cabling repairs and multi-room TV connections according to each provider's technology and requirements.",
     inclusions: [
-      "Satellite Dish Mounting & Precision Micro-Degree Alignment",
-      "DStv, Multi-Choice, Free-to-Air & International Satellite Setup",
-      "Multi-Room Distribution, Splitters & LNB Replacements",
-      "Starlink Satellite Dish Professional Roof & Mast Mounting",
-      "Rain Fade Minimisation & High-Gain LNB Upgrades",
-      "Signal Loss Diagnosis, Receiver Configuration & Cabling Repair"
+      "DStv Dish Installation, Alignment, Decoder Setup & Signal Troubleshooting",
+      "Multi TV Satellite Reception, Dish Installation & Free-to-Air Channel Configuration",
+      "HD+ Compatible Dish Installation, Decoder Configuration & Reception Support",
+      "StarTimes Digital TV Installation, Decoder Setup & Compatible Antenna Configuration",
+      "Strong Digital TV Installation, Receiver Setup & Compatible Satellite Reception",
+      "GOtv Decoder Setup, Compatible Antenna Installation & Signal Troubleshooting",
+      "Satellite Dish Mounting, Realignment, Relocation & Secure Fixing",
+      "LNB Installation, Replacement & Configuration for Compatible TV Systems",
+      "RG6 Coaxial Cable Installation, Connector Replacement & Cable Fault Repairs",
+      "Digital TV Antenna Installation, Positioning & Reception Optimisation",
+      "Decoder Configuration, Channel Scanning & Missing-Channel Troubleshooting",
+      "Multi-Room Television Cabling and Distribution for Compatible Equipment",
+      "Signal Loss Diagnosis, Reception Quality Checks & System Maintenance",
+      "Additional TV Point Installation for Homes, Offices, Hotels and Viewing Centres"
     ],
     workflow: [
       {
         step: "01",
-        title: "Sightline & Azimuth Calculation",
-        description: "We determine clear line-of-sight to the orbital satellites, checking for trees, tall walls, or roofing obstructions."
+        title: "TV Service & Site Assessment",
+        description: "We identify the customer's TV service, decoder or receiver model, required channels, installation location and existing equipment. We assess whether the service requires a satellite dish, terrestrial antenna or another compatible reception arrangement."
       },
       {
         step: "02",
-        title: "Heavy-Duty Mast Mounting",
-        description: "Dishes are anchored using industrial wall brackets and galvanised bolts capable of withstanding heavy storms."
+        title: "Equipment Selection & Installation Planning",
+        description: "We determine the suitable dish or antenna, mounting position, cabling route, connectors and supporting equipment based on the selected service, site conditions and provider requirements."
       },
       {
         step: "03",
-        title: "Digital Meter Signal Peaking",
-        description: "Using calibrated digital signal meters, we lock the exact elevation, azimuth, and LNB skew for maximum decibels."
+        title: "Dish or Antenna Installation & Configuration",
+        description: "We securely mount and align satellite dishes where required, position compatible terrestrial antennas, install cables and connectors, and configure the decoder or receiver for the intended TV service."
       },
       {
         step: "04",
-        title: "Decoder Configuration & Quality Check",
-        description: "Coaxial cabling routed neatly inside, decoders scanned, channel audio/video synced, and signal strength verified."
+        title: "Signal Testing & Customer Handover",
+        description: "We check reception quality, scan for available channels, investigate missing-channel or signal problems, test additional TV points where installed, and explain basic equipment operation and maintenance."
       }
     ],
     technicalSpecs: [
-      { label: "Dish Sizes", value: "60cm to 120cm High-Gain", detail: "Provides strong signal reserve against storm attenuation" },
-      { label: "LNB Types", value: "Smart LNB, Twin & Quad Output", detail: "Independent channel viewing across multiple decoders" },
-      { label: "Mounting", value: "Heavy-Gauge Galvanised Steel", detail: "Rust-resistant brackets and precision anchor screws" },
-      { label: "Coaxial Cabling", value: "RG6 Quad-Shield with F-Compression", detail: "Prevents RF interference and signal degradation" }
+      {
+        label: "Supported TV Services",
+        value: "DStv, Multi TV, HD+, StarTimes, Strong Digital TV & GOtv",
+        detail: "Installation and technical support for compatible equipment and reception systems used by these services in Ghana."
+      },
+      {
+        label: "Satellite Dish Systems",
+        value: "Compatible Dish, LNB & Receiver Configurations",
+        detail: "Dish installation, alignment, LNB selection and receiver configuration according to the satellite service and equipment requirements."
+      },
+      {
+        label: "Terrestrial TV Reception",
+        value: "Compatible Digital TV Antennas",
+        detail: "Antenna installation, positioning and reception checks for terrestrial services such as GOtv and compatible StarTimes systems."
+      },
+      {
+        label: "Coaxial Cabling",
+        value: "RG6 Coaxial Cable & Compatible Connectors",
+        detail: "Appropriate cable routing, connector installation and inspection for damaged connections or signal loss."
+      },
+      {
+        label: "Decoder & Receiver Setup",
+        value: "Provider-Compatible Digital Receivers",
+        detail: "Decoder installation, channel scanning, reception troubleshooting and configuration according to the supported device and service."
+      },
+      {
+        label: "Multi-Room TV",
+        value: "Compatible Additional TV Connections",
+        detail: "Additional television points and suitable distribution equipment, subject to provider rules, decoder capabilities and installation requirements."
+      }
     ],
     benefits: [
-      { title: "Zero Signal Freezing", description: "Enjoy uninterrupted live football, news, and entertainment even in overcast weather." },
-      { title: "Multi-TV Independence", description: "Watch different channels simultaneously in bedrooms, living rooms, and office areas." },
-      { title: "Storm-Resistant Alignment", description: "Robust mechanical mounting ensures your dish doesn't shift during coastal winds or rainstorms." },
-      { title: "Starlink Specialised Mounting", description: "Certified roof and mast installations for high-speed satellite broadband hardware." }
+      {
+        title: "Support for Popular TV Services",
+        description: "Get installation and technical assistance for DStv, Multi TV, HD+, StarTimes, Strong Digital TV and GOtv, subject to compatible equipment and the services available in your area."
+      },
+      {
+        title: "Better Signal Reception",
+        description: "Improve reception through correct dish alignment or antenna positioning, suitable cabling and systematic signal troubleshooting."
+      },
+      {
+        title: "Professional Equipment Setup",
+        description: "Have your compatible decoder, receiver, dish or antenna installed and configured for the selected television service."
+      },
+      {
+        title: "TV Connections in Multiple Rooms",
+        description: "Extend television connections to additional rooms using an appropriate distribution arrangement compatible with your equipment."
+      },
+      {
+        title: "Troubleshooting & Repairs",
+        description: "Get help with weak signals, missing channels, damaged coaxial cables, faulty connectors, LNB problems and decoder configuration issues."
+      },
+      {
+        title: "Neat & Secure Installation",
+        description: "Benefit from properly routed cables, suitable mounting hardware, organised connections and an installation designed for easier maintenance."
+      }
     ],
-    idealFor: ["Private Residences & Apartments", "Sports Bars, Pubs & Lounges", "Hotels & Multi-Room Lodgings", "Offices & Executive Boardrooms"],
-    whatsappMessage: "Hello Kobby's Intertech, I need assistance with Satellite Dish installation and signal support.",
+    idealFor: [
+      "Homes, Apartments & Residential Properties",
+      "DStv, Multi TV & HD+ Customers",
+      "StarTimes, Strong Digital TV & GOtv Customers",
+      "Hotels, Guest Houses & Lodging Facilities",
+      "Restaurants, Sports Viewing Centres & Lounges",
+      "Offices, Reception Areas & Meeting Rooms",
+      "Landlords and Property Managers Requiring Multiple TV Connections"
+    ],
+    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about DStv, Multi TV, HD+, StarTimes, Strong Digital TV or GOtv installation and technical support.",
     image: "/services/satellite.jpg"
   },
-  {
+{
     slug: "electrical-works",
-    name: "Electrical Works",
-    summary: "Electrical work within the company's qualifications and authorisations.",
-    badge: "Power & Electrical Infrastructure",
-    tagline: "Certified electrical installations, power protection, inverter integration and fault repairs.",
-    description: "Professional electrical services delivered within approved safety standards, focusing on clean installations, surge protection, and power reliability.",
+    name: "Electrical Installation & Power Solutions",
+    summary: "Residential and commercial electrical installations, fault repairs, power protection and backup power integration.",
+    badge: "Safe Electrical & Power Systems",
+    tagline: "Dependable electrical installations, practical power protection and professionally planned backup power solutions.",
+    description: "We provide electrical installation and maintenance services for homes, shops, offices, schools, churches and commercial properties across Ghana. Our services cover wiring for new buildings and renovations, distribution board upgrades, socket and lighting installations, electrical fault diagnosis, earthing and protective devices, and integration of compatible inverter, battery and generator systems. Every project is assessed according to its requirements, with regulated electrical wiring, inspection and testing undertaken by appropriately certified professionals in accordance with applicable Ghanaian requirements.",
     inclusions: [
-      "Distribution Board (DB) Wiring, Load Balancing & Circuit Breakers",
-      "Surge Protection Devices (SPD) for Tech Equipment & Appliances",
-      "Inverter, Solar & Backup Power System Integration & Cabling",
-      "Socket, Switch & Dedicated Computer Power Line Installation",
-      "Interior & Exterior Architectural LED Security Lighting",
-      "Electrical Fault Finding, Short-Circuit Repairs & Safety Audits"
+      "Electrical Wiring for New Buildings, Extensions & Renovations",
+      "Distribution Board Installation, Circuit Identification & Upgrades",
+      "Circuit Breaker, RCD / RCCB, RCBO & Surge Protection Device Installation",
+      "Socket Outlets, Switches, Lighting Points & Dedicated Appliance Circuits",
+      "Electrical Fault Finding, Tripping Breaker Diagnosis & Damaged Wiring Repairs",
+      "Earthing, Bonding & Electrical Protective Conductor Inspection",
+      "Voltage Fluctuation Investigation & Protection for Sensitive Equipment",
+      "Inverter, Battery Backup & Automatic or Manual Changeover Integration",
+      "Generator Connection, Changeover Switch & Essential Load Circuit Planning",
+      "Solar Power Electrical Integration and Compatible Inverter Connections",
+      "Indoor, Outdoor, Security & Energy-Efficient LED Lighting Installation",
+      "Electrical Load Assessment, Circuit Balancing & Capacity Planning",
+      "Electrical Installation Testing, Safety Checks & Inspection Coordination",
+      "Preventive Electrical Maintenance for Homes and Commercial Properties"
     ],
     workflow: [
       {
         step: "01",
-        title: "Load Calculation & Safety Inspection",
-        description: "We inspect existing main panels, earthing rods, load distribution, and identify obsolete or hazardous wiring."
+        title: "Site Inspection & Electrical Safety Assessment",
+        description: "We assess the existing wiring, distribution board, supply capacity, earthing arrangements, protective devices, connected appliances and reported faults. For backup power projects, we also identify essential loads and assess the customer's operating requirements."
       },
       {
         step: "02",
-        title: "Specification & Circuit Planning",
-        description: "Designing dedicated circuits for sensitive electronics (CCTV, servers, air conditioners, and backup power)."
+        title: "Load Calculation & Installation Planning",
+        description: "We determine circuit requirements, suitable conductor sizes, protective device ratings, equipment locations, cable routes and anticipated loads. Where an inverter, battery or generator is involved, we plan compatible equipment, changeover arrangements and essential circuits."
       },
       {
         step: "03",
-        title: "Safe Wiring & Breaker Installation",
-        description: "Installing rated fire-retardant copper conduits, proper ground earthing, and industrial-grade circuit breakers."
+        title: "Installation, Repairs & Protection",
+        description: "Appropriately qualified professionals carry out the authorised electrical work using suitable materials and protective devices. Depending on the project, this may include wiring, distribution board upgrades, socket and lighting installation, fault repairs, earthing improvements and backup power connections."
       },
       {
         step: "04",
-        title: "Insulation & Continuity Testing",
-        description: "Multimeter voltage verification, earth resistance tests, load test under full power, and safety sign-off."
+        title: "Testing, Verification & Handover",
+        description: "We arrange the applicable installation tests, including continuity, insulation resistance, polarity, protective conductor and earthing checks, and functional verification of protective devices. Results, outstanding issues and required inspection or certification are documented as applicable before handover."
       }
     ],
     technicalSpecs: [
-      { label: "Cable Standard", value: "Pure Copper 1.5mm / 2.5mm / 4mm", detail: "Flame-retardant PVC insulation adhering to safety codes" },
-      { label: "Protection", value: "RCD / RCBO & Type 2 SPDs", detail: "Guards against electrical shocks, lightning and surge spikes" },
-      { label: "Earthing", value: "Sub-5 Ohm Earth Rod System", detail: "Critical for discharging surges and protecting delicate electronics" },
-      { label: "Switchgear", value: "Certified International Brands", detail: "ABB, Schneider, Chint industrial-grade breakers" }
+      {
+        label: "Wiring & Cable Selection",
+        value: "Copper Conductors Sized for Each Circuit",
+        detail: "Conductor size and insulation type selected according to load current, installation method, cable length, voltage drop, environmental conditions and applicable standards."
+      },
+      {
+        label: "Circuit Protection",
+        value: "MCBs, RCDs, RCCBs, RCBOs & SPDs",
+        detail: "Protective devices selected according to the circuit design, fault conditions, equipment requirements and applicable electrical standards."
+      },
+      {
+        label: "Earthing & Bonding",
+        value: "Verified Protective Earthing System",
+        detail: "Inspection and testing of protective conductors, earthing arrangements and bonding where applicable. Acceptable results depend on the earthing system, protective devices and installation requirements."
+      },
+      {
+        label: "Backup Power",
+        value: "Inverters, Batteries & Generators",
+        detail: "Compatible changeover equipment, properly rated conductors, isolation, protection and essential-load planning for the selected backup power arrangement."
+      },
+      {
+        label: "Surge & Voltage Protection",
+        value: "Suitable SPDs & Voltage Protection",
+        detail: "Surge protection and, where required, voltage monitoring or regulation selected according to the supply conditions, equipment sensitivity and installation design."
+      },
+      {
+        label: "Testing & Verification",
+        value: "Electrical Installation Test Instruments",
+        detail: "Appropriate instruments and procedures for continuity, insulation resistance, polarity, earth-fault protection and other applicable installation tests."
+      }
     ],
     benefits: [
-      { title: "Protection for Expensive Tech", description: "Shield your computers, TV screens, and security gear against voltage surges and grid spikes." },
-      { title: "Fire & Shock Prevention", description: "Eliminate loose connections, overloaded plugs, and substandard wires that cause electrical hazards." },
-      { title: "Clean Backup Power Integration", description: "Smooth changeover between national grid, generator, and battery inverter systems." },
-      { title: "Energy Efficient Lighting", description: "Modern LED installations that dramatically reduce your monthly electricity bills." }
+      {
+        title: "Safer Electrical Installations",
+        description: "Address deteriorated wiring, loose connections, overloaded circuits and unsuitable protective devices to reduce electrical shock, overheating and fire risks."
+      },
+      {
+        title: "Protection Against Power Problems",
+        description: "Assess voltage fluctuations and surge risks, then recommend suitable protective measures for televisions, computers, networking equipment, appliances and other sensitive electronics."
+      },
+      {
+        title: "Backup Power When the Grid Goes Off",
+        description: "Plan compatible inverter, battery or generator connections to keep selected essential loads operating during power interruptions, within the installed system's capacity."
+      },
+      {
+        title: "Reliable Lighting & Socket Installations",
+        description: "Install practical lighting layouts, additional sockets, outdoor security lighting and dedicated circuits suited to the property's electrical requirements."
+      },
+      {
+        title: "Better Load Management",
+        description: "Identify overloaded circuits, distribute loads appropriately and plan additional circuits or capacity upgrades where the existing installation permits."
+      },
+      {
+        title: "Documented Testing & Maintenance",
+        description: "Improve long-term maintainability through appropriate testing, clear circuit identification, fault reports and recommendations for corrective work."
+      }
     ],
-    idealFor: ["New Building Construction & Renovations", "Commercial Offices & Workspaces", "Server Rooms & IT Hubs", "Residential Homes Requiring Clean Power"],
-    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about Electrical Works and power installations.",
+    idealFor: [
+      "New Homes, Building Projects & Renovations",
+      "Existing Homes Requiring Wiring Repairs or Upgrades",
+      "Shops, Offices & Small and Medium-Sized Businesses",
+      "Schools, Churches & Institutional Buildings",
+      "Hotels, Guest Houses & Commercial Properties",
+      "Computer Rooms, CCTV Systems & Network Equipment",
+      "Properties Requiring Inverter, Battery or Generator Backup",
+      "Landlords and Property Managers Arranging Electrical Maintenance"
+    ],
+    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about electrical installation, fault repairs, power protection or inverter and generator integration.",
     image: "/services/electrical_works.jpg"
   },
   {
     slug: "gps-tracking",
-    name: "GPS Tracking",
-    summary: "Vehicle-tracking installation and support.",
-    badge: "Fleet & Asset Security",
-    tagline: "Real-time satellite GPS tracking, remote engine immobilisation and geo-fencing.",
-    description: "GPS vehicle-tracking installation, fleet monitoring and ongoing technical support for private cars, corporate fleets, and logistics trucks across Ghana.",
+    name: "GPS Vehicle Tracking & Fleet Management",
+    summary: "Vehicle tracking, anti-theft monitoring, fleet visibility and ongoing technical support for vehicles operating across Ghana.",
+    badge: "Vehicle Security & Fleet Monitoring",
+    tagline: "Know where your vehicles are, monitor their movements and manage your fleet with greater confidence.",
+    description: "We provide GPS vehicle-tracking installation and support for private vehicle owners, businesses and fleet operators across Ghana. Our services help customers monitor vehicle locations, review trip history, set up geofence alerts and track driving activity through compatible mobile apps or web platforms. Depending on the selected tracker and service plan, additional features may include ignition status, tamper alerts, overspeed notifications and remote immobilisation. We assess each vehicle and customer's requirements before recommending compatible equipment. Tracking performance, alert delivery, history retention and remote-control features depend on the hardware, platform subscription, GPS reception and mobile-network coverage.",
     inclusions: [
-      "Covert GPS Tracker Installation for Cars, SUVs, Trucks & Motorbikes",
-      "Live Real-Time Satellite Tracking via Mobile App & Web Dashboard",
-      "Remote Engine Cut-Off (Kill Switch) via SMS or Smartphone App",
-      "Geo-Fence Boundary Alerts, Speeding Warnings & Route History Playback",
-      "Tamper Alarms, Battery Disconnection Alerts & Backup Internal Battery",
-      "Fleet Management Reporting, Mileage Logs & Technician Support"
+      "GPS Tracker Installation for Cars, SUVs, Pickups, Trucks & Motorbikes",
+      "Vehicle Location Monitoring Through Compatible Mobile Apps or Web Dashboards",
+      "Trip History, Route Playback & Journey Reporting Where Supported",
+      "Geofence Setup for Homes, Offices, Depots, Worksites & Delivery Areas",
+      "Overspeed Alerts, Ignition Status & Movement Notifications Where Supported",
+      "Tamper, Power Disconnection & Low-Backup-Battery Alerts Where Supported",
+      "Remote Engine Immobilisation for Compatible Vehicles and Tracker Systems",
+      "Fleet Location Monitoring for Multiple Vehicles Under One Account",
+      "Driver Activity, Stop Duration, Mileage & Idle-Time Reporting Where Supported",
+      "SIM Installation, Device Activation & Tracker Platform Configuration",
+      "Tracker Health Checks, Fault Diagnosis & After-Installation Support",
+      "Customer Guidance on App Usage, Alerts, Subscriptions & Device Limitations"
     ],
     workflow: [
       {
         step: "01",
-        title: "Vehicle & Fleet Needs Consultation",
-        description: "We determine the vehicle types, fleet size, security requirements (anti-theft vs. logistics tracking)."
+        title: "Vehicle Assessment & Requirements",
+        description: "We establish the number and types of vehicles, their operating locations, security concerns and monitoring needs. We also check tracker compatibility, available power connections, expected mobile-network coverage and whether the customer needs basic tracking or fleet-management features."
       },
       {
         step: "02",
-        title: "Covert Hardware Installation",
-        description: "Trackers are hidden deep inside the vehicle's dashboard or chassis with zero telltale wires or external antennas."
+        title: "Tracker Installation & Electrical Checks",
+        description: "We install the selected device in a suitable, secure location, following the manufacturer's instructions and the vehicle's electrical requirements. Wiring is routed and secured professionally, with appropriate protection against heat, moisture, vibration and accidental damage. Installation locations are agreed with the authorised vehicle owner or fleet manager."
       },
       {
         step: "03",
-        title: "Relay & Immobiliser Wiring",
-        description: "Professional integration into fuel or ignition relays, enabling secure remote engine shut-off without electrical faults."
+        title: "Device Activation & Feature Configuration",
+        description: "We configure the supported SIM or connectivity service, activate the tracking platform and test location reporting. Where available, we set up geofences, movement alerts, overspeed notifications, trip reports and authorised remote-control features. Any immobilisation function is installed and tested only when appropriate for the vehicle and operating conditions."
       },
       {
         step: "04",
-        title: "App Activation & Training",
-        description: "SIM data activation, mobile app login setup, geo-fence configuration, and live simulation of engine immobilisation."
+        title: "Handover, User Training & Support",
+        description: "We show the customer how to sign in, locate vehicles, review trip history, configure alerts and report faults. We explain any SIM or platform subscription charges, expected network limitations, data-retention period and supported features. The customer receives guidance on maintenance, troubleshooting and requesting technical support."
       }
     ],
     technicalSpecs: [
-      { label: "Positioning Accuracy", value: "Under 5 Metres", detail: "Dual GPS & GLONASS multi-constellation satellite tracking" },
-      { label: "Remote Control", value: "Instant Engine Kill Switch", detail: "Safely cut fuel flow or ignition during theft situations" },
-      { label: "Backup Battery", value: "Internal Lithium-Ion", detail: "Sends alerts and tracks vehicle even if car battery is disconnected" },
-      { label: "History Retention", value: "90+ Days Cloud Route Logs", detail: "Complete replay of speeds, stops, idle times, and daily routes" }
+      {
+        label: "Location Technology",
+        value: "GNSS / GPS Tracking",
+        detail: "Location accuracy depends on the tracker, satellite visibility, installation position and surrounding environment. Buildings, covered parking, tunnels and other obstructions may affect positioning."
+      },
+      {
+        label: "Data Connectivity",
+        value: "Compatible Cellular Network or Supported Alternative",
+        detail: "The device transmits location data using its supported communication method. Reporting frequency and availability depend on mobile-network coverage, SIM/data service, device configuration and platform status."
+      },
+      {
+        label: "Remote Immobilisation",
+        value: "Compatible Tracker & Vehicle Integration",
+        detail: "Available only on supported devices and suitable vehicles. Installation requires appropriate electrical protection and safety controls; remote immobilisation must never be triggered while the vehicle is moving or in an unsafe location."
+      },
+      {
+        label: "Power & Tamper Monitoring",
+        value: "Device-Dependent Alerts",
+        detail: "External-power loss, backup-battery operation and tamper notifications are available only when supported by the selected hardware and configured correctly. A tracker may stop reporting if its power, battery or communication service fails."
+      },
+      {
+        label: "Tracking History",
+        value: "Platform-Dependent Route Records",
+        detail: "Trip history and report retention depend on the tracking platform, subscription plan, device settings and service availability. The available retention period is confirmed before purchase or activation."
+      },
+      {
+        label: "Fleet Reporting",
+        value: "Multi-Vehicle Dashboard Where Supported",
+        detail: "Depending on the platform, fleet users may access vehicle locations, trip records, geofence events, stop durations and other reports. Driver identification and mileage accuracy depend on available data and system configuration."
+      }
     ],
     benefits: [
-      { title: "Immediate Theft Recovery", description: "Locate your vehicle in seconds and remotely stop the engine directly from your phone." },
-      { title: "Control Fuel & Driver Misuse", description: "Monitor unauthorized trips, late-night driving, excessive speeding, and extended engine idling." },
-      { title: "Live Geo-Fence Alerts", description: "Receive instant notifications when vehicles enter or leave designated zones like Accra, Kumasi, or your depot." },
-      { title: "Invisible, Clean Installation", description: "No visible signs of tracker presence, preventing car thieves from tampering with the unit." }
+      {
+        title: "Improved Vehicle Visibility",
+        description: "Check the reported location of a vehicle from a compatible phone or computer, subject to device operation, satellite reception and network availability."
+      },
+      {
+        title: "Support for Theft Response",
+        description: "Use the tracker's available location and movement information to assist with reporting and recovery efforts. Tracking cannot guarantee recovery, and customers should contact the appropriate authorities if a vehicle is stolen."
+      },
+      {
+        title: "Better Fleet Oversight",
+        description: "Review vehicle movements, trips and stops to help manage delivery schedules, business travel, inter-city operations and vehicle utilisation."
+      },
+      {
+        title: "Alerts for Unusual Movement",
+        description: "Configure supported geofence, movement, overspeed or power-disconnection alerts to help identify activity that may require investigation."
+      },
+      {
+        title: "More Informed Operating Decisions",
+        description: "Use available journey and fleet reports to review routes, stop durations and vehicle use, while recognising that report accuracy depends on the tracker and platform."
+      },
+      {
+        title: "Installation & Ongoing Technical Support",
+        description: "Receive assistance with device activation, app access, connectivity problems, alert configuration and troubleshooting after installation."
+      }
     ],
-    idealFor: ["Private Car & SUV Owners", "Car Rental, Uber & Bolt Fleets", "Logistics, Haulage & Delivery Trucks", "Corporate Company Vehicle Pools"],
-    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about GPS Vehicle Tracking installation.",
+    idealFor: [
+      "Private Car, SUV & Pickup Owners",
+      "Small Businesses & Corporate Vehicle Fleets",
+      "Delivery Services, Dispatch Riders & Motorbike Fleets",
+      "Haulage, Logistics & Inter-City Transport Operators",
+      "Schools and Organisations Managing Authorised Transport Vehicles",
+      "Construction Companies & Worksite Vehicle Fleets",
+      "Field-Service Teams & Sales Representatives Using Company Vehicles",
+      "Fleet Managers Requiring Multi-Vehicle Monitoring"
+    ],
+    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about GPS vehicle tracking, anti-theft monitoring or fleet management for vehicles operating in Ghana.",
     image: "/services/gps_tracking.jpg"
-  }
+  },
 ];
 
 export const faqs = [
