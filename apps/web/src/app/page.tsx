@@ -75,8 +75,8 @@ export default async function Home() {
                 <span className="svc-card-num">0{index + 1}</span>
                 <span className="svc-card-name">{service.name}</span>
                 <span className="svc-card-summary">{service.summary}</span>
-                <span className="service-row-link">
-                  View details <span aria-hidden="true" className="link-arrow">→</span>
+                <span className="service-row-link-home">
+                  View details <span aria-hidden="true" className="link-arrow-home">→</span>
                 </span>
               </span>
             </Link>
