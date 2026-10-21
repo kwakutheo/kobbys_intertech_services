@@ -18,9 +18,9 @@ const WHATSAPP_PRESETS = [
     message: "Hello Kobby's Intertech, I would like to enquire about CCTV & Security installation.",
   },
   {
-    label: "Fibre & Internet Setup",
+    label: "Fibre & Satellite Internet Setup",
     icon: "globe",
-    message: "Hello Kobby's Intertech, I need assistance with Fibre & Internet connectivity.",
+    message: "Hello Kobby's Intertech, I need assistance with Fibre/Satellite Internet connectivity.",
   },
   {
     label: "Book On-Site Technician",

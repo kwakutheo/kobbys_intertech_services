@@ -5,7 +5,7 @@ import { HeroSection } from "@/components/hero-section";
 export const metadata = {
   title: "Services | Kobby's Intertech Services",
   description:
-    "Explore our complete range of services in CCTV, fibre-optic internet, networking, satellite, electrical works, and GPS tracking across Ghana.",
+    "Explore our complete range of services in CCTV, fibre-optic & satellite internet, networking, satellite tv, electrical works, and GPS tracking across Ghana.",
 };
 
 export default function ServicesPage() {

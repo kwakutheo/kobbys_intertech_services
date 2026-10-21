@@ -13,7 +13,7 @@ const POPULAR_DESTINATIONS = [
     href: "/services/cctv-security",
   },
   {
-    title: "Fibre & Internet",
+    title: "Fibre & Satellite Internet",
     desc: "High-speed fibre connectivity, WiFi routers, and structured cabling.",
     href: "/services/fibre-internet",
   },

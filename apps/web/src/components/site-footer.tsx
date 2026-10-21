@@ -15,7 +15,7 @@ const navLinks = [
 
 const serviceLinks = [
   { label: "CCTV & Security", href: "/services/cctv-security" },
-  { label: "Fibre & Internet", href: "/services/fibre-internet" },
+  { label: "Fibre & Satellite Internet", href: "/services/fibre-internet" },
   { label: "Networks", href: "/services/networking" },
   { label: "Satellite Support", href: "/services/satellite" },
   { label: "Electrical Works", href: "/services/electrical-works" },

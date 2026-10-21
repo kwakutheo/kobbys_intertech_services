@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 
 const services = [
   ['cctv-security', 'CCTV & security', 'Camera supply, installation, upgrades and support.'],
-  ['fibre-internet', 'Fibre & internet', 'Fibre, wireless internet and connectivity support.'],
+  ['fibre-internet', 'Fibre & satellite internet', 'Fibre, wireless internet and connectivity support.'],
   ['networking', 'Networks', 'Home and office network design, installation and support.'],
-  ['satellite', 'Satellite support', 'Dish installation, signal alignment and technical support.'],
+  ['satellite', 'Satellite tv', 'Satellite dish installation, signal alignment and technical support.'],
   ['electrical-works', 'Electrical works', 'Electrical work within the company’s qualifications and authorisations.'],
   ['gps-tracking', 'GPS tracking', 'Vehicle-tracking installation and support.'],
 ];

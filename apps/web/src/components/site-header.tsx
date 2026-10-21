@@ -7,7 +7,7 @@ import { useState } from "react";
 
 const SERVICES_LIST = [
   { href: "/services/cctv-security", label: "CCTV & Security" },
-  { href: "/services/fibre-internet", label: "Fibre & Internet" },
+  { href: "/services/fibre-internet", label: "Fibre & Satellite Internet" },
   { href: "/services/networking", label: "Networks" },
   { href: "/services/satellite", label: "Satellite Support" },
   { href: "/services/electrical-works", label: "Electrical Works" },
