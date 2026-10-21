@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const SERVICES_LIST = [
   { href: "/services/cctv-security", label: "CCTV & Security" },
@@ -17,6 +17,8 @@ const SERVICES_LIST = [
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   const isLinkActive = (href: string) => {
@@ -32,6 +34,32 @@ export function SiteHeader() {
   };
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (
+        !mobileMenuRef.current?.contains(target) &&
+        !mobileMenuButtonRef.current?.contains(target)
+      ) {
+        closeMenu();
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMenu();
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen]);
 
   return (
     <header className={`site-header${menuOpen ? " menu-is-open" : ""}`}>
@@ -96,6 +124,7 @@ export function SiteHeader() {
         </Link>
         <button
           type="button"
+          ref={mobileMenuButtonRef}
           className="mobile-menu-btn"
           aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={menuOpen}
@@ -116,6 +145,7 @@ export function SiteHeader() {
 
       {/* Mobile nav — always in DOM; visibility driven by .menu-is-open on <header> */}
       <div
+        ref={mobileMenuRef}
         className="mobile-dropdown-menu"
         id="mobile-navigation"
         aria-hidden={!menuOpen}
@@ -127,13 +157,6 @@ export function SiteHeader() {
 
           <div className={`mobile-nav-group${mobileServicesOpen ? " services-open" : ""}`}>
             <div className="mobile-nav-header">
-              <Link
-                href="/services"
-                className={isLinkActive("/services") ? "active" : ""}
-                onClick={closeMenu}
-              >
-                Our Services
-              </Link>
               <button
                 type="button"
                 className="mobile-subnav-toggle"
@@ -156,6 +179,13 @@ export function SiteHeader() {
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
+              <Link
+                href="/services"
+                className={isLinkActive("/services") ? "active" : ""}
+                onClick={closeMenu}
+              >
+                Our Services
+              </Link>
             </div>
             {/* Always rendered — shown/hidden via .services-open class */}
             <div className="mobile-sublinks">
