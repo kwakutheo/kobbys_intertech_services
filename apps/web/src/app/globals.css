@@ -2461,6 +2461,9 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
     color: #ffffff;
     text-align: center;
   }
+  .mobile-dropdown-links .mobile-dropdown-cta .button:hover {
+    color: var(--wine);
+  }
 }
 
 @media (max-width: 720px) {
