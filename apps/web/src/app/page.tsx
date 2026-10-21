@@ -29,14 +29,14 @@ export default async function Home() {
               <span className="hero-dot">|</span>
               <span>SECURITY</span>
               <span className="hero-dot">|</span>
-              <span>COMMUNICATION</span>
+              <span>CONNECTIVITY</span>
             </p>
             <h1 className="hero-title">
-              Technology that keeps your world <br className="hero-br" />
-              connected.
+              Practical technology for a <br className="hero-br" />
+              more connected world.
             </h1>
             <p className="hero-lead">
-              Professional installation, support and practical technology solutions for homes and businesses across Ghana.
+              CCTV, internet, networking, satellite TV, GPS tracking and electrical services for homes and businesses in Ghana, with solutions tailored to your needs and budget.
             </p>
             <div className="hero-actions">
               <Link className="hero-button-primary" href="/book-service">
@@ -63,8 +63,8 @@ export default async function Home() {
 
       <section className="svc-section">
         <div className="svc-heading">
-          <h2>Professional tech solutions tailored to your needs.</h2>
-          <p>From a new installation to troubleshooting and ongoing support, we help you make the right technical decisions.</p>
+          <h2>Technology and technical services for everyday needs.</h2>
+          <p>Whether you are installing a new system, improving your connectivity or troubleshooting an existing setup, we help you explore practical options for your property or business.</p>
         </div>
         <div className="svc-grid">
           {services.map((service, index) => (
@@ -89,41 +89,38 @@ export default async function Home() {
         <div className="why-container">
           <div className="why-copy">
             <p className="eyebrow">Why Kobby&apos;s Intertech</p>
-            <h2>Professional service, clear communication, dependable results.</h2>
+            <h2>Practical advice, clear quotations and service you can discuss with confidence.</h2>
             <p className="why-lead">
-              We bring technology, security and communication solutions together in one trusted service.
+              We bring security, connectivity and technical services together, helping customers find suitable solutions for their homes, shops, offices and other properties.
             </p>
             <div className="why-trust-badge">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 <polyline points="9 12 11 14 15 10" />
               </svg>
-              <span>Experienced technicians &amp; ongoing technical support across Ghana</span>
+              <span>Solutions tailored to your needs, property and budget</span>
             </div>
           </div>
 
           <div className="why-pillars">
             <div className="why-pillar-card">
-              <span className="why-pillar-num">01</span>
               <div className="why-pillar-text">
-                <h3>Customer-focused advice</h3>
-                <p>Objective technical guidance configured around your actual property layout, operational requirements, and budget.</p>
+                <h3>Advice based on your needs</h3>
+                <p>We consider your property layout, intended use, available infrastructure and budget before recommending suitable equipment or installation options.</p>
               </div>
             </div>
 
             <div className="why-pillar-card">
-              <span className="why-pillar-num">02</span>
               <div className="why-pillar-text">
-                <h3>Reliable installation and support</h3>
-                <p>Certified equipment, clean professional cabling, thorough system testing, and dependable after-sales maintenance.</p>
+                <h3>Careful installation and testing</h3>
+                <p>We aim for neat workmanship, appropriate equipment selection and practical system checks. Maintenance and troubleshooting arrangements can be discussed according to your needs.</p>
               </div>
             </div>
 
             <div className="why-pillar-card">
-              <span className="why-pillar-num">03</span>
               <div className="why-pillar-text">
-                <h3>Professional, transparent service</h3>
-                <p>Direct communication, upfront project scoping, honest timelines, and accountability from start to finish.</p>
+                <h3>Clear and transparent communication</h3>
+                <p>We explain the proposed work, relevant costs and expected timelines before proceeding, and discuss any changes that may affect the agreed scope or price.</p>
               </div>
             </div>
           </div>
