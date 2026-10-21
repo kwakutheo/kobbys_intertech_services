@@ -85,57 +85,114 @@ export const services: Service[] = [
     whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about CCTV & Security installation for my property.",
     image: "/services/cctv_and_security.jpg"
   },
-  {
+{
     slug: "fibre-internet",
-    name: "Fibre & Internet",
-    summary: "Fibre, wireless internet and connectivity support.",
-    badge: "High-Speed Connectivity",
-    tagline: "Low-latency fibre-optic drops, robust Wi-Fi backbones and failover solutions.",
-    description: "Internet and connectivity solutions to establish, improve and maintain the way your home or business connects to the digital world.",
+    name: "Fibre Optics & Satellite Internet",
+    summary: "Fibre-optic installations, satellite internet setup, wireless links and high-performance network connectivity.",
+    badge: "Advanced Internet Connectivity",
+    tagline: "Reliable fibre-optic infrastructure, professionally installed satellite internet, and high-performance wireless networking.",
+    description: "End-to-end internet connectivity solutions for homes, offices, hotels, commercial facilities, and remote locations. From fibre-optic cable installation and precision splicing to Starlink and other satellite internet installations, we design, deploy, test, and maintain reliable networks tailored to your coverage, speed, and bandwidth requirements.",
     inclusions: [
-      "Fibre-Optic Cable Laying, Splicing & Termination",
-      "Wireless Point-to-Point & Point-to-Multipoint Internet Links",
-      "High-Performance Dual-Band & Wi-Fi 6 Router Setup",
-      "Network Cabling Infrastructure (Cat6 / Cat6A & Fibre Drops)",
-      "Internet Speed Audits, Bandwidth Management & QoS",
-      "Starlink & Satellite High-Speed Internet Setup & Mounting"
+      "Fibre-Optic Cable Installation, Fusion Splicing, Testing & Termination",
+      "Starlink & Compatible Satellite Internet Installation, Mounting & Configuration",
+      "Wireless Point-to-Point & Point-to-Multipoint Network Links",
+      "High-Performance Dual-Band, Tri-Band & Wi-Fi 6 Router and Access Point Setup",
+      "Structured Network Cabling Infrastructure (Cat6 / Cat6A & Fibre-Optic Drops)",
+      "Internet Speed Testing, Network Diagnostics, Bandwidth Management & Quality of Service (QoS)",
+      "Optical Network Terminal (ONT), Modem, Router & Network Rack Installation",
+      "Wi-Fi Coverage Optimisation, Network Expansion & Connectivity Troubleshooting",
+      "Internet Connection Redundancy and Failover Configuration"
     ],
     workflow: [
       {
         step: "01",
-        title: "Connectivity Assessment",
-        description: "We test incoming provider signals, fiber availability, building layouts, and bandwidth requirements."
+        title: "Site Survey & Connectivity Assessment",
+        description: "We assess fibre availability, satellite service suitability, line-of-sight requirements, building layout, signal conditions, expected device usage, and bandwidth requirements to determine the most appropriate connectivity solution."
       },
       {
         step: "02",
-        title: "Infrastructure Route Planning",
-        description: "We design safe, durable routing paths for fibre drops, optical network terminals (ONT), and main distribution racks."
+        title: "Network Design & Installation Planning",
+        description: "We plan cable routes, satellite antenna placement, mounting positions, equipment locations, power requirements, weather protection, network rack layouts, and Wi-Fi access point coverage."
       },
       {
         step: "03",
-        title: "Precision Fusion Splicing & Cabling",
-        description: "Fibre strands are spliced with low optical attenuation, terminating into clean faceplates and patch panels."
+        title: "Professional Installation & Configuration",
+        description: "We install and terminate fibre-optic cables, perform fusion splicing where required, mount and configure compatible satellite internet equipment, deploy wireless links, and configure routers, switches, and access points."
       },
       {
         step: "04",
-        title: "Speed Benchmark & Coverage Verification",
-        description: "Full throughput testing, latency verification, Wi-Fi heatmapping, and device connectivity handover."
+        title: "Testing, Optimisation & Handover",
+        description: "We verify optical link performance where applicable, measure download and upload speeds, test latency and connection stability, assess Wi-Fi coverage, validate failover configurations where installed, and provide the customer with a system handover."
       }
     ],
     technicalSpecs: [
-      { label: "Cable Standards", value: "Single-Mode & Cat6A", detail: "Ultra-low attenuation glass cores for gigabit data" },
-      { label: "Wireless Tech", value: "Wi-Fi 6 (802.11ax)", detail: "Simultaneous high-density device streaming with zero lag" },
-      { label: "Termination", value: "Fusion Splicing", detail: "Precision optical joins for stable, uninterrupted signals" },
-      { label: "Hardware Support", value: "MikroTik, Ubiquiti, Cisco", detail: "Enterprise-grade routers, managed switches and access points" }
+      {
+        label: "Fibre-Optic Infrastructure",
+        value: "Single-Mode Fibre & Cat6/Cat6A",
+        detail: "Fibre-optic links, structured copper cabling, appropriate terminations, and optical testing based on project requirements."
+      },
+      {
+        label: "Satellite Connectivity",
+        value: "Starlink & Compatible Systems",
+        detail: "Satellite antenna mounting, unobstructed sky-view assessment, equipment configuration, cable routing, and connectivity verification, subject to provider availability and service compatibility."
+      },
+      {
+        label: "Wireless Technology",
+        value: "Wi-Fi 6 & Point-to-Point Links",
+        detail: "Modern wireless access points and directional radio links selected according to coverage, capacity, distance, and environmental conditions."
+      },
+      {
+        label: "Network Hardware",
+        value: "MikroTik, Ubiquiti, Cisco & Compatible Brands",
+        detail: "Router, managed switch, wireless access point, and network management solutions selected to suit the installation and customer budget."
+      },
+      {
+        label: "Optical Termination",
+        value: "Fusion Splicing & Connector Termination",
+        detail: "Fibre preparation, splicing, connectorisation, and optical loss testing using suitable equipment and procedures."
+      },
+      {
+        label: "Network Performance",
+        value: "Speed, Latency, Coverage & Stability",
+        detail: "Practical throughput measurements, latency checks, wireless coverage assessment, and network configuration verification."
+      }
     ],
     benefits: [
-      { title: "Zero Buffer & High Speed", description: "Stream 4K video, attend crystal-clear zoom conferences, and transfer large enterprise files effortlessly." },
-      { title: "Whole-Building Coverage", description: "Eliminate dead spots in basements, compound yards, multi-storey balconies, and remote rooms." },
-      { title: "Stable Multiple Users", description: "Support dozens or hundreds of simultaneous smartphones, laptops, TVs, and smart devices without choking." },
-      { title: "Quick Local Support", description: "Fast technician response if your line is accidentally cut or equipment requires reconfiguration." }
+      {
+        title: "High-Speed Internet Connectivity",
+        description: "Get reliable connectivity for video conferencing, streaming, cloud applications, online learning, business operations, and large file transfers, subject to your internet plan and available network capacity."
+      },
+      {
+        title: "Connectivity for Remote Locations",
+        description: "Bring internet access to suitable locations where conventional broadband is unavailable or impractical, using compatible satellite internet services such as Starlink where available."
+      },
+      {
+        title: "Reliable Whole-Building Coverage",
+        description: "Reduce Wi-Fi dead zones through properly positioned access points, suitable cabling, wireless links, and coverage-focused network design."
+      },
+      {
+        title: "Support for Multiple Connected Devices",
+        description: "Design networks for homes, offices, schools, hotels, and other environments with many simultaneous users, based on the available bandwidth and equipment capacity."
+      },
+      {
+        title: "Improved Network Stability",
+        description: "Identify connectivity bottlenecks, optimise network settings, and implement a secondary internet connection with automatic failover where supported and required."
+      },
+      {
+        title: "Professional Installation & Technical Support",
+        description: "Receive assistance with installation, equipment configuration, network expansion, fault diagnosis, and ongoing connectivity maintenance."
+      }
     ],
-    idealFor: ["Smart Homes & Luxury Villas", "Corporate Offices & Coworking Hubs", "Hotels, Guest Houses & Lounges", "Remote Facilities Requiring Starlink"],
-    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about Fibre & Internet connectivity setup.",
+    idealFor: [
+      "Homes, Apartments & Luxury Villas",
+      "Corporate Offices & Coworking Spaces",
+      "Schools, Training Centres & Educational Institutions",
+      "Hotels, Guest Houses, Restaurants & Lounges",
+      "Construction Sites, Farms & Remote Facilities",
+      "Businesses Requiring Reliable Primary or Backup Internet",
+      "Properties Requiring Fibre-Optic Network Infrastructure"
+    ],
+    whatsappMessage: "Hello Kobby's Intertech, I would like to enquire about Fibre Optics & Satellite Internet installation and connectivity services.",
     image: "/services/fibre_and_internet.jpg"
   },
   {
