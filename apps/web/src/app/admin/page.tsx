@@ -1,14 +1,19 @@
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
+import { getAdminSession, SESSION_COOKIE } from '@/lib/admin-auth';
 
 export const metadata: Metadata = {
   title: "Admin Portal | Kobby's Intertech Services",
   description: "Management dashboard for Kobby's Intertech Services staff and administrators.",
 };
 
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage() {
+  const session = await getAdminSession((await cookies()).get(SESSION_COOKIE)?.value);
+  const isOwner = session?.user.roles.includes('OWNER') ?? false;
+
   return (
     <div className="admin-shell">
       {/* Topbar */}
@@ -44,12 +49,12 @@ export default function AdminDashboardPage() {
             </svg>
             Gallery
           </Link>
-          <Link href="/admin/team" className="admin-nav-link">
+          {isOwner && <Link href="/admin/team" className="admin-nav-link">
             <svg className="admin-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
             Team &amp; Access
-          </Link>
+          </Link>}
           <Link href="/admin/account" className="admin-nav-link">
             <svg className="admin-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" />
@@ -112,7 +117,7 @@ export default function AdminDashboardPage() {
                 Open Gallery Manager →
               </span>
           </Link>
-          <Link href="/admin/team" className="admin-module-card">
+          {isOwner && <Link href="/admin/team" className="admin-module-card">
             <div className="admin-module-icon-wrap">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -121,7 +126,7 @@ export default function AdminDashboardPage() {
             <h2>Team &amp; Access</h2>
             <p>Invite staff, assign roles, and manage secure account access.</p>
             <span className="admin-module-arrow">→</span>
-          </Link>
+          </Link>}
 
             {/* Bookings */}
             <Link href="/admin/bookings" className="admin-module-card">

@@ -149,14 +149,17 @@ export class AdminAccessService {
 
     const rawToken = randomBytes(32).toString('base64url');
     const resetUrl = this.tokenUrl('/admin/activate', rawToken);
-    const sent = await this.notificationsService.sendStaffPasswordResetEmail(user.email, resetUrl);
-    if (!sent) return genericResponse;
-
-    await this.prisma.$transaction(async (tx) => {
+    const accessToken = await this.prisma.$transaction(async (tx) => {
       await tx.staffAccessToken.updateMany({ where: { userId: user.id, purpose: StaffAccessTokenPurpose.PASSWORD_RESET, consumedAt: null }, data: { consumedAt: new Date() } });
-      await tx.staffAccessToken.create({ data: { userId: user.id, tokenHash: tokenHash(rawToken), purpose: StaffAccessTokenPurpose.PASSWORD_RESET, expiresAt: new Date(Date.now() + TOKEN_TTL_MS) } });
+      const created = await tx.staffAccessToken.create({ data: { userId: user.id, tokenHash: tokenHash(rawToken), purpose: StaffAccessTokenPurpose.PASSWORD_RESET, expiresAt: new Date(Date.now() + TOKEN_TTL_MS) } });
       await this.audit(tx, user.id, 'STAFF_PASSWORD_RESET_REQUESTED', 'User', user.id);
+      return created;
     });
+
+    const sent = await this.notificationsService.sendStaffPasswordResetEmail(user.email, resetUrl);
+    if (!sent) {
+      await this.prisma.staffAccessToken.update({ where: { id: accessToken.id }, data: { consumedAt: new Date() } });
+    }
     return genericResponse;
   }
 
@@ -203,7 +206,19 @@ export class AdminAccessService {
   }
 
   private tokenUrl(path: string, token: string) {
-    const baseUrl = (process.env.ADMIN_APP_URL || process.env.WEB_URL || 'http://localhost:3000').replace(/\/$/, '');
+    const configuredUrl = process.env.ADMIN_APP_URL || process.env.WEB_URL || 'http://localhost:3000';
+    let baseUrl = configuredUrl.replace(/\/$/, '');
+    try {
+      const url = new URL(configuredUrl);
+      // ADMIN_APP_URL is the site origin. Tolerate the common accidental
+      // `/admin` suffix so reset links cannot become `/admin/admin/activate`.
+      url.pathname = url.pathname.replace(/\/admin\/?$/, '') || '/';
+      url.search = '';
+      url.hash = '';
+      baseUrl = url.toString().replace(/\/$/, '');
+    } catch {
+      // Keep the configured value for local/non-standard development URLs.
+    }
     return `${baseUrl}${path}?token=${encodeURIComponent(token)}`;
   }
 }

@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { SESSION_COOKIE, verifyAdminToken } from '@/lib/admin-auth';
+import { getAdminSession, SESSION_COOKIE } from '@/lib/admin-auth';
 
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const token = request.cookies.get(SESSION_COOKIE)?.value;
-  const isAuthenticated = await verifyAdminToken(token);
+  const session = await getAdminSession(token);
+  const isAuthenticated = Boolean(session);
 
   // If user visits /gallery/manage, forward them to the consolidated /admin/gallery route
   if (pathname.startsWith('/gallery/manage')) {
@@ -28,6 +29,12 @@ export async function middleware(request: NextRequest) {
   // Password activation and recovery links must remain available without a session.
   if (pathname === '/admin/activate' || pathname === '/admin/forgot-password') {
     return NextResponse.next();
+  }
+
+  // Team administration is an Owner-only surface. API authorization remains
+  // authoritative, but this avoids sending other staff to a page they cannot use.
+  if (pathname.startsWith('/admin/team') && !session?.user.roles.includes('OWNER')) {
+    return NextResponse.redirect(new URL('/admin', request.url));
   }
 
   // All other /admin paths require authentication

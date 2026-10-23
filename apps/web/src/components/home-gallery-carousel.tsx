@@ -258,7 +258,7 @@ export function HomeGalleryCarousel({ photos }: HomeGalleryCarouselProps) {
 
           <div className="home-carousel-header-action">
             <Link href="/gallery" className="home-carousel-view-all">
-              <span>View full gallery</span>
+              <span>View more</span>
               <span aria-hidden="true">→</span>
             </Link>
 
