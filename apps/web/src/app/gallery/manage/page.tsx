@@ -121,7 +121,7 @@ export default function GalleryManagePage() {
       }
 
       setUploadStatus(
-        `Uploading ${i + 1} of ${fileList.length}: ${fileToUpload.name} (${formatBytes(fileToUpload.size)}) to Cloudflare R2…`
+        `Uploading ${i + 1} of ${fileList.length}: ${fileToUpload.name} (${formatBytes(fileToUpload.size)})…`
       );
 
       // 2. Prepare Form Data with category & caption
@@ -159,7 +159,7 @@ export default function GalleryManagePage() {
     if (fail === 0) {
       flash(
         'ok',
-        `Successfully uploaded ${ok} photo${ok === 1 ? '' : 's'} to Cloudflare R2${savingsInfo}.`
+        `Successfully uploaded ${ok} photo${ok === 1 ? '' : 's'}.`
       );
     } else {
       flash('err', `Uploaded ${ok} photo${ok === 1 ? '' : 's'}, ${fail} failed: ${lastError}`);
@@ -317,7 +317,7 @@ export default function GalleryManagePage() {
             <div className="admin-page-eyebrow">Media Management</div>
             <h1 className="admin-page-title">Photo Gallery</h1>
             <p className="admin-page-lead">
-              Upload, tag with service categories, and manage project photos shown on the live website. All images are compressed client-side and saved to Cloudflare R2 storage.
+              Upload, tag with service categories, and manage project photos shown on the live website. All images are compressed client-side and saved.
             </p>
           </div>
 
@@ -326,7 +326,7 @@ export default function GalleryManagePage() {
             <div className="admin-stat-card">
               <div className="admin-stat-label">Total Photos</div>
               <div className="admin-stat-value">{photos.length}</div>
-              <div className="admin-stat-sub">in Cloudflare R2</div>
+              <div className="admin-stat-sub">in Cloud Storage</div>
             </div>
             <div className="admin-stat-card">
               <div className="admin-stat-label">Categorized</div>
@@ -376,7 +376,7 @@ export default function GalleryManagePage() {
                     <circle cx="8" cy="8" r="6" stroke="rgba(192,0,46,0.35)" strokeWidth="2" />
                     <path d="M8 2a6 6 0 0 1 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   </svg>
-                  {uploadStatus || 'Processing and uploading photos to Cloudflare R2…'}
+                  {uploadStatus || 'Processing and uploading photos…'}
                 </div>
               ) : (
                 <>
@@ -387,7 +387,7 @@ export default function GalleryManagePage() {
                   </div>
                   <div className="admin-dropzone-text">Drag &amp; drop images here, or click to browse</div>
                   <div className="admin-dropzone-hint">
-                    JPG, PNG, WebP · Auto-resized to Full HD (1920px) &middot; Stored directly in Cloudflare R2
+                    JPG, PNG, WebP · Auto-resized to Full HD (1920px) &middot; 
                   </div>
                 </>
               )}
@@ -633,7 +633,7 @@ export default function GalleryManagePage() {
 
             <div className="admin-modal-body">
               <p>
-                Are you sure you want to permanently delete this photo? This will remove it from the live website gallery and delete the file from Cloudflare R2 storage. <strong>This cannot be undone.</strong>
+                Are you sure you want to permanently delete this photo? This will remove it from the live website gallery and delete the file from storage. <strong>This cannot be undone.</strong>
               </p>
 
               <div className="admin-modal-details">

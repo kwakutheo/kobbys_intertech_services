@@ -355,6 +355,15 @@ export function BookingsManager() {
           ) : (
             <div className="admin-table-wrap">
               <table className="admin-table">
+                <colgroup>
+                  <col className="admin-table-col-reference" />
+                  <col className="admin-table-col-customer" />
+                  <col className="admin-table-col-service" />
+                  <col className="admin-table-col-location" />
+                  <col className="admin-table-col-status" />
+                  <col className="admin-table-col-submitted" />
+                  <col className="admin-table-col-actions" />
+                </colgroup>
                 <thead>
                   <tr>
                     <th className="admin-th">Reference</th>
@@ -376,11 +385,14 @@ export function BookingsManager() {
 
                     return (
                       <tr key={item.id} className="admin-tr">
-                        <td className="admin-td">
+                        <td className="admin-td admin-table-cell--reference">
                           <span className="admin-ref-code">{item.reference}</span>
                         </td>
-                        <td className="admin-td">
+                        <td className="admin-td admin-table-cell--customer">
                           <span className="admin-cust-name">{item.customer?.fullName || 'Anonymous'}</span>
+                          {item.customer?.organisationName && (
+                            <span className="admin-cust-org">{item.customer.organisationName}</span>
+                          )}
                           <div className="admin-cust-sub">
                             <a href={`tel:${item.customer?.phone}`} className="admin-cust-link" title="Call customer">
                               📞 {item.customer?.phone}
@@ -392,48 +404,49 @@ export function BookingsManager() {
                             )}
                           </div>
                         </td>
-                        <td className="admin-td">
-                          <div style={{ fontWeight: 600, color: 'var(--admin-text)' }}>
+                        <td className="admin-td admin-table-cell--service">
+                          <div className="admin-table-primary">
                             {item.service?.name || 'General Enquiry'}
                           </div>
                           {item.preferredDate && (
-                            <div style={{ fontSize: 12, color: 'var(--admin-muted)', marginTop: 2 }}>
-                              📅 Pref: {new Date(item.preferredDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                            <div className="admin-table-meta">
+                              <span aria-hidden="true">📅</span> {new Date(item.preferredDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                               {item.timeWindow ? ` (${item.timeWindow})` : ''}
                             </div>
                           )}
                         </td>
-                        <td className="admin-td">
-                          <div style={{ maxWidth: 200, fontSize: 13, color: 'var(--admin-text)' }}>
-                            {item.address}
+                        <td className="admin-td admin-table-cell--location">
+                          <div className="admin-table-primary admin-location-text" title={item.address}>
+                            {item.address || 'No address supplied'}
                           </div>
                           {item.gpsAddress && (
-                            <div style={{ fontSize: 11.5, color: '#60a5fa', marginTop: 2, fontFamily: 'monospace' }}>
+                            <div className="admin-table-meta admin-gps-text" title={item.gpsAddress}>
                               📍 {item.gpsAddress}
                             </div>
                           )}
                         </td>
-                        <td className="admin-td">
+                        <td className="admin-td admin-table-cell--status">
                           {renderBadge(item.status)}
                         </td>
-                        <td className="admin-td" style={{ fontSize: 12.5, color: 'var(--admin-muted)' }}>
-                          {formattedDate}
+                        <td className="admin-td admin-table-cell--submitted">
+                          <time dateTime={item.createdAt}>{formattedDate}</time>
                         </td>
-                        <td className="admin-td" style={{ textAlign: 'right' }}>
-                          <div className="admin-actions" style={{ justifyContent: 'flex-end' }}>
+                        <td className="admin-td admin-table-cell--actions">
+                          <div className="admin-actions">
                             <button
                               type="button"
                               className="admin-btn-action"
                               onClick={() => setSelectedRequest(item)}
                               title="Inspect full request details and manage status"
                             >
-                              Details →
+                              View <span aria-hidden="true">→</span>
                             </button>
                             <button
                               type="button"
                               className="admin-btn-action admin-btn-danger"
                               onClick={() => handleDelete(item.id, item.reference)}
                               title="Delete request"
+                              aria-label={`Delete request ${item.reference}`}
                             >
                               ✕
                             </button>

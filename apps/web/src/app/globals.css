@@ -5113,18 +5113,38 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   border-radius: 14px;
   overflow-x: auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  scrollbar-width: thin;
 }
 
 .admin-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
   text-align: left;
   font-size: 13.5px;
-  min-width: 780px;
+  min-width: 1000px;
+}
+
+.admin-table-col-reference { width: 10%; }
+.admin-table-col-customer { width: 23%; }
+.admin-table-col-service { width: 18%; }
+.admin-table-col-location { width: 16%; }
+.admin-table-col-status { width: 14%; }
+.admin-table-col-submitted { width: 10%; }
+.admin-table-col-actions { width: 9%; }
+
+.admin-table-wrap::-webkit-scrollbar {
+  height: 8px;
+}
+
+.admin-table-wrap::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
 }
 
 .admin-th {
-  padding: 14px 18px;
+  padding: 15px 16px;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -5149,9 +5169,55 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
 }
 
 .admin-td {
-  padding: 14px 18px;
+  padding: 16px;
   color: var(--admin-text);
   vertical-align: middle;
+  overflow: hidden;
+}
+
+.admin-table-cell--reference,
+.admin-table-cell--status,
+.admin-table-cell--submitted,
+.admin-table-cell--actions {
+  white-space: nowrap;
+}
+
+.admin-table-cell--actions {
+  text-align: right;
+}
+
+.admin-table-primary {
+  color: var(--admin-text);
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.admin-table-meta {
+  margin-top: 5px;
+  color: var(--admin-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.admin-location-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.admin-gps-text {
+  overflow: hidden;
+  color: #60a5fa;
+  font-family: monospace;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-table-cell--submitted time {
+  color: var(--admin-muted);
+  font-size: 12.5px;
 }
 
 .admin-ref-code {
@@ -5170,23 +5236,39 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   font-weight: 700;
   color: #fff;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-cust-org {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--admin-muted);
+  font-size: 11.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .admin-cust-sub {
   font-size: 12px;
   color: var(--admin-muted);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  display: grid;
+  gap: 4px;
 }
 
 .admin-cust-link {
+  display: block;
+  max-width: 100%;
   color: var(--admin-muted);
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.15s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .admin-cust-link:hover {
@@ -5263,6 +5345,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: flex-end;
 }
 
 .admin-btn-action {
