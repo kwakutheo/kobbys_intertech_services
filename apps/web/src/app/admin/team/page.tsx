@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
+import { adminFetch } from '@/lib/admin-roles';
 
 type StaffMember = {
   id: string;
@@ -14,85 +15,108 @@ type StaffMember = {
   roles: string[];
 };
 
-const roles = [
+/** Roles handed out when an account is created. OWNER is only reassigned. */
+const grantableRoles = [
   ['ADMIN', 'Administrator'],
   ['BOOKINGS_MANAGER', 'Bookings Manager'],
   ['CONTENT_EDITOR', 'Content Editor'],
 ] as const;
 
-const labelRole = (role: string) => role.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase());
+/** Full vocabulary the backend accepts, used for the succession control. */
+const assignableRoles = [...grantableRoles, ['OWNER', 'Owner']] as const;
+
+const backendMessage = async (response: Response, fallback: string) => {
+  const data = await response.json().catch(() => null);
+  if (typeof data?.message === 'string') return data.message;
+  if (typeof data?.error === 'string') return data.error;
+  return fallback;
+};
 
 export default function AdminTeamPage() {
   const [staff, setStaff] = useState<StaffMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const [newStaff, setNewStaff] = useState({ displayName: '', email: '', role: 'BOOKINGS_MANAGER', password: '', confirmPassword: '' });
+  const [newStaff, setNewStaff] = useState({ displayName: '', email: '', role: 'BOOKINGS_MANAGER' });
   const [submitting, setSubmitting] = useState(false);
-  const [accessLink, setAccessLink] = useState('');
 
   const loadStaff = useCallback(async () => {
     setLoading(true);
-    const response = await fetch('/api/admin/backend/admin/staff', { cache: 'no-store' });
-    const data = await response.json().catch(() => null);
-    if (response.ok) setStaff(Array.isArray(data) ? data : []);
-    else setError(data?.message || 'You do not have permission to view team access.');
-    setLoading(false);
+    try {
+      const response = await adminFetch('/api/admin/backend/admin/staff', { cache: 'no-store' });
+      if (response.ok) {
+        const data = await response.json();
+        setStaff(Array.isArray(data) ? data : []);
+      } else {
+        setError(await backendMessage(response, 'You do not have permission to view team access.'));
+      }
+    } catch {
+      setError('Could not reach the server. Check your connection and try again.');
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => { void loadStaff(); }, [loadStaff]);
 
-  const copyLink = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      setMessage('Secure access link copied. Share it only with the intended staff member.');
-    } catch {
-      setAccessLink(link);
-    }
-  };
-
   const submitStaffAccount = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (newStaff.password.length < 8) return setError('Use an initial password of at least 8 characters.');
-    if (newStaff.password !== newStaff.confirmPassword) return setError('The password confirmation does not match.');
     setSubmitting(true);
     setError('');
     setMessage('');
-    const response = await fetch('/api/admin/backend/admin/staff/create', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-        displayName: newStaff.displayName,
-        email: newStaff.email,
-        role: newStaff.role,
-        password: newStaff.password,
-      }),
-    });
-    const data = await response.json().catch(() => null);
-    setSubmitting(false);
-    if (!response.ok) return setError(data?.message || 'Unable to create this staff account.');
-    setNewStaff({ displayName: '', email: '', role: 'BOOKINGS_MANAGER', password: '', confirmPassword: '' });
-    setMessage('Staff account created. Share the email address and initial password with the staff member through a trusted channel.');
-    await loadStaff();
+    try {
+      const response = await adminFetch('/api/admin/backend/admin/staff/invite', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+          displayName: newStaff.displayName,
+          email: newStaff.email,
+          role: newStaff.role,
+        }),
+      });
+      if (!response.ok) {
+        setError(await backendMessage(response, 'Unable to invite this staff member.'));
+        return;
+      }
+      setNewStaff({ displayName: '', email: '', role: 'BOOKINGS_MANAGER' });
+      setMessage(`An activation link has been emailed to ${newStaff.email}. It expires in 24 hours.`);
+      await loadStaff();
+    } catch {
+      setError('Could not reach the server. Check your connection and try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const updateStaff = async (member: StaffMember, patch: Record<string, string>) => {
     setError('');
-    const response = await fetch(`/api/admin/backend/admin/staff/${member.id}`, {
-      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(patch),
-    });
-    const data = await response.json().catch(() => null);
-    if (!response.ok) return setError(data?.message || 'Unable to update this staff account.');
-    setMessage(`${member.displayName || member.email} updated.`);
-    await loadStaff();
+    try {
+      const response = await adminFetch(`/api/admin/backend/admin/staff/${member.id}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(patch),
+      });
+      if (!response.ok) {
+        setError(await backendMessage(response, 'Unable to update this staff account.'));
+        return;
+      }
+      setMessage(`${member.displayName || member.email} updated.`);
+      await loadStaff();
+    } catch {
+      setError('Could not reach the server. Check your connection and try again.');
+    }
   };
 
   const resetPassword = async (member: StaffMember) => {
     setError('');
-    const response = await fetch(`/api/admin/backend/admin/staff/${member.id}/password-reset`, { method: 'POST' });
-    const data = await response.json().catch(() => null);
-    if (!response.ok) return setError(data?.message || 'Unable to generate a reset link.');
-    setAccessLink(data.resetUrl || '');
-    await copyLink(data.resetUrl);
-    setMessage(`A reset link for ${member.displayName || member.email} is ready to share.`);
+    try {
+      const response = await adminFetch(`/api/admin/backend/admin/staff/${member.id}/password-reset`, { method: 'POST' });
+      if (!response.ok) {
+        setError(await backendMessage(response, 'Unable to send an access link.'));
+        return;
+      }
+      // The API emails the link to the staff member, so report where it went
+      // rather than leaving a link on screen that nobody can retrieve.
+      setMessage(`An access link has been emailed to ${member.displayName || member.email}. It expires in 24 hours.`);
+    } catch {
+      setError('Could not reach the server. Check your connection and try again.');
+    }
   };
 
   return (
@@ -119,14 +143,12 @@ export default function AdminTeamPage() {
 
           <section className="admin-team-grid">
             <form className="admin-team-card" onSubmit={submitStaffAccount}>
-              <h2>Create staff account</h2>
-              <p>Set a secure initial password here. It is stored securely and staff can change it later from their account.</p>
+              <h2>Invite a staff member</h2>
+              <p>An activation link will be emailed to the address below. The invitee sets their own password to activate the account.</p>
               <label>Full name<input required value={newStaff.displayName} onChange={(event) => setNewStaff({ ...newStaff, displayName: event.target.value })} placeholder="e.g. Ama Mensah" /></label>
               <label>Work email<input required type="email" value={newStaff.email} onChange={(event) => setNewStaff({ ...newStaff, email: event.target.value })} placeholder="ama@company.com" /></label>
-              <label>Role<select value={newStaff.role} onChange={(event) => setNewStaff({ ...newStaff, role: event.target.value })}>{roles.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
-              <label>Initial password<input required type="password" minLength={8} autoComplete="new-password" value={newStaff.password} onChange={(event) => setNewStaff({ ...newStaff, password: event.target.value })} placeholder="At least 8 characters" /></label>
-              <label>Confirm initial password<input required type="password" minLength={8} autoComplete="new-password" value={newStaff.confirmPassword} onChange={(event) => setNewStaff({ ...newStaff, confirmPassword: event.target.value })} placeholder="Re-enter the password" /></label>
-              <button className="admin-login-btn" type="submit" disabled={submitting}>{submitting ? 'Creating…' : 'Create staff account'}</button>
+              <label>Role<select value={newStaff.role} onChange={(event) => setNewStaff({ ...newStaff, role: event.target.value })}>{grantableRoles.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+              <button className="admin-login-btn" type="submit" disabled={submitting}>{submitting ? 'Sending invitation…' : 'Send activation link'}</button>
             </form>
 
             <section className="admin-team-card admin-role-guide">
@@ -140,7 +162,6 @@ export default function AdminTeamPage() {
             </section>
           </section>
 
-          {accessLink && <section className="admin-access-link"><strong>Secure link ready</strong><p>Copy this private, one-time link and send it through a trusted channel. It expires in 24 hours.</p><div><code>{accessLink}</code><button type="button" className="admin-btn-action" onClick={() => void copyLink(accessLink)}>Copy link</button></div></section>}
 
           <section className="admin-team-list"><div className="admin-section-title">Staff accounts</div>
             {loading ? <div className="admin-loading">Loading staff accounts…</div> : staff.map((member) => {
@@ -149,8 +170,8 @@ export default function AdminTeamPage() {
               return <article className="admin-team-member" key={member.id}>
                 <div className="admin-team-member-info"><strong>{member.displayName || 'Unnamed staff member'}</strong><span>{member.email}</span><small>Last sign-in: {member.lastLoginAt ? new Date(member.lastLoginAt).toLocaleString('en-GB') : 'Never'}</small></div>
                 <div className="admin-team-member-controls"><span className={`admin-account-status admin-account-status--${member.accountStatus.toLowerCase()}`}>{member.accountStatus.toLowerCase()}</span>
-                  <select value={role} disabled={isOwner} onChange={(event) => void updateStaff(member, { role: event.target.value })}>{isOwner ? <option value="OWNER">Owner</option> : roles.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
-                  <button type="button" className="admin-btn-action" disabled={member.accountStatus !== 'ACTIVE'} onClick={() => void resetPassword(member)}>Reset password</button>
+                  <select value={role} disabled={isOwner} title={isOwner ? 'Owners cannot change an Owner role or status from here. Sign in as a second Owner to hand over access.' : undefined} onChange={(event) => void updateStaff(member, { role: event.target.value })}>{isOwner ? assignableRoles.map(([value, label]) => <option key={value} value={value}>{label}</option>) : grantableRoles.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
+                  <button type="button" className="admin-btn-action" title={member.accountStatus === 'INVITED' ? 'Email a fresh activation link' : 'Email a password-reset link'} disabled={member.accountStatus !== 'ACTIVE' && member.accountStatus !== 'INVITED'} onClick={() => void resetPassword(member)}>Send access link</button>
                   {!isOwner && <button type="button" className="admin-btn-action admin-btn-danger" onClick={() => void updateStaff(member, { accountStatus: member.accountStatus === 'SUSPENDED' ? 'ACTIVE' : 'SUSPENDED' })}>{member.accountStatus === 'SUSPENDED' ? 'Restore' : 'Suspend'}</button>}
                 </div>
               </article>;

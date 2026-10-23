@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
+import { adminFetch } from '@/lib/admin-roles';
 
 export function AdminAccountManager() {
+  const router = useRouter();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -21,7 +24,7 @@ export function AdminAccountManager() {
     setMessage('');
     setSubmitting(true);
     try {
-      const response = await fetch('/api/admin/backend/admin/staff/change-password', {
+      const response = await adminFetch('/api/admin/backend/admin/staff/change-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ currentPassword, newPassword }),
@@ -29,13 +32,13 @@ export function AdminAccountManager() {
       const data = await response.json().catch(() => null);
       if (!response.ok) throw new Error(data?.message || 'Unable to change your password.');
 
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
-      setMessage('Your password has been changed successfully.');
+      // Password changed - invalidate the current session so the old token
+      // cannot be replayed, and force the user to sign in with the new password.
+      setMessage('Password changed. Redirecting to sign in…');
+      await fetch('/api/admin/logout', { method: 'POST' });
+      router.push('/admin/login?changed=1');
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Unable to change your password.');
-    } finally {
       setSubmitting(false);
     }
   };

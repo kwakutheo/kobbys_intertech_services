@@ -19,31 +19,36 @@ export class JwtAuthGuard implements CanActivate {
     const [scheme, token] = request.headers.authorization?.split(' ') ?? [];
     if (scheme !== 'Bearer' || !token) throw new UnauthorizedException('A valid access token is required.');
 
+    let payload: AccessTokenPayload;
     try {
-      const payload = await this.jwtService.verifyAsync<AccessTokenPayload>(token);
-      const user = await this.prisma.user.findUnique({
-        where: { id: payload.sub },
-        select: {
-          email: true,
-          accountStatus: true,
-          roles: { select: { role: { select: { name: true } } } },
-        },
-      });
-      if (!user || user.accountStatus !== AccountStatus.ACTIVE) {
-        throw new UnauthorizedException('Your account is no longer active.');
-      }
-
-      // Roles are resolved from the database on every protected request. This
-      // makes suspensions and permission changes effective immediately instead
-      // of waiting for a previously issued access token to expire.
-      request.user = {
-        ...payload,
-        email: user.email,
-        roles: user.roles.map(({ role }) => role.name),
-      };
-      return true;
+      payload = await this.jwtService.verifyAsync<AccessTokenPayload>(token);
     } catch {
       throw new UnauthorizedException('A valid access token is required.');
     }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub },
+      select: {
+        email: true,
+        accountStatus: true,
+        roles: { select: { role: { select: { name: true } } } },
+      },
+    });
+    // A token the database no longer backs is its own error, so report it as an
+    // expired session rather than swallowing it as a generic token problem.
+    if (!user) throw new UnauthorizedException('A valid access token is required.');
+    if (user.accountStatus !== AccountStatus.ACTIVE) {
+      throw new UnauthorizedException('Your account is no longer active.');
+    }
+
+    // Roles are resolved from the database on every protected request. This
+    // makes suspensions and permission changes effective immediately instead
+    // of waiting for a previously issued access token to expire.
+    request.user = {
+      ...payload,
+      email: user.email,
+      roles: user.roles.map(({ role }) => role.name),
+    };
+    return true;
   }
 }

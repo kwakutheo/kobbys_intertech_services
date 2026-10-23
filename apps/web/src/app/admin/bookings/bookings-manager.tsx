@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
+import { adminFetch } from '@/lib/admin-roles';
 
 const API_BASE = '/api/admin/backend';
 
@@ -75,7 +76,7 @@ export function BookingsManager() {
   const loadRequests = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/enquiries`);
+      const res = await adminFetch(`${API_BASE}/enquiries`);
       if (res.ok) {
         const data = await res.json();
         setRequests(Array.isArray(data) ? data : []);
@@ -96,7 +97,7 @@ export function BookingsManager() {
   const handleStatusUpdate = async (id: string, newStatus: string, note?: string) => {
     setUpdatingId(id);
     try {
-      const res = await fetch(`${API_BASE}/enquiries/${id}/status`, {
+      const res = await adminFetch(`${API_BASE}/enquiries/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus, note }),
@@ -127,7 +128,7 @@ export function BookingsManager() {
       return;
     }
     try {
-      const res = await fetch(`${API_BASE}/enquiries/${id}`, { method: 'DELETE' });
+      const res = await adminFetch(`${API_BASE}/enquiries/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setRequests((prev) => prev.filter((r) => r.id !== id));
         if (selectedRequest?.id === id) setSelectedRequest(null);

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
+import { adminFetch } from '@/lib/admin-roles';
 import { compressImage, formatBytes } from '@/lib/image-compress';
 import {
   GALLERY_CATEGORIES,
@@ -49,7 +50,7 @@ export default function GalleryManagePage() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(getGalleryApi());
+      const res = await adminFetch(getGalleryApi());
       if (res.ok) {
         const data = await res.json();
         setPhotos(Array.isArray(data) ? data : []);
@@ -130,7 +131,7 @@ export default function GalleryManagePage() {
       if (uploadCategory) fd.append('category', uploadCategory);
 
       try {
-        const res = await fetch(getGalleryApi(), { method: 'POST', body: fd });
+        const res = await adminFetch(getGalleryApi(), { method: 'POST', body: fd });
         if (res.ok) {
           ok++;
         } else {
@@ -174,7 +175,7 @@ export default function GalleryManagePage() {
       : photoToDelete.filename;
 
     try {
-      const res = await fetch(`${getGalleryApi()}/${photoToDelete.id}`, { method: 'DELETE' });
+      const res = await adminFetch(`${getGalleryApi()}/${photoToDelete.id}`, { method: 'DELETE' });
       if (res.ok) {
         flash('ok', `Photo "${displayName}" deleted successfully.`);
         setPhotoToDelete(null);
@@ -192,7 +193,7 @@ export default function GalleryManagePage() {
 
   const handleCaptionEdit = async (id: string, caption: string) => {
     try {
-      const res = await fetch(`${getGalleryApi()}/${id}`, {
+      const res = await adminFetch(`${getGalleryApi()}/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ caption }),
@@ -213,7 +214,7 @@ export default function GalleryManagePage() {
   const handleCategoryEdit = async (id: string, newCategory: string) => {
     setUpdatingCategoryForId(id);
     try {
-      const res = await fetch(`${getGalleryApi()}/${id}`, {
+      const res = await adminFetch(`${getGalleryApi()}/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ category: newCategory || null }),

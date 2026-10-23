@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { SESSION_COOKIE, createAdminToken, getServerApiBaseUrl } from '@/lib/admin-auth';
+import { isStaffRole } from '@/lib/admin-roles';
 
 export async function POST(request: Request) {
   try {
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
     });
     const authData = await authResponse.json().catch(() => null);
     const roles = authData?.user?.roles as string[] | undefined;
-    const isStaff = roles?.some((role) => ['OWNER', 'ADMIN', 'BOOKINGS_MANAGER', 'CONTENT_EDITOR'].includes(role));
+    const isStaff = roles?.some(isStaffRole);
     if (!authResponse.ok || !authData?.accessToken || !isStaff) {
       return NextResponse.json({ success: false, error: 'Invalid staff email address or password.' }, { status: 401 });
     }

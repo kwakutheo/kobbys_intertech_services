@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { AuthModule } from './auth/auth.module.js';
@@ -13,6 +15,12 @@ import { AdminModule } from './admin/admin.module.js';
 
 @Module({
   imports: [
+    // Lenient global ceiling per IP. Sensitive routes tighten this with
+    // @Throttle(), so normal browsing and dashboard polling are never limited.
+    ThrottlerModule.forRoot({
+      throttlers: [{ limit: 300, ttl: 60_000 }],
+      errorMessage: 'Too many attempts. Please wait a moment before trying again.',
+    }),
     PrismaModule,
     AuthModule,
     CustomerModule,
@@ -22,6 +30,6 @@ import { AdminModule } from './admin/admin.module.js';
     AdminModule,
   ],
   controllers: [AppController, ServicesController],
-  providers: [AppService, ServicesService],
+  providers: [AppService, ServicesService, { provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}

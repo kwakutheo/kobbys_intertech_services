@@ -39,9 +39,9 @@ export class NotificationsService {
 
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || 'kobbysintertech@gmail.com';
     const from = process.env.EMAIL_FROM || "Kobby's Intertech <onboarding@resend.dev>";
-    const webUrl = process.env.WEB_URL || 'http://localhost:3000';
+    const webUrl = process.env.WEB_URL || 'https://kobbys-intertech-services.vercel.app';
 
-    const subject = `🚨 New Booking: [${payload.reference}] - ${payload.service.name}`;
+    const subject = `New Booking: [${payload.reference}] - ${payload.service.name}`;
     const html = this.buildAdminEmailHtml(payload, webUrl);
 
     try {
@@ -82,9 +82,40 @@ export class NotificationsService {
   }
 
   async sendStaffPasswordResetEmail(email: string, resetUrl: string): Promise<boolean> {
+    return this.sendStaffAccessEmail(
+      email,
+      resetUrl,
+      'Reset your Kobby’s Intertech staff password',
+      'A password reset was requested for your staff account.',
+      'Set a new password',
+    );
+  }
+
+  /**
+   * Emails the one-time activation link created when an owner invites a staff
+   * member. The link is only delivered here, so a failed send must be rolled
+   * back by the caller to keep the invitation reusable.
+   */
+  async sendStaffInvitationEmail(email: string, activationUrl: string): Promise<boolean> {
+    return this.sendStaffAccessEmail(
+      email,
+      activationUrl,
+      'Set your Kobby’s Intertech staff password',
+      'An account owner has created a staff account for you.',
+      'Activate your account',
+    );
+  }
+
+  private async sendStaffAccessEmail(
+    email: string,
+    accessUrl: string,
+    subject: string,
+    intro: string,
+    linkLabel: string,
+  ): Promise<boolean> {
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
-      this.logger.warn('RESEND_API_KEY is not configured. Staff password reset email was not sent.');
+      this.logger.warn('RESEND_API_KEY is not configured. Staff access email was not sent.');
       return false;
     }
     const from = process.env.EMAIL_FROM || "Kobby's Intertech <onboarding@resend.dev>";
@@ -95,17 +126,18 @@ export class NotificationsService {
         body: JSON.stringify({
           from,
           to: [email],
-          subject: 'Reset your Kobby’s Intertech staff password',
-          html: `<p>A password reset was requested for your staff account.</p><p><a href="${resetUrl}">Set a new password</a></p><p>This one-time link expires in 24 hours. If you did not request this, you can ignore this email.</p>`,
+          subject,
+          html: `<p>${intro}</p><p><a href="${accessUrl}">${linkLabel}</a></p><p>This one-time link expires in 24 hours. If you did not expect it, you can ignore this email.</p>`,
         }),
       });
       if (!response.ok) {
-        this.logger.error(`Resend failed to send a staff password-reset email: ${await response.text()}`);
+        this.logger.error(`Resend failed to send a staff access email to ${email}: ${await response.text()}`);
         return false;
       }
+      this.logger.log(`✅ Staff access email delivered to ${email}`);
       return true;
     } catch (error) {
-      this.logger.error('Unexpected error sending staff password-reset email:', error);
+      this.logger.error(`Unexpected error sending staff access email to ${email}:`, error);
       return false;
     }
   }
@@ -152,7 +184,7 @@ export class NotificationsService {
           <tr>
             <td class="header-cell" style="background: linear-gradient(135deg, #9a001a 0%, #360009ff 100%); padding: 26px 24px; text-align: left; border-top-left-radius: 11px; border-top-right-radius: 11px;">
               <span style="display: inline-block; background: rgba(255, 255, 255, 0.22); color: #ffffff; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 16px; margin-bottom: 8px;">
-                ⚡ NEW BOOKING RECEIVED
+                NEW BOOKING RECEIVED
               </span>
               <h1 style="margin: 0 0 4px; font-size: 21px; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; line-height: 1.25;">
                 Kobby's Intertech Services

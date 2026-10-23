@@ -134,6 +134,30 @@ describe.sequential('Auth & Customer Security Boundary (e2e)', () => {
     );
   });
 
+  it('throttles repeated sign-in attempts against the same account', async () => {
+    // Credential stuffing is bounded per targeted account, so a shared office
+    // or mobile network cannot be locked out by one noisy colleague.
+    const bruteEmail = `brute.${testId}@example.com`;
+    await request(app.getHttpServer()).post('/api/v1/auth/register').send({
+      fullName: 'Throttle Target',
+      email: bruteEmail,
+      phone: '+233243487171',
+      password: rawPassword,
+    }).expect(201);
+
+    const attempts = await Promise.all(
+      Array.from({ length: 12 }, () =>
+        request(app.getHttpServer())
+          .post('/api/v1/auth/login')
+          .send({ email: bruteEmail, password: 'WrongPassword999!' }),
+      ),
+    );
+
+    expect(attempts.filter((response) => response.status === 401).length).toBeGreaterThanOrEqual(1);
+    expect(attempts.some((response) => response.status === 429)).toBe(true);
+    expect(attempts.find((response) => response.status === 429)!.body.message).toMatch(/too many/i);
+  });
+
   it('enforces authentication on GET /api/v1/customer/requests', async () => {
     // Missing token
     await request(app.getHttpServer())

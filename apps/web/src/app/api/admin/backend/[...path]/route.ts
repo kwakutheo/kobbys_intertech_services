@@ -7,8 +7,15 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
 
   if (!['GET', 'HEAD'].includes(request.method)) {
     const origin = request.headers.get('origin');
-    if (origin && origin !== request.nextUrl.origin) {
-      return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 });
+    const host = request.headers.get('host');
+    if (origin && host) {
+      try {
+        if (new URL(origin).host !== host) {
+          return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 });
+        }
+      } catch {
+        return NextResponse.json({ error: 'Invalid request origin.' }, { status: 403 });
+      }
     }
   }
 
@@ -29,6 +36,16 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
     duplex: 'half',
     cache: 'no-store',
   });
+
+  // The API answers 401 when the bearer token it issued has aged out. Relay
+  // that as an expired session, so the panels sign the staff member in again
+  // instead of reporting a permissions problem on their own team page.
+  if (response.status === 401) {
+    return NextResponse.json(
+      { statusCode: 401, error: 'Session expired', message: 'Your session has expired. Please sign in again.' },
+      { status: 401, headers: { 'content-type': 'application/json' } },
+    );
+  }
 
   const responseHeaders = new Headers();
   const responseContentType = response.headers.get('content-type');

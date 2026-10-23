@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+import { resetAdminSignOutFlag } from '@/lib/admin-roles';
 
 export function AdminLoginForm() {
   const router = useRouter();
@@ -10,6 +11,8 @@ export function AdminLoginForm() {
   const rawFrom = searchParams.get('from');
   // Only allow internal redirects
   const destination = rawFrom && rawFrom.startsWith('/') ? rawFrom : '/admin';
+  const expired = searchParams.get('expired') === '1';
+  const changed = searchParams.get('changed') === '1';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,6 +41,8 @@ export function AdminLoginForm() {
         return;
       }
 
+      // A new session is live, so later 401s must be allowed to redirect again.
+      resetAdminSignOutFlag();
       router.push(destination);
       router.refresh();
     } catch {
@@ -53,6 +58,18 @@ export function AdminLoginForm() {
         <p className="admin-login-sub">
           Sign in with your staff account to manage website media, bookings, and services.
         </p>
+
+        {changed && !error && (
+          <p className="admin-login-error" role="status">
+            Your password has been changed. Please sign in with your new password.
+          </p>
+        )}
+
+        {expired && !changed && !error && (
+          <p className="admin-login-error" role="status">
+            Your session timed out for security reasons after 15 minutes of inactivity. Please sign in again.
+          </p>
+        )}
 
         <form onSubmit={handleSubmit}>
           <label className="admin-login-label" htmlFor="admin-portal-email">

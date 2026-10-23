@@ -5,6 +5,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { AuthModule } from './auth/auth.module.js';
@@ -21,6 +23,10 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     Module({
         imports: [
+            ThrottlerModule.forRoot({
+                throttlers: [{ limit: 300, ttl: 60_000 }],
+                errorMessage: 'Too many attempts. Please wait a moment before trying again.',
+            }),
             PrismaModule,
             AuthModule,
             CustomerModule,
@@ -30,7 +36,7 @@ AppModule = __decorate([
             AdminModule,
         ],
         controllers: [AppController, ServicesController],
-        providers: [AppService, ServicesService],
+        providers: [AppService, ServicesService, { provide: APP_GUARD, useClass: ThrottlerGuard }],
     })
 ], AppModule);
 export { AppModule };
