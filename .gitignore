@@ -18,6 +18,7 @@ build/
 .env.production
 resend.md
 cloudflare.md
+kobbys_intertech_services.env
 
 # Logs
 npm-debug.log*
