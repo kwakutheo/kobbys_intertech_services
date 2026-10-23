@@ -14,6 +14,13 @@ export class InviteStaffDto {
   role!: Exclude<(typeof STAFF_ROLES)[number], 'OWNER'>;
 }
 
+export class CreateStaffDto extends InviteStaffDto {
+  @IsString()
+  @MinLength(8)
+  @MaxLength(128)
+  password!: string;
+}
+
 export class UpdateStaffDto {
   @IsOptional()
   @IsString()
@@ -45,4 +52,16 @@ export class SetStaffPasswordDto {
 export class ForgotStaffPasswordDto {
   @IsEmail()
   email!: string;
+}
+
+export class ChangeOwnPasswordDto {
+  @IsString()
+  @MinLength(8)
+  @MaxLength(128)
+  currentPassword!: string;
+
+  @IsString()
+  @MinLength(8)
+  @MaxLength(128)
+  newPassword!: string;
 }

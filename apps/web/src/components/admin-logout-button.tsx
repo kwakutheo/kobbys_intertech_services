@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -20,6 +21,10 @@ export function AdminLogoutButton() {
   };
 
   return (
+    <>
+      <Link href="/admin/account" className="admin-topbar-back" title="Manage your account">
+        Account
+      </Link>
     <button
       type="button"
       onClick={handleLogout}
@@ -49,5 +54,6 @@ export function AdminLogoutButton() {
       </svg>
       {loading ? 'Signing out…' : 'Sign out'}
     </button>
+    </>
   );
 }

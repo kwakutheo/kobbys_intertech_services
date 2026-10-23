@@ -5645,6 +5645,8 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
 .admin-team-card select:focus,
 .admin-team-member-controls select:focus { border-color: var(--admin-wine); box-shadow: 0 0 0 3px var(--admin-wine-glow); }
 .admin-team-card .admin-login-btn { margin-top: 20px; }
+.admin-account-card { max-width: 560px; }
+.admin-account-card .admin-login-btn { margin-top: 20px; }
 .admin-role-guide dl { display: grid; gap: 15px; margin: 18px 0 0; }
 .admin-role-guide dl div { padding-bottom: 14px; border-bottom: 1px solid var(--admin-border); }
 .admin-role-guide dl div:last-child { padding-bottom: 0; border-bottom: 0; }

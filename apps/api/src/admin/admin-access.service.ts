@@ -1,11 +1,11 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { AccountStatus, Prisma, StaffAccessTokenPurpose } from '@prisma/client';
 import { createHash, randomBytes } from 'node:crypto';
-import { hash } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 import { PrismaService } from '../database/prisma.service.js';
 import { NotificationsService } from '../notifications/notifications.service.js';
 import { STAFF_ROLES, type StaffRole } from '../auth/admin-roles.js';
-import type { InviteStaffDto, UpdateStaffDto } from './dto/invite-staff.dto.js';
+import type { ChangeOwnPasswordDto, CreateStaffDto, InviteStaffDto, UpdateStaffDto } from './dto/invite-staff.dto.js';
 
 const TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
 const STAFF_ROLE_NAMES = [...STAFF_ROLES];
@@ -64,6 +64,30 @@ export class AdminAccessService {
     });
 
     return { user: { id: user.id, email: user.email, displayName: user.displayName }, activationUrl: this.tokenUrl('/admin/activate', rawToken) };
+  }
+
+  async createStaff(actorUserId: string, input: CreateStaffDto) {
+    const email = input.email.trim().toLowerCase();
+    const existing = await this.prisma.user.findUnique({ where: { email } });
+    if (existing) throw new ConflictException('An account already exists for this email address.');
+
+    const role = await this.getRole(input.role);
+    const user = await this.prisma.$transaction(async (tx) => {
+      const created = await tx.user.create({
+        data: {
+          email,
+          displayName: input.displayName.trim(),
+          passwordHash: await hash(input.password, 12),
+          accountStatus: AccountStatus.ACTIVE,
+          emailVerifiedAt: new Date(),
+          roles: { create: { roleId: role.id } },
+        },
+      });
+      await this.audit(tx, actorUserId, 'STAFF_ACCOUNT_CREATED', 'User', created.id, { email, role: input.role });
+      return created;
+    });
+
+    return { id: user.id, email: user.email, displayName: user.displayName };
   }
 
   async updateStaff(actorUserId: string, userId: string, input: UpdateStaffDto) {
@@ -145,6 +169,22 @@ export class AdminAccessService {
       await tx.user.update({ where: { id: record.userId }, data: { passwordHash: await hash(password, 12), accountStatus: AccountStatus.ACTIVE, emailVerifiedAt: new Date() } });
       await tx.staffAccessToken.update({ where: { id: record.id }, data: { consumedAt: new Date() } });
       await this.audit(tx, record.userId, record.purpose === StaffAccessTokenPurpose.INVITATION ? 'STAFF_INVITATION_ACCEPTED' : 'STAFF_PASSWORD_RESET_COMPLETED', 'User', record.userId);
+    });
+    return { success: true };
+  }
+
+  async changeOwnPassword(userId: string, input: ChangeOwnPasswordDto) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId }, include: { roles: { include: { role: true } } } });
+    if (!user || user.accountStatus !== AccountStatus.ACTIVE || !user.roles.some(({ role }) => STAFF_ROLE_NAMES.includes(role.name as StaffRole))) {
+      throw new NotFoundException('Active staff account not found.');
+    }
+    if (!(await compare(input.currentPassword, user.passwordHash))) throw new BadRequestException('Your current password is incorrect.');
+    if (await compare(input.newPassword, user.passwordHash)) throw new BadRequestException('Choose a password that differs from your current password.');
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.user.update({ where: { id: userId }, data: { passwordHash: await hash(input.newPassword, 12) } });
+      await tx.staffAccessToken.updateMany({ where: { userId, purpose: StaffAccessTokenPurpose.PASSWORD_RESET, consumedAt: null }, data: { consumedAt: new Date() } });
+      await this.audit(tx, userId, 'STAFF_PASSWORD_CHANGED', 'User', userId);
     });
     return { success: true };
   }

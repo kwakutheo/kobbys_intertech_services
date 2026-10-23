@@ -3,8 +3,9 @@ import type { AuthenticatedRequest } from '../auth/jwt-auth.guard.js';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 import { RolesGuard } from '../auth/roles.guard.js';
 import { Roles } from '../auth/roles.decorator.js';
+import { STAFF_ROLES } from '../auth/admin-roles.js';
 import { AdminAccessService } from './admin-access.service.js';
-import { ForgotStaffPasswordDto, InviteStaffDto, SetStaffPasswordDto, UpdateStaffDto } from './dto/invite-staff.dto.js';
+import { ChangeOwnPasswordDto, CreateStaffDto, ForgotStaffPasswordDto, InviteStaffDto, SetStaffPasswordDto, UpdateStaffDto } from './dto/invite-staff.dto.js';
 
 @Controller({ path: 'admin/staff', version: '1' })
 export class AdminAccessController {
@@ -22,6 +23,13 @@ export class AdminAccessController {
   @Roles('OWNER')
   invite(@Req() request: AuthenticatedRequest, @Body() input: InviteStaffDto) {
     return this.adminAccessService.inviteStaff(request.user.sub, input);
+  }
+
+  @Post('create')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('OWNER')
+  create(@Req() request: AuthenticatedRequest, @Body() input: CreateStaffDto) {
+    return this.adminAccessService.createStaff(request.user.sub, input);
   }
 
   @Patch(':id')
@@ -46,5 +54,12 @@ export class AdminAccessController {
   @Post('forgot-password')
   forgotPassword(@Body() input: ForgotStaffPasswordDto) {
     return this.adminAccessService.requestPasswordReset(input.email);
+  }
+
+  @Post('change-password')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(...STAFF_ROLES)
+  changeOwnPassword(@Req() request: AuthenticatedRequest, @Body() input: ChangeOwnPasswordDto) {
+    return this.adminAccessService.changeOwnPassword(request.user.sub, input);
   }
 }

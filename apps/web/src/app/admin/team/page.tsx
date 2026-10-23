@@ -27,7 +27,7 @@ export default function AdminTeamPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const [invite, setInvite] = useState({ displayName: '', email: '', role: 'BOOKINGS_MANAGER' });
+  const [newStaff, setNewStaff] = useState({ displayName: '', email: '', role: 'BOOKINGS_MANAGER', password: '', confirmPassword: '' });
   const [submitting, setSubmitting] = useState(false);
   const [accessLink, setAccessLink] = useState('');
 
@@ -51,21 +51,26 @@ export default function AdminTeamPage() {
     }
   };
 
-  const submitInvite = async (event: React.FormEvent) => {
+  const submitStaffAccount = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (newStaff.password.length < 8) return setError('Use an initial password of at least 8 characters.');
+    if (newStaff.password !== newStaff.confirmPassword) return setError('The password confirmation does not match.');
     setSubmitting(true);
     setError('');
     setMessage('');
-    const response = await fetch('/api/admin/backend/admin/staff/invite', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(invite),
+    const response = await fetch('/api/admin/backend/admin/staff/create', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+        displayName: newStaff.displayName,
+        email: newStaff.email,
+        role: newStaff.role,
+        password: newStaff.password,
+      }),
     });
     const data = await response.json().catch(() => null);
     setSubmitting(false);
-    if (!response.ok) return setError(data?.message || 'Unable to invite this staff member.');
-    setInvite({ displayName: '', email: '', role: 'BOOKINGS_MANAGER' });
-    setAccessLink(data.activationUrl || '');
-    await copyLink(data.activationUrl);
-    setMessage('Staff account created. Copy and share the secure activation link below.');
+    if (!response.ok) return setError(data?.message || 'Unable to create this staff account.');
+    setNewStaff({ displayName: '', email: '', role: 'BOOKINGS_MANAGER', password: '', confirmPassword: '' });
+    setMessage('Staff account created. Share the email address and initial password with the staff member through a trusted channel.');
     await loadStaff();
   };
 
@@ -100,25 +105,28 @@ export default function AdminTeamPage() {
           <Link href="/admin/bookings" className="admin-nav-link">Service Bookings</Link>
           <Link href="/admin/gallery" className="admin-nav-link">Gallery</Link>
           <Link href="/admin/team" className="admin-nav-link active">Team &amp; Access</Link>
+          <Link href="/admin/account" className="admin-nav-link">My Account</Link>
         </aside>
         <main className="admin-main">
           <div className="admin-page-header">
             <div className="admin-page-eyebrow">Security &amp; Staff Management</div>
             <h1 className="admin-page-title">Team &amp; Access</h1>
-            <p className="admin-page-lead">Create individual staff accounts, apply least-privilege roles, suspend access and issue one-time password links. Passwords are never visible to administrators.</p>
+            <p className="admin-page-lead">Create individual staff accounts, apply least-privilege roles, and suspend access when necessary. Staff can securely change their own password from their account.</p>
           </div>
 
           {error && <div className="admin-flash admin-flash--err">{error}</div>}
           {message && <div className="admin-flash admin-flash--ok">{message}</div>}
 
           <section className="admin-team-grid">
-            <form className="admin-team-card" onSubmit={submitInvite}>
-              <h2>Invite staff member</h2>
-              <p>New staff receive a single-use link to choose their own password. Links expire after 24 hours.</p>
-              <label>Full name<input required value={invite.displayName} onChange={(event) => setInvite({ ...invite, displayName: event.target.value })} placeholder="e.g. Ama Mensah" /></label>
-              <label>Work email<input required type="email" value={invite.email} onChange={(event) => setInvite({ ...invite, email: event.target.value })} placeholder="ama@company.com" /></label>
-              <label>Role<select value={invite.role} onChange={(event) => setInvite({ ...invite, role: event.target.value })}>{roles.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
-              <button className="admin-login-btn" type="submit" disabled={submitting}>{submitting ? 'Creating…' : 'Create invitation'}</button>
+            <form className="admin-team-card" onSubmit={submitStaffAccount}>
+              <h2>Create staff account</h2>
+              <p>Set a secure initial password here. It is stored securely and staff can change it later from their account.</p>
+              <label>Full name<input required value={newStaff.displayName} onChange={(event) => setNewStaff({ ...newStaff, displayName: event.target.value })} placeholder="e.g. Ama Mensah" /></label>
+              <label>Work email<input required type="email" value={newStaff.email} onChange={(event) => setNewStaff({ ...newStaff, email: event.target.value })} placeholder="ama@company.com" /></label>
+              <label>Role<select value={newStaff.role} onChange={(event) => setNewStaff({ ...newStaff, role: event.target.value })}>{roles.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+              <label>Initial password<input required type="password" minLength={8} autoComplete="new-password" value={newStaff.password} onChange={(event) => setNewStaff({ ...newStaff, password: event.target.value })} placeholder="At least 8 characters" /></label>
+              <label>Confirm initial password<input required type="password" minLength={8} autoComplete="new-password" value={newStaff.confirmPassword} onChange={(event) => setNewStaff({ ...newStaff, confirmPassword: event.target.value })} placeholder="Re-enter the password" /></label>
+              <button className="admin-login-btn" type="submit" disabled={submitting}>{submitting ? 'Creating…' : 'Create staff account'}</button>
             </form>
 
             <section className="admin-team-card admin-role-guide">
