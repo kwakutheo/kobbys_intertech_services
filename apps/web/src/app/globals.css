@@ -5143,6 +5143,73 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   border-radius: 999px;
 }
 
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  color: var(--admin-muted);
+}
+
+.admin-pagination-summary {
+  margin: 0;
+  font-size: 12.5px;
+}
+
+.admin-pagination-summary strong {
+  color: var(--admin-text);
+  font-weight: 700;
+}
+
+.admin-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.admin-pagination-button {
+  display: inline-flex;
+  min-width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: var(--admin-surface);
+  color: var(--admin-muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.admin-pagination-button:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--admin-text);
+}
+
+.admin-pagination-button.active {
+  border-color: var(--admin-wine);
+  background: var(--admin-wine);
+  color: #ffffff;
+}
+
+.admin-pagination-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+@media (max-width: 640px) {
+  .admin-pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 .admin-th {
   padding: 15px 16px;
   font-size: 11px;

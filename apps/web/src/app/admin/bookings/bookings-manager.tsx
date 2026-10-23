@@ -55,11 +55,14 @@ const STATUS_OPTIONS = [
   { value: 'DECLINED', label: 'Declined' },
 ];
 
+const BOOKINGS_PER_PAGE = 10;
+
 export function BookingsManager() {
   const [requests, setRequests] = useState<ServiceRequestItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('ALL');
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedRequest, setSelectedRequest] = useState<ServiceRequestItem | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [statusNote, setStatusNote] = useState('');
@@ -168,6 +171,18 @@ export function BookingsManager() {
       );
     });
   }, [requests, filterStatus, search]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredRequests.length / BOOKINGS_PER_PAGE));
+  const activePage = Math.min(currentPage, totalPages);
+  const pageStart = (activePage - 1) * BOOKINGS_PER_PAGE;
+  const paginatedRequests = filteredRequests.slice(pageStart, pageStart + BOOKINGS_PER_PAGE);
+  const rangeStart = filteredRequests.length === 0 ? 0 : pageStart + 1;
+  const rangeEnd = Math.min(pageStart + BOOKINGS_PER_PAGE, filteredRequests.length);
+
+  const updateFilter = (status: string) => {
+    setFilterStatus(status);
+    setCurrentPage(1);
+  };
 
   // Counts
   const counts = useMemo(() => {
@@ -284,7 +299,10 @@ export function BookingsManager() {
                 className="admin-search-input"
                 placeholder="Search reference, client name, phone, service, city..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setCurrentPage(1);
+                }}
               />
             </div>
 
@@ -292,35 +310,35 @@ export function BookingsManager() {
               <button
                 type="button"
                 className={`admin-filter-pill ${filterStatus === 'ALL' ? 'active' : ''}`}
-                onClick={() => setFilterStatus('ALL')}
+                onClick={() => updateFilter('ALL')}
               >
                 All <span className="admin-pill-badge">{counts.total}</span>
               </button>
               <button
                 type="button"
                 className={`admin-filter-pill ${filterStatus === 'REQUESTED' ? 'active' : ''}`}
-                onClick={() => setFilterStatus('REQUESTED')}
+                onClick={() => updateFilter('REQUESTED')}
               >
                 New <span className="admin-pill-badge">{counts.requested}</span>
               </button>
               <button
                 type="button"
                 className={`admin-filter-pill ${filterStatus === 'UNDER_REVIEW' ? 'active' : ''}`}
-                onClick={() => setFilterStatus('UNDER_REVIEW')}
+                onClick={() => updateFilter('UNDER_REVIEW')}
               >
                 In Review <span className="admin-pill-badge">{counts.underReview}</span>
               </button>
               <button
                 type="button"
                 className={`admin-filter-pill ${filterStatus === 'CONFIRMED' ? 'active' : ''}`}
-                onClick={() => setFilterStatus('CONFIRMED')}
+                onClick={() => updateFilter('CONFIRMED')}
               >
                 Confirmed
               </button>
               <button
                 type="button"
                 className={`admin-filter-pill ${filterStatus === 'COMPLETED' ? 'active' : ''}`}
-                onClick={() => setFilterStatus('COMPLETED')}
+                onClick={() => updateFilter('COMPLETED')}
               >
                 Completed <span className="admin-pill-badge">{counts.completed}</span>
               </button>
@@ -353,8 +371,9 @@ export function BookingsManager() {
               </p>
             </div>
           ) : (
-            <div className="admin-table-wrap">
-              <table className="admin-table">
+            <>
+              <div className="admin-table-wrap">
+                <table className="admin-table">
                 <colgroup>
                   <col className="admin-table-col-reference" />
                   <col className="admin-table-col-customer" />
@@ -376,7 +395,7 @@ export function BookingsManager() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredRequests.map((item) => {
+                  {paginatedRequests.map((item) => {
                     const formattedDate = new Date(item.createdAt).toLocaleDateString('en-GB', {
                       day: 'numeric',
                       month: 'short',
@@ -456,8 +475,47 @@ export function BookingsManager() {
                     );
                   })}
                 </tbody>
-              </table>
-            </div>
+                </table>
+              </div>
+
+              <nav className="admin-pagination" aria-label="Bookings pagination">
+                <p className="admin-pagination-summary">
+                  Showing <strong>{rangeStart}–{rangeEnd}</strong> of <strong>{filteredRequests.length}</strong> requests
+                </p>
+                {totalPages > 1 && (
+                  <div className="admin-pagination-controls">
+                    <button
+                      type="button"
+                      className="admin-pagination-button"
+                      onClick={() => setCurrentPage(activePage - 1)}
+                      disabled={activePage === 1}
+                    >
+                      Previous
+                    </button>
+                    {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                      <button
+                        key={page}
+                        type="button"
+                        className={`admin-pagination-button ${activePage === page ? 'active' : ''}`}
+                        onClick={() => setCurrentPage(page)}
+                        aria-label={`Go to page ${page}`}
+                        aria-current={activePage === page ? 'page' : undefined}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      className="admin-pagination-button"
+                      onClick={() => setCurrentPage(activePage + 1)}
+                      disabled={activePage === totalPages}
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </nav>
+            </>
           )}
         </main>
       </div>
