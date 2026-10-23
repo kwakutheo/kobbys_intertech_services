@@ -3,6 +3,7 @@ import { AccountStatus, Prisma, StaffAccessTokenPurpose } from '@prisma/client';
 import { createHash, randomBytes } from 'node:crypto';
 import { hash } from 'bcryptjs';
 import { PrismaService } from '../database/prisma.service.js';
+import { NotificationsService } from '../notifications/notifications.service.js';
 import { STAFF_ROLES, type StaffRole } from '../auth/admin-roles.js';
 import type { InviteStaffDto, UpdateStaffDto } from './dto/invite-staff.dto.js';
 
@@ -13,7 +14,10 @@ const tokenHash = (token: string) => createHash('sha256').update(token).digest('
 
 @Injectable()
 export class AdminAccessService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificationsService: NotificationsService,
+  ) {}
 
   async listStaff() {
     const users = await this.prisma.user.findMany({
@@ -106,6 +110,30 @@ export class AdminAccessService {
       await this.audit(tx, actorUserId, 'STAFF_PASSWORD_RESET_ISSUED', 'User', userId);
     });
     return { resetUrl: this.tokenUrl('/admin/activate', rawToken) };
+  }
+
+  async requestPasswordReset(emailInput: string) {
+    const email = emailInput.trim().toLowerCase();
+    const user = await this.prisma.user.findUnique({ where: { email }, include: { roles: { include: { role: true } } } });
+    const genericResponse = { success: true, message: 'If an active staff account matches that email address, a password-reset link will be sent shortly.' };
+    if (!user || user.accountStatus !== AccountStatus.ACTIVE || !user.roles.some(({ role }) => STAFF_ROLE_NAMES.includes(role.name as StaffRole))) return genericResponse;
+
+    const throttled = await this.prisma.staffAccessToken.findFirst({
+      where: { userId: user.id, purpose: StaffAccessTokenPurpose.PASSWORD_RESET, createdAt: { gte: new Date(Date.now() - 60_000) } },
+    });
+    if (throttled) return genericResponse;
+
+    const rawToken = randomBytes(32).toString('base64url');
+    const resetUrl = this.tokenUrl('/admin/activate', rawToken);
+    const sent = await this.notificationsService.sendStaffPasswordResetEmail(user.email, resetUrl);
+    if (!sent) return genericResponse;
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.staffAccessToken.updateMany({ where: { userId: user.id, purpose: StaffAccessTokenPurpose.PASSWORD_RESET, consumedAt: null }, data: { consumedAt: new Date() } });
+      await tx.staffAccessToken.create({ data: { userId: user.id, tokenHash: tokenHash(rawToken), purpose: StaffAccessTokenPurpose.PASSWORD_RESET, expiresAt: new Date(Date.now() + TOKEN_TTL_MS) } });
+      await this.audit(tx, user.id, 'STAFF_PASSWORD_RESET_REQUESTED', 'User', user.id);
+    });
+    return genericResponse;
   }
 
   async setPassword(token: string, password: string) {

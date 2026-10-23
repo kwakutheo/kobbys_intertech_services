@@ -97,6 +97,10 @@ export function AdminLoginForm() {
           </button>
         </form>
 
+        <Link href="/admin/forgot-password" className="admin-forgot-password">
+          Forgot password?
+        </Link>
+
         <Link href="/" className="admin-login-back">
           ← Return to Live Website
         </Link>

@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 import { RolesGuard } from '../auth/roles.guard.js';
 import { Roles } from '../auth/roles.decorator.js';
 import { AdminAccessService } from './admin-access.service.js';
-import { InviteStaffDto, SetStaffPasswordDto, UpdateStaffDto } from './dto/invite-staff.dto.js';
+import { ForgotStaffPasswordDto, InviteStaffDto, SetStaffPasswordDto, UpdateStaffDto } from './dto/invite-staff.dto.js';
 
 @Controller({ path: 'admin/staff', version: '1' })
 export class AdminAccessController {
@@ -41,5 +41,10 @@ export class AdminAccessController {
   @Post('set-password')
   setPassword(@Body() input: SetStaffPasswordDto) {
     return this.adminAccessService.setPassword(input.token, input.password);
+  }
+
+  @Post('forgot-password')
+  forgotPassword(@Body() input: ForgotStaffPasswordDto) {
+    return this.adminAccessService.requestPasswordReset(input.email);
   }
 }

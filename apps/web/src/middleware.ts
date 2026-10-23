@@ -25,6 +25,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Password activation and recovery links must remain available without a session.
+  if (pathname === '/admin/activate' || pathname === '/admin/forgot-password') {
+    return NextResponse.next();
+  }
+
   // All other /admin paths require authentication
   if (pathname.startsWith('/admin')) {
     if (!isAuthenticated) {

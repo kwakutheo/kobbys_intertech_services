@@ -81,6 +81,35 @@ export class NotificationsService {
     }
   }
 
+  async sendStaffPasswordResetEmail(email: string, resetUrl: string): Promise<boolean> {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      this.logger.warn('RESEND_API_KEY is not configured. Staff password reset email was not sent.');
+      return false;
+    }
+    const from = process.env.EMAIL_FROM || "Kobby's Intertech <onboarding@resend.dev>";
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from,
+          to: [email],
+          subject: 'Reset your Kobby’s Intertech staff password',
+          html: `<p>A password reset was requested for your staff account.</p><p><a href="${resetUrl}">Set a new password</a></p><p>This one-time link expires in 24 hours. If you did not request this, you can ignore this email.</p>`,
+        }),
+      });
+      if (!response.ok) {
+        this.logger.error(`Resend failed to send a staff password-reset email: ${await response.text()}`);
+        return false;
+      }
+      return true;
+    } catch (error) {
+      this.logger.error('Unexpected error sending staff password-reset email:', error);
+      return false;
+    }
+  }
+
   private buildAdminEmailHtml(data: BookingNotificationPayload, webUrl: string): string {
     const cleanPhone = (data.customer.phone || '').replace(/[^0-9]/g, '');
     const waUrl = cleanPhone ? `https://wa.me/${cleanPhone}` : '';
@@ -279,4 +308,3 @@ ${cleanDescription}
 </html>`;
   }
 }
-

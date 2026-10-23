@@ -16,7 +16,7 @@ export function AdminActivationForm() {
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!token) return setError('This access link is missing or invalid. Request a new link from an account owner.');
-    if (password.length < 12) return setError('Use at least 12 characters for your password.');
+    if (password.length < 8) return setError('Use at least 8 characters for your password.');
     if (password !== confirmPassword) return setError('Your passwords do not match.');
     setError('');
     setSubmitting(true);
@@ -49,9 +49,9 @@ export function AdminActivationForm() {
         ) : (
           <form onSubmit={submit}>
             <label className="admin-login-label" htmlFor="staff-password">New password</label>
-            <input id="staff-password" className="admin-login-input" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" minLength={12} required disabled={submitting} />
+            <input id="staff-password" className="admin-login-input" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" minLength={8} required disabled={submitting} />
             <label className="admin-login-label" htmlFor="staff-password-confirm">Confirm password</label>
-            <input id="staff-password-confirm" className="admin-login-input" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} autoComplete="new-password" minLength={12} required disabled={submitting} />
+            <input id="staff-password-confirm" className="admin-login-input" type="password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} autoComplete="new-password" minLength={8} required disabled={submitting} />
             {error && <p className="admin-login-error">{error}</p>}
             <button className="admin-login-btn" type="submit" disabled={submitting}>{submitting ? 'Saving…' : 'Set password'}</button>
           </form>

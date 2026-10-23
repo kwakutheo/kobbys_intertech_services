@@ -4962,6 +4962,22 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   box-shadow: 0 8px 20px var(--admin-wine-glow);
 }
 
+.admin-forgot-password {
+  display: block;
+  width: fit-content;
+  margin: 16px auto 0;
+  color: var(--admin-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.admin-forgot-password:hover {
+  color: var(--admin-text);
+  text-decoration: underline;
+}
+
 .admin-login-back {
   display: block;
   text-align: center;
