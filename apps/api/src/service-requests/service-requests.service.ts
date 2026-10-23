@@ -176,7 +176,7 @@ export class ServiceRequestsService {
     return request;
   }
 
-  async updateStatus(id: string, newStatus: ServiceRequestStatus, note?: string) {
+  async updateStatus(id: string, newStatus: ServiceRequestStatus, note?: string, actorUserId?: string) {
     const existing = await this.prisma.serviceRequest.findFirst({
       where: { OR: [{ id }, { reference: id }] },
     });
@@ -194,23 +194,47 @@ export class ServiceRequestsService {
           eventType: 'STATUS_UPDATED',
           oldStatus: existing.status,
           newStatus,
+          actorUserId,
           customerVisible: true,
           detail: note ? { note } : undefined,
         },
       });
 
+      if (actorUserId) {
+        await tx.auditLog.create({
+          data: {
+            actorUserId,
+            action: 'SERVICE_REQUEST_STATUS_UPDATED',
+            entityType: 'ServiceRequest',
+            entityId: existing.id,
+            metadata: { oldStatus: existing.status, newStatus, ...(note ? { note } : {}) },
+          },
+        });
+      }
+
       return updated;
     });
   }
 
-  async remove(id: string) {
+  async remove(id: string, actorUserId?: string) {
     const existing = await this.prisma.serviceRequest.findFirst({
       where: { OR: [{ id }, { reference: id }] },
     });
     if (!existing) throw new NotFoundException('Service request not found.');
 
-    await this.prisma.serviceRequest.delete({
-      where: { id: existing.id },
+    await this.prisma.$transaction(async (tx) => {
+      if (actorUserId) {
+        await tx.auditLog.create({
+          data: {
+            actorUserId,
+            action: 'SERVICE_REQUEST_DELETED',
+            entityType: 'ServiceRequest',
+            entityId: existing.id,
+            metadata: { reference: existing.reference },
+          },
+        });
+      }
+      await tx.serviceRequest.delete({ where: { id: existing.id } });
     });
     return { success: true, id: existing.id, reference: existing.reference };
   }

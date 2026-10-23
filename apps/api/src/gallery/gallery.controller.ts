@@ -11,10 +11,15 @@ import {
   BadRequestException,
   ParseUUIDPipe,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { GalleryService } from './gallery.service.js';
+import { JwtAuthGuard, type AuthenticatedRequest } from '../auth/jwt-auth.guard.js';
+import { RolesGuard } from '../auth/roles.guard.js';
+import { Roles } from '../auth/roles.decorator.js';
 
 const storage = memoryStorage();
 
@@ -36,6 +41,8 @@ export class GalleryController {
 
   /** POST /api/v1/gallery — upload a new photo (multipart/form-data) */
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('OWNER', 'ADMIN', 'CONTENT_EDITOR')
   @UseInterceptors(
     FileInterceptor('file', {
       storage,
@@ -50,6 +57,7 @@ export class GalleryController {
     }),
   )
   async upload(
+    @Req() request: AuthenticatedRequest,
     @UploadedFile() file: Express.Multer.File,
     @Body('caption') caption?: string,
     @Body('sortOrder') sortOrder?: string | number,
@@ -64,12 +72,16 @@ export class GalleryController {
       caption,
       Number.isNaN(parsedSort) ? undefined : parsedSort,
       category || undefined,
+      request.user.sub,
     );
   }
 
   /** PATCH /api/v1/gallery/:id — update photo caption / sortOrder / category */
   @Patch(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('OWNER', 'ADMIN', 'CONTENT_EDITOR')
   update(
+    @Req() request: AuthenticatedRequest,
     @Param('id', ParseUUIDPipe) id: string,
     @Body('caption') caption?: string,
     @Body('sortOrder') sortOrder?: string | number,
@@ -80,12 +92,14 @@ export class GalleryController {
       caption,
       sortOrder: Number.isNaN(parsedSort) ? undefined : parsedSort,
       category: category !== undefined ? (category || null) : undefined,
-    });
+    }, request.user.sub);
   }
 
   /** DELETE /api/v1/gallery/:id */
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.galleryService.remove(id);
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('OWNER', 'ADMIN')
+  remove(@Req() request: AuthenticatedRequest, @Param('id', ParseUUIDPipe) id: string) {
+    return this.galleryService.remove(id, request.user.sub);
   }
 }

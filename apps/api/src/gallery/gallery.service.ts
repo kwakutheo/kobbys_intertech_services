@@ -63,6 +63,7 @@ export class GalleryService {
     caption?: string,
     sortOrder?: number,
     category?: string,
+    actorUserId?: string,
   ) {
     const r2Configured =
       process.env.CF_R2_ACCOUNT_ID &&
@@ -87,7 +88,7 @@ export class GalleryService {
       await fs.writeFile(path.join(getGalleryDir(), filename), buffer);
     }
 
-    return this.prisma.galleryPhoto.create({
+    const photo = await this.prisma.galleryPhoto.create({
       data: {
         filename,
         caption: caption ?? null,
@@ -97,9 +98,15 @@ export class GalleryService {
         ...(sortOrder !== undefined ? { sortOrder } : {}),
       },
     });
+    if (actorUserId) {
+      await this.prisma.auditLog.create({
+        data: { actorUserId, action: 'GALLERY_PHOTO_CREATED', entityType: 'GalleryPhoto', entityId: photo.id, metadata: { filename: photo.filename, category: photo.category } },
+      });
+    }
+    return photo;
   }
 
-  async remove(id: string) {
+  async remove(id: string, actorUserId?: string) {
     const photo = await this.prisma.galleryPhoto.findUnique({ where: { id } });
     if (!photo) throw new NotFoundException('Photo not found');
 
@@ -116,13 +123,19 @@ export class GalleryService {
       }
     }
 
-    return this.prisma.galleryPhoto.delete({ where: { id } });
+    const deleted = await this.prisma.galleryPhoto.delete({ where: { id } });
+    if (actorUserId) {
+      await this.prisma.auditLog.create({
+        data: { actorUserId, action: 'GALLERY_PHOTO_DELETED', entityType: 'GalleryPhoto', entityId: id, metadata: { filename: deleted.filename } },
+      });
+    }
+    return deleted;
   }
 
-  async update(id: string, data: { caption?: string; sortOrder?: number; category?: string | null }) {
+  async update(id: string, data: { caption?: string; sortOrder?: number; category?: string | null }, actorUserId?: string) {
     const photo = await this.prisma.galleryPhoto.findUnique({ where: { id } });
     if (!photo) throw new NotFoundException('Photo not found');
-    return this.prisma.galleryPhoto.update({
+    const updated = await this.prisma.galleryPhoto.update({
       where: { id },
       data: {
         ...(data.caption !== undefined ? { caption: data.caption } : {}),
@@ -130,5 +143,11 @@ export class GalleryService {
         ...(data.category !== undefined ? { category: data.category } : {}),
       },
     });
+    if (actorUserId) {
+      await this.prisma.auditLog.create({
+        data: { actorUserId, action: 'GALLERY_PHOTO_UPDATED', entityType: 'GalleryPhoto', entityId: id, metadata: data },
+      });
+    }
+    return updated;
   }
 }

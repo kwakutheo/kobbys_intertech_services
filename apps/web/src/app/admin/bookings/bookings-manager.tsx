@@ -3,10 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getApiBaseUrl } from '@/lib/api-url';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
 
-const API_BASE = getApiBaseUrl();
+const API_BASE = '/api/admin/backend';
 
 export type ServiceRequestItem = {
   id: string;
@@ -245,6 +244,12 @@ export function BookingsManager() {
               <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
             </svg>
             Gallery
+          </Link>
+          <Link href="/admin/team" className="admin-nav-link">
+            <svg className="admin-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
+            </svg>
+            Team &amp; Access
           </Link>
         </aside>
 

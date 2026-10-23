@@ -1,4 +1,6 @@
+import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
+import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -18,6 +20,40 @@ async function seed() {
       update: { name, description, displayOrder: displayOrder + 1, isActive: true },
       create: { slug, name, description, displayOrder: displayOrder + 1 },
     });
+  }
+
+  const ownerEmail = process.env.INITIAL_OWNER_EMAIL?.trim().toLowerCase();
+  const ownerPassword = process.env.INITIAL_OWNER_PASSWORD;
+  if (ownerEmail && ownerPassword) {
+    const ownerRole = await prisma.role.upsert({
+      where: { name: 'OWNER' },
+      update: {},
+      create: { name: 'OWNER', description: 'Full staff administration access' },
+    });
+    const existingOwner = await prisma.user.findUnique({ where: { email: ownerEmail } });
+    if (!existingOwner) {
+      await prisma.user.create({
+        data: {
+          email: ownerEmail,
+          displayName: process.env.INITIAL_OWNER_NAME?.trim() || 'Account Owner',
+          passwordHash: await hash(ownerPassword, 12),
+          accountStatus: 'ACTIVE',
+          emailVerifiedAt: new Date(),
+          roles: { create: { roleId: ownerRole.id } },
+        },
+      });
+      console.log(`Initial Owner account created for ${ownerEmail}.`);
+    } else {
+      const hasOwnerRole = await prisma.userRole.findUnique({
+        where: { userId_roleId: { userId: existingOwner.id, roleId: ownerRole.id } },
+      });
+      if (!hasOwnerRole) {
+        await prisma.userRole.create({ data: { userId: existingOwner.id, roleId: ownerRole.id } });
+        console.log(`Existing account ${ownerEmail} granted the Owner role.`);
+      } else {
+        console.log(`Owner account for ${ownerEmail} already exists; password was not changed.`);
+      }
+    }
   }
 }
 

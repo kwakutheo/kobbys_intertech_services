@@ -1,21 +1,32 @@
 import { NextResponse } from 'next/server';
-import { SESSION_COOKIE, createAdminToken, getAdminPassword } from '@/lib/admin-auth';
+import { SESSION_COOKIE, createAdminToken, getServerApiBaseUrl } from '@/lib/admin-auth';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const { password } = body;
+    const { email, password } = body;
 
-    const expectedPassword = getAdminPassword();
-
-    if (!password || typeof password !== 'string' || password !== expectedPassword) {
+    if (!email || typeof email !== 'string' || !password || typeof password !== 'string') {
       return NextResponse.json(
-        { success: false, error: 'Incorrect administrator password.' },
-        { status: 401 }
+        { success: false, error: 'Enter your staff email address and password.' },
+        { status: 400 }
       );
     }
 
-    const token = await createAdminToken();
+    const authResponse = await fetch(`${getServerApiBaseUrl()}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+      cache: 'no-store',
+    });
+    const authData = await authResponse.json().catch(() => null);
+    const roles = authData?.user?.roles as string[] | undefined;
+    const isStaff = roles?.some((role) => ['OWNER', 'ADMIN', 'BOOKINGS_MANAGER', 'CONTENT_EDITOR'].includes(role));
+    if (!authResponse.ok || !authData?.accessToken || !isStaff) {
+      return NextResponse.json({ success: false, error: 'Invalid staff email address or password.' }, { status: 401 });
+    }
+
+    const token = await createAdminToken(authData.accessToken, { email: authData.user.email, roles: roles ?? [] });
 
     const response = NextResponse.json({ success: true });
     response.cookies.set({
@@ -25,7 +36,7 @@ export async function POST(request: Request) {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 8 * 60 * 60, // 8 hours
+      maxAge: 15 * 60,
     });
 
     return response;

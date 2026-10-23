@@ -11,13 +11,14 @@ export function AdminLoginForm() {
   // Only allow internal redirects
   const destination = rawFrom && rawFrom.startsWith('/') ? rawFrom : '/admin';
 
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!password) return;
+    if (!email || !password) return;
 
     setError('');
     setSubmitting(true);
@@ -26,13 +27,13 @@ export function AdminLoginForm() {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok || !data.success) {
-        setError(data.error || 'Incorrect administrator password.');
+        setError(data.error || 'Invalid staff email address or password.');
         setSubmitting(false);
         return;
       }
@@ -50,10 +51,25 @@ export function AdminLoginForm() {
       <div className="admin-login-card">
         <h1 className="admin-login-title">Admin Control Center</h1>
         <p className="admin-login-sub">
-          Enter your administrator credentials to manage website media, bookings, and services.
+          Sign in with your staff account to manage website media, bookings, and services.
         </p>
 
         <form onSubmit={handleSubmit}>
+          <label className="admin-login-label" htmlFor="admin-portal-email">
+            Work email
+          </label>
+          <input
+            id="admin-portal-email"
+            className="admin-login-input"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
+            autoFocus
+            disabled={submitting}
+            placeholder="name@company.com"
+          />
           <label className="admin-login-label" htmlFor="admin-portal-password">
             Password
           </label>
@@ -65,9 +81,8 @@ export function AdminLoginForm() {
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
             required
-            autoFocus
             disabled={submitting}
-            placeholder="Enter admin password"
+            placeholder="Enter your password"
           />
 
           {error && <p className="admin-login-error">{error}</p>}

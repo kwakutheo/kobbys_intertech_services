@@ -8,10 +8,15 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateEnquiryDto } from './dto/create-enquiry.dto.js';
 import { ServiceRequestsService } from './service-requests.service.js';
 import { ServiceRequestStatus } from '@prisma/client';
+import { JwtAuthGuard, type AuthenticatedRequest } from '../auth/jwt-auth.guard.js';
+import { RolesGuard } from '../auth/roles.guard.js';
+import { Roles } from '../auth/roles.decorator.js';
 
 @Controller({ path: 'enquiries', version: '1' })
 export class ServiceRequestsController {
@@ -26,6 +31,8 @@ export class ServiceRequestsController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('OWNER', 'ADMIN', 'BOOKINGS_MANAGER')
   findAll(
     @Query('status') status?: ServiceRequestStatus,
     @Query('search') search?: string,
@@ -34,22 +41,28 @@ export class ServiceRequestsController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('OWNER', 'ADMIN', 'BOOKINGS_MANAGER')
   findOne(@Param('id') id: string) {
     return this.serviceRequestsService.findOne(id);
   }
 
   @Patch(':id/status')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('OWNER', 'ADMIN', 'BOOKINGS_MANAGER')
   updateStatus(
+    @Req() request: AuthenticatedRequest,
     @Param('id') id: string,
     @Body('status') status: ServiceRequestStatus,
     @Body('note') note?: string,
   ) {
-    return this.serviceRequestsService.updateStatus(id, status, note);
+    return this.serviceRequestsService.updateStatus(id, status, note, request.user.sub);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.serviceRequestsService.remove(id);
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('OWNER', 'ADMIN')
+  remove(@Req() request: AuthenticatedRequest, @Param('id') id: string) {
+    return this.serviceRequestsService.remove(id, request.user.sub);
   }
 }
-

@@ -15,6 +15,7 @@ import { ServiceRequestsModule } from './service-requests/service-requests.modul
 import { NotificationsModule } from './notifications/notifications.module.js';
 import { ServicesController } from './services/services.controller.js';
 import { ServicesService } from './services/services.service.js';
+import { AdminModule } from './admin/admin.module.js';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -26,6 +27,7 @@ AppModule = __decorate([
             ServiceRequestsModule,
             GalleryModule,
             NotificationsModule,
+            AdminModule,
         ],
         controllers: [AppController, ServicesController],
         providers: [AppService, ServicesService],
