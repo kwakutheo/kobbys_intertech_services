@@ -105,6 +105,8 @@ export function SiteFooter() {
             <span>© {year} Kobby&apos;s Intertech Services. All rights reserved.</span>
             <span className="footer-sep">·</span>
             <Link href="/privacy" className="footer-privacy-link"> Privacy Policy </Link>
+            <span className="footer-sep">·</span>
+            <Link href="/terms-of-service" className="footer-terms-link"> Terms of Service </Link>
           </p>
           <button
             type="button"
@@ -113,7 +115,7 @@ export function SiteFooter() {
             aria-label="Back to top"
           >
             <span>  Back to top </span>
-            <span aria-hidden="true">↑ </span>
+            <span aria-hidden="true">↑</span>
           </button>
         </div>
       </div>
