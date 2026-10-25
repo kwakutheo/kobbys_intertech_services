@@ -15,15 +15,12 @@ type StaffMember = {
   roles: string[];
 };
 
-/** Roles handed out when an account is created. OWNER is only reassigned. */
+/** Roles an owner may hand out. OWNER itself is only reassigned via succession. */
 const grantableRoles = [
   ['ADMIN', 'Administrator'],
   ['BOOKINGS_MANAGER', 'Bookings Manager'],
   ['CONTENT_EDITOR', 'Content Editor'],
 ] as const;
-
-/** Full vocabulary the backend accepts, used for the succession control. */
-const assignableRoles = [...grantableRoles, ['OWNER', 'Owner']] as const;
 
 const backendMessage = async (response: Response, fallback: string) => {
   const data = await response.json().catch(() => null);
@@ -119,6 +116,22 @@ export default function AdminTeamPage() {
     }
   };
 
+  const removeStaff = async (member: StaffMember) => {
+    if (!confirm(`Remove ${member.displayName || member.email} from the team? They will lose all access immediately.`)) return;
+    setError('');
+    try {
+      const response = await adminFetch(`/api/admin/backend/admin/staff/${member.id}`, { method: 'DELETE' });
+      if (!response.ok) {
+        setError(await backendMessage(response, 'Unable to remove this staff member.'));
+        return;
+      }
+      setMessage(`${member.displayName || member.email} has been removed from the team.`);
+      await loadStaff();
+    } catch {
+      setError('Could not reach the server. Check your connection and try again.');
+    }
+  };
+
   return (
     <div className="admin-shell">
       <header className="admin-topbar"><div className="admin-topbar-divider" /><span className="admin-topbar-section">Team &amp; Access</span><div className="admin-topbar-spacer" /><AdminLogoutButton /></header>
@@ -163,20 +176,38 @@ export default function AdminTeamPage() {
           </section>
 
 
-          <section className="admin-team-list"><div className="admin-section-title">Staff accounts</div>
-            {loading ? <div className="admin-loading">Loading staff accounts…</div> : staff.map((member) => {
-              const role = member.roles.find((item) => item !== 'CUSTOMER') || 'STAFF';
-              const isOwner = role === 'OWNER';
-              return <article className="admin-team-member" key={member.id}>
-                <div className="admin-team-member-info"><strong>{member.displayName || 'Unnamed staff member'}</strong><span>{member.email}</span><small>Last sign-in: {member.lastLoginAt ? new Date(member.lastLoginAt).toLocaleString('en-GB') : 'Never'}</small></div>
-                <div className="admin-team-member-controls"><span className={`admin-account-status admin-account-status--${member.accountStatus.toLowerCase()}`}>{member.accountStatus.toLowerCase()}</span>
-                  <select value={role} disabled={isOwner} title={isOwner ? 'Owners cannot change an Owner role or status from here. Sign in as a second Owner to hand over access.' : undefined} onChange={(event) => void updateStaff(member, { role: event.target.value })}>{isOwner ? assignableRoles.map(([value, label]) => <option key={value} value={value}>{label}</option>) : grantableRoles.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
-                  <button type="button" className="admin-btn-action" title={member.accountStatus === 'INVITED' ? 'Email a fresh activation link' : 'Email a password-reset link'} disabled={member.accountStatus !== 'ACTIVE' && member.accountStatus !== 'INVITED'} onClick={() => void resetPassword(member)}>Send access link</button>
-                  {!isOwner && <button type="button" className="admin-btn-action admin-btn-danger" onClick={() => void updateStaff(member, { accountStatus: member.accountStatus === 'SUSPENDED' ? 'ACTIVE' : 'SUSPENDED' })}>{member.accountStatus === 'SUSPENDED' ? 'Restore' : 'Suspend'}</button>}
-                </div>
-              </article>;
-            })}
-          </section>
+          {loading ? <section className="admin-team-list"><div className="admin-loading">Loading staff accounts…</div></section> : (() => {
+            const owners = staff.filter((m) => m.roles.some((r) => r === 'OWNER'));
+            const team = staff.filter((m) => !m.roles.some((r) => r === 'OWNER'));
+            return <>
+              {owners.length > 0 && <section className="admin-team-list">
+                <div className="admin-section-title">Owner</div>
+                {owners.map((member) => (
+                  <article className="admin-team-member admin-team-member--owner" key={member.id}>
+                    <div className="admin-team-member-info"><strong>{member.displayName || 'Unnamed owner'}</strong><span>{member.email}</span><small>Last sign-in: {member.lastLoginAt ? new Date(member.lastLoginAt).toLocaleString('en-GB') : 'Never'}</small></div>
+                    <div className="admin-team-member-controls"><span className={`admin-account-status admin-account-status--${member.accountStatus.toLowerCase()}`}>{member.accountStatus.toLowerCase()}</span>
+                      <button type="button" className="admin-btn-action" title={member.accountStatus === 'INVITED' ? 'Email a fresh activation link' : 'Email a password-reset link'} disabled={member.accountStatus !== 'ACTIVE' && member.accountStatus !== 'INVITED'} onClick={() => void resetPassword(member)}>Send access link</button>
+                    </div>
+                  </article>
+                ))}
+              </section>}
+              <section className="admin-team-list">
+                <div className="admin-section-title">Team members</div>
+                {team.length === 0 ? <p className="admin-team-empty">No team members yet. Invite someone above to get started.</p> : team.map((member) => {
+                  const role = member.roles.find((item) => item !== 'CUSTOMER') || 'STAFF';
+                  return <article className="admin-team-member" key={member.id}>
+                    <div className="admin-team-member-info"><strong>{member.displayName || 'Unnamed staff member'}</strong><span>{member.email}</span><small>Last sign-in: {member.lastLoginAt ? new Date(member.lastLoginAt).toLocaleString('en-GB') : 'Never'}</small></div>
+                    <div className="admin-team-member-controls"><span className={`admin-account-status admin-account-status--${member.accountStatus.toLowerCase()}`}>{member.accountStatus.toLowerCase()}</span>
+                      <select value={role} onChange={(event) => void updateStaff(member, { role: event.target.value })}>{grantableRoles.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
+                      <button type="button" className="admin-btn-action" title={member.accountStatus === 'INVITED' ? 'Email a fresh activation link' : 'Email a password-reset link'} disabled={member.accountStatus !== 'ACTIVE' && member.accountStatus !== 'INVITED'} onClick={() => void resetPassword(member)}>Send access link</button>
+                      <button type="button" className="admin-btn-action admin-btn-danger" onClick={() => void updateStaff(member, { accountStatus: member.accountStatus === 'SUSPENDED' ? 'ACTIVE' : 'SUSPENDED' })}>{member.accountStatus === 'SUSPENDED' ? 'Restore' : 'Suspend'}</button>
+                      <button type="button" className="admin-btn-action admin-btn-danger" onClick={() => void removeStaff(member)}>Remove</button>
+                    </div>
+                  </article>;
+                })}
+              </section>
+            </>;
+          })()}
         </main>
       </div>
     </div>

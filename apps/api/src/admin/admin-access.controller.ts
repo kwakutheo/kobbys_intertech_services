@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import type { AuthenticatedRequest } from '../auth/jwt-auth.guard.js';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
@@ -42,6 +42,14 @@ export class AdminAccessController {
   @Throttle({ default: { limit: 60, ttl: 60 * 60_000 } })
   update(@Req() request: AuthenticatedRequest, @Param('id') id: string, @Body() input: UpdateStaffDto) {
     return this.adminAccessService.updateStaff(request.user.sub, id, input);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('OWNER')
+  @Throttle({ default: { limit: 30, ttl: 60 * 60_000 } })
+  remove(@Req() request: AuthenticatedRequest, @Param('id') id: string) {
+    return this.adminAccessService.removeStaff(request.user.sub, id);
   }
 
   @Post(':id/password-reset')

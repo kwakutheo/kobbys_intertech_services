@@ -196,6 +196,39 @@ export class AdminAccessService {
     }
   }
 
+  async removeStaff(actorUserId: string, userId: string) {
+    if (userId === actorUserId) {
+      throw new BadRequestException('You cannot remove your own account.');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { roles: { include: { role: true } } },
+    });
+    if (!user) throw new NotFoundException('Staff account not found.');
+    if (!user.roles.some(({ role }) => STAFF_ROLE_NAMES.includes(role.name as StaffRole))) {
+      throw new BadRequestException('This account is not a staff account.');
+    }
+
+    // If the target is an owner, ensure another usable owner remains.
+    const isOwner = user.roles.some(({ role }) => role.name === 'OWNER');
+    if (isOwner) {
+      await this.ensureAnotherOwner(userId, 'usable');
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      // Strip all staff roles so the account disappears from the team list.
+      await tx.userRole.deleteMany({ where: { userId, role: { name: { in: STAFF_ROLE_NAMES } } } });
+      // Deactivate so any outstanding JWT is rejected by the auth guard.
+      await tx.user.update({ where: { id: userId }, data: { accountStatus: AccountStatus.DEACTIVATED } });
+      // Invalidate every unredeemed invitation or reset token.
+      await tx.staffAccessToken.updateMany({ where: { userId, consumedAt: null }, data: { consumedAt: new Date() } });
+      await this.audit(tx, actorUserId, 'STAFF_REMOVED', 'User', userId, { email: user.email });
+    });
+
+    return { success: true };
+  }
+
   async createPasswordReset(actorUserId: string, userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId }, include: { roles: { include: { role: true } } } });
     if (!user || !user.roles.some(({ role }) => STAFF_ROLE_NAMES.includes(role.name as StaffRole))) throw new NotFoundException('Staff account not found.');
