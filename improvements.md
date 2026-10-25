@@ -1,15 +1,4 @@
-Viewed page.tsx:340-370
-Listed directory src
-Listed directory notifications
-Listed directory app
-Viewed layout.tsx:1-30
-Listed directory admin
-Viewed enquiry-form.tsx:100-160
-Viewed enquiry-form.tsx:50-99
 
-Here are the key areas worth taking care of next, organized by impact:
-
----
 
 ### 1. 🔍 Custom 404 / Error Page (`not-found.tsx` & `error.tsx`) ✅ (Completed)
 * **Status**: Implemented custom branded 404 page with quick navigation, direct contact banner, and 500 error boundary.
@@ -28,11 +17,48 @@ Here are the key areas worth taking care of next, organized by impact:
 
 ---
 
-### 4. 🖼️ Gallery Management Polish (`/gallery/manage`) ✅ (Completed)
-* **Status**: Fully implemented with client-side Canvas compression, service category tagging, and custom modal confirmation.
-* **Implemented features**:
-  - **Client-side image compression & size check**: Automatically compresses images to Full HD (1920px max) at 85% quality before upload, reducing bandwidth by ~70%, with toggle and real-time size savings indicator.
-  - **Service category tagging**: Added `category` column to Prisma schema and Supabase DB migration, upload form category dropdown, inline card category assignment, admin category filtering pills, and interactive category filter pills on the live public gallery page.
-  - **Custom deletion modal**: Sleek, backdrop-blurred confirmation modal with full photo preview thumbnail, filename, category, and Cloudflare R2 permanent deletion warning to prevent accidental deletions.
+### 1. Operations & Booking Flow (Highest Immediate Impact)
 
+* **Live Dynamic Dashboard Counters:**
+  * Replace the static stats on the dashboard (`/admin`) with real-time database counts:
+    * **New Requests (Pending Action)**
+    * **Upcoming Site Visits / Confirmed Jobs**
+    * **Completed Jobs This Month**
+    * **Total Active Gallery Photos**
+* **Sidebar Notification Badges:**
+  * Display a badge with the count of new/unreviewed bookings (e.g., `Bookings [3]`) directly in the navigation sidebar and topbar so staff never miss a new customer inquiry.
+* **Internal Staff Notes & Activity History:**
+  * Allow technicians/staff to leave private internal notes on any booking (e.g., *"Called client at 10 AM, rescheduled site visit to Friday afternoon"*, *"Needs 8-port PoE switch instead of 4-port"*).
+* **Export to CSV / Excel:**
+  * Add a 1-click **"Export Bookings"** button to download records (filtered by date, status, or service) for accounting, weekly team briefings, or client records.
+* **Printable Job Sheet / Quote Summary:**
+  * A "Print / Save PDF" view for any booking that generates a clean one-page job sheet with the customer's GPS address, requested service, and notes for technicians going into the field.
 
+---
+
+### 2. Client Communication & Automation
+
+* **Automated Status Notifications (Email / SMS / WhatsApp Templates):**
+  * When staff changes a booking status to `SITE_VISIT_REQUIRED` or `CONFIRMED`, automatically send a confirmation email or provide a 1-click formatted WhatsApp reply template (e.g. *"Hello [Name], your CCTV installation site visit has been scheduled for [Date]..."*).
+* **Automated Follow-ups:**
+  * When a job is marked `COMPLETED`, send a follow-up link asking the customer for a review or rating.
+
+---
+
+### 3. Website Content Management (No-Code Updates)
+
+* **Testimonials & Client Reviews Manager:**
+  * Add an admin section to approve, edit, and feature real customer reviews on the homepage.
+* **FAQ Management:**
+  * Enable staff to add or update FAQ items and categories directly from the admin panel without editing code or redeploying.
+* **Site Announcement / Banner Toggle:**
+  * An admin switch to display a top banner on the live website (e.g., holiday hours, emergency contact notice, or seasonal discounts).
+
+---
+
+### 4. Team & Field Management
+
+* **Technician Assignment:**
+  * Allow the Owner to assign specific bookings to individual team members, giving staff an "Assigned to Me" view.
+* **Audit Trail / Activity Log:**
+  * A simple log showing who did what (e.g., *"Staff A marked Booking #KIS-102 as Confirmed"*, *"Staff B uploaded 3 new photos to Network Infrastructure"*).

@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import Image from 'next/image';
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
 import { getAdminSession, SESSION_COOKIE } from '@/lib/admin-auth';
+import { DashboardStats } from './dashboard-stats';
 
 export const metadata: Metadata = {
   title: "Admin Portal | Kobby's Intertech Services",
@@ -73,29 +74,20 @@ export default async function AdminDashboardPage() {
             </p>
           </div>
 
-          {/* Stats */}
-          <div className="admin-stats">
-            <div className="admin-stat-card">
-              <div className="admin-stat-label">Portal Status</div>
-              <div className="admin-stat-value" style={{ color: '#4ade80', fontSize: 22 }}>● Live</div>
-              <div className="admin-stat-sub">All systems operational</div>
+          {/* Live Dynamic Stats */}
+          <Suspense fallback={
+            <div className="admin-stats">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="admin-stat-card">
+                  <div className="dash-stat-skeleton-text" style={{ width: '60%', marginBottom: 12 }} />
+                  <div className="dash-stat-skeleton" style={{ width: '40%', height: 36, marginBottom: 8 }} />
+                  <div className="dash-stat-skeleton-text" style={{ width: '80%' }} />
+                </div>
+              ))}
             </div>
-            <div className="admin-stat-card">
-              <div className="admin-stat-label">Modules</div>
-              <div className="admin-stat-value">3</div>
-              <div className="admin-stat-sub">management areas</div>
-            </div>
-            <div className="admin-stat-card">
-              <div className="admin-stat-label">API</div>
-              <div className="admin-stat-value" style={{ fontSize: 18 }}>PostgreSQL</div>
-              <div className="admin-stat-sub">connected to API</div>
-            </div>
-            <div className="admin-stat-card">
-              <div className="admin-stat-label">Access</div>
-              <div className="admin-stat-value" style={{ fontSize: 18 }}>Staff</div>
-              <div className="admin-stat-sub">password-protected</div>
-            </div>
-          </div>
+          }>
+            <DashboardStats />
+          </Suspense>
 
           {/* Module cards */}
           <div className="admin-section-title">Management Modules</div>

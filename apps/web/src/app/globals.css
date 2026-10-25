@@ -4178,7 +4178,141 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   color: var(--admin-muted);
 }
 
-/* ── Section divider ── */
+/* ── Live Dashboard Stats Additions ── */
+
+/* Wrapper */
+.dash-stats-wrapper {
+  margin-bottom: 36px;
+}
+
+/* 6-column grid for live stats */
+.dash-stats-grid {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-bottom: 10px;
+}
+
+/* Highlighted card for pending-action */
+.dash-stat-highlight {
+  border-color: rgba(154, 0, 26, 0.35) !important;
+  background: linear-gradient(135deg, var(--admin-surface) 0%, rgba(154, 0, 26, 0.06) 100%) !important;
+}
+.dash-stat-highlight:hover {
+  border-color: rgba(154, 0, 26, 0.55) !important;
+}
+
+/* Large count number */
+.dash-stat-num {
+  font-size: 36px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Skeleton pulse animation */
+@keyframes dashSkeletonShimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.dash-stat-skeleton {
+  display: inline-block;
+  width: 60px;
+  height: 36px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 800px 100%;
+  animation: dashSkeletonShimmer 1.4s infinite linear;
+}
+.dash-stat-skeleton-text {
+  display: block;
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 800px 100%;
+  animation: dashSkeletonShimmer 1.4s infinite linear;
+}
+
+/* Stat label row — allow badge to sit inline */
+.admin-stat-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+/* Coloured badges */
+.dash-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+.dash-badge-new  { background: rgba(239, 68, 68, 0.18); color: #f87171; }
+.dash-badge-warn { background: rgba(245, 158, 11, 0.18); color: #fbbf24; }
+.dash-badge-ok   { background: rgba(74, 222, 128, 0.18); color: #4ade80; }
+.dash-badge-info { background: rgba(96, 165, 250, 0.18); color: #60a5fa; }
+
+/* Footer row: timestamp + refresh button */
+.dash-stats-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.dash-stats-timestamp {
+  font-size: 11px;
+  color: var(--admin-muted);
+  opacity: 0.7;
+}
+.dash-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--admin-muted);
+  background: transparent;
+  border: 1px solid var(--admin-border);
+  border-radius: 7px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.dash-refresh-btn:hover:not(:disabled) {
+  color: var(--admin-text);
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.04);
+}
+.dash-refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Spinning refresh icon */
+@keyframes dashSpin {
+  to { transform: rotate(360deg); }
+}
+.dash-spin {
+  animation: dashSpin 0.8s linear infinite;
+}
+
+/* Error banner */
+.dash-stats-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+
 .admin-section-title {
   font-size: 13px;
   font-weight: 800;
