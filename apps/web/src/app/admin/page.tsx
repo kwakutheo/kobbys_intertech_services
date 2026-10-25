@@ -101,6 +101,19 @@ export default async function AdminDashboardPage() {
           <div className="admin-section-title">Management Modules</div>
 
           <div className="admin-module-grid">
+            {isOwner && <Link href="/admin/team" className="admin-module-card">
+            <div className="admin-module-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              </svg>
+            </div>
+            <div className="admin-module-eyebrow">Security &amp; Staff</div>
+            <h2 className="admin-module-title">Team &amp; Access</h2>
+            <p className="admin-module-desc">Invite staff, assign roles, and manage secure account access.</p>
+            <span className="admin-module-cta">
+              Open Team Manager →
+            </span>
+          </Link>}
             {/* Gallery */}
           <Link href="/admin/gallery" className="admin-module-card">
               <div className="admin-module-icon-wrap">
@@ -117,16 +130,6 @@ export default async function AdminDashboardPage() {
                 Open Gallery Manager →
               </span>
           </Link>
-          {isOwner && <Link href="/admin/team" className="admin-module-card">
-            <div className="admin-module-icon-wrap">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-              </svg>
-            </div>
-            <h2>Team &amp; Access</h2>
-            <p>Invite staff, assign roles, and manage secure account access.</p>
-            <span className="admin-module-arrow">→</span>
-          </Link>}
 
             {/* Bookings */}
             <Link href="/admin/bookings" className="admin-module-card">
