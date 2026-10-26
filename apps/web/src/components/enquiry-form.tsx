@@ -31,6 +31,11 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
     const payload = Object.fromEntries(form.entries()) as Record<string, string | boolean>;
     payload.privacyAccepted = form.get("privacyAccepted") === "on";
 
+    const OPTIONAL_FIELDS = ["organisationName", "email", "gpsAddress", "preferredDate", "timeWindow"] as const;
+    for (const field of OPTIONAL_FIELDS) {
+      if (payload[field] === "") delete payload[field];
+    }
+
     try {
       const response = await fetch(`${apiUrl}/enquiries`, {
         method: "POST",
@@ -107,8 +112,8 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
           <input name="organisationName" autoComplete="organization" maxLength={160} placeholder="e.g. Asante Holdings / Homeowner" />
         </label>
         <label>
-          Email address *
-          <input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="you@example.com" />
+          Email address
+          <input name="email" type="email" autoComplete="email" maxLength={254} placeholder="you@example.com (optional)" />
         </label>
         <label>
           Telephone / WhatsApp number *
@@ -124,7 +129,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
           </select>
         </label>
         <label>
-          Preferred contact method *
+          Preferred contact method
           <select name="preferredContactMethod" defaultValue="PHONE">
             <option value="PHONE">Phone call</option>
             <option value="WHATSAPP">WhatsApp</option>
@@ -166,7 +171,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
               <input name="preferredDate" type="date" required />
             </label>
             <label className="form-wide">
-              Preferred time window *
+              Preferred time window
               <select name="timeWindow" defaultValue="Morning (8:00 AM – 12:00 PM)">
                 <option value="Morning (8:00 AM – 12:00 PM)">Morning (8:00 AM – 12:00 PM)</option>
                 <option value="Early Afternoon (12:00 PM – 3:00 PM)">Early Afternoon (12:00 PM – 3:00 PM)</option>

@@ -33,8 +33,11 @@ export class ServiceRequestsService {
     for (let attempt = 0; attempt < 3; attempt += 1) {
       try {
         const request = await this.prisma.$transaction(async (tx) => {
+          // Look up existing customer by email (if provided) else by phone
           const existingCustomer = await tx.customer.findFirst({
-            where: { email: input.email.toLowerCase() },
+            where: input.email
+              ? { email: input.email.toLowerCase() }
+              : { phone: input.phone.trim() },
             orderBy: { createdAt: 'asc' },
           });
           const customer = existingCustomer
@@ -44,6 +47,8 @@ export class ServiceRequestsService {
                   fullName: input.fullName.trim(),
                   organisationName: input.organisationName?.trim(),
                   phone: input.phone.trim(),
+                  // Only update email if newly provided (don't wipe an existing one)
+                  ...(input.email ? { email: input.email.toLowerCase() } : {}),
                   preferredContactMethod: input.preferredContactMethod,
                 },
               })
@@ -51,7 +56,7 @@ export class ServiceRequestsService {
                 data: {
                   fullName: input.fullName.trim(),
                   organisationName: input.organisationName?.trim(),
-                  email: input.email.toLowerCase(),
+                  email: input.email?.toLowerCase() ?? null,
                   phone: input.phone.trim(),
                   preferredContactMethod: input.preferredContactMethod,
                 },
@@ -94,7 +99,7 @@ export class ServiceRequestsService {
           createdAt: request.createdAt,
           customer: {
             fullName: input.fullName.trim(),
-            email: input.email.toLowerCase(),
+            email: input.email?.toLowerCase(),
             phone: input.phone.trim(),
             organisationName: input.organisationName?.trim(),
             preferredContactMethod: input.preferredContactMethod,
@@ -104,6 +109,7 @@ export class ServiceRequestsService {
             slug: service.slug,
           },
         });
+
 
         return this.toPublicResponse(request);
       } catch (error) {

@@ -12,7 +12,7 @@ export type BookingNotificationPayload = {
   createdAt: Date | string;
   customer: {
     fullName: string;
-    email: string;
+    email?: string;
     phone: string;
     organisationName?: string | null;
     preferredContactMethod?: string | null;
@@ -234,7 +234,7 @@ export class NotificationsService {
 
                     <div style="font-size: 14px; line-height: 1.6; color: #334155; margin-top: 8px;">
                       <div>📞 <strong>Phone:</strong> <a href="tel:${data.customer.phone}" style="color: #9a001a; text-decoration: none; font-weight: 700;">${data.customer.phone}</a></div>
-                      <div>✉️ <strong>Email:</strong> <a href="mailto:${data.customer.email}" style="color: #0284c7; text-decoration: none;">${data.customer.email}</a></div>
+                      <div>✉️ <strong>Email:</strong> ${data.customer.email ? `<a href="mailto:${data.customer.email}" style="color: #0284c7; text-decoration: none;">${data.customer.email}</a>` : `<span style="color: #64748b; font-style: italic;">Not provided</span>`}</div>
                       ${data.customer.preferredContactMethod ? `<div style="font-size: 12.5px; color: #64748b; margin-top: 2px;">Prefers: <strong>${data.customer.preferredContactMethod}</strong></div>` : ''}
                     </div>
 

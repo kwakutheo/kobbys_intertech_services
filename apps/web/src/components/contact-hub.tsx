@@ -70,7 +70,7 @@ export function ContactHub() {
 
     const payload = {
       fullName: String(formData.get("fullName") ?? "").trim(),
-      email: String(formData.get("email") ?? "").trim(),
+      email: String(formData.get("email") ?? "").trim() || undefined,
       phone: String(formData.get("phone") ?? "").trim(),
       serviceSlug: String(formData.get("serviceSlug") ?? services[0].slug),
       description: String(formData.get("description") ?? "").trim(),
@@ -285,13 +285,12 @@ export function ContactHub() {
                 </label>
 
                 <label className="form-field">
-                  <span className="field-label">Email Address *</span>
+                  <span className="field-label">Email Address (Optional)</span>
                   <input
                     name="email"
                     type="email"
-                    required
                     maxLength={254}
-                    placeholder="e.g. name@example.com"
+                    placeholder="e.g. name@example.com (optional)"
                     className="form-input"
                   />
                 </label>

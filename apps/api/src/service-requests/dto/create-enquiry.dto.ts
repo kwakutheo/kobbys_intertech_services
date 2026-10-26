@@ -23,9 +23,10 @@ export class CreateEnquiryDto {
   @MaxLength(160)
   organisationName?: string;
 
+  @IsOptional()
   @IsEmail()
   @MaxLength(254)
-  email!: string;
+  email?: string;
 
   @IsString()
   @Matches(/^[+0-9()\-\s]{7,30}$/)

@@ -486,6 +486,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   line-height: 1.08;
   letter-spacing: -0.025em;
   color: #ffffff;
+  text-align: justify;
   text-shadow: 0 3px 18px rgba(0, 0, 0, 0.7);
   max-width: 860px;
 }
@@ -497,6 +498,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   font-size: 14.5px;
   line-height: 1.55;
   font-weight: 400;
+  text-align: justify;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
 
@@ -683,8 +685,8 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
 .svc-section { padding: 3px max(32px, calc((100vw - 1240px) / 2)) 36px; background: #fff; }
 .svc-heading { max-width: 100%; margin: 0 auto 40px; text-align: justify; color: var(--ink); }
 .svc-heading .eyebrow { color: var(--wine); }
-.svc-heading h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; color: var(--wine); margin: 5px auto 7px; line-height: 1.15; letter-spacing: -.03em; text-align: center; }
-.svc-heading > p { color: #000000; font-size: 15.5px; line-height: 1.65; margin: 0 auto; max-width: none; width: fit-content; text-align: center; }
+.svc-heading h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; color: var(--wine); margin: 5px auto 7px; line-height: 1.15; letter-spacing: -.03em; text-align: justify; }
+.svc-heading > p { color: #000000; font-size: 15.5px; line-height: 1.65; margin: 0 auto; max-width: none; width: fit-content; text-align: justify; }
 .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .svc-card { position: relative; display: block; min-height: 260px; border-radius: 14px; overflow: hidden; text-decoration: none; background: #1a1b20; }
 .svc-card-img { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.55s cubic-bezier(.25,.46,.45,.94), filter 0.4s; filter: brightness(0.7); }
@@ -802,6 +804,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   font-weight: 700;
   color: var(--wine);
   line-height: 1.25;
+  
 }
 
 .why-pillar-text p {
@@ -809,6 +812,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   font-size: 13.5px;
   color: #525660;
   line-height: 1.5;
+  text-align: justify;
 }
 
 /* ─── About Page - Mission Showcase Section ─────────────── */
@@ -3810,7 +3814,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
 
 /* Form header badge + lead */
 .enquiry-form-header {
-  margin-bottom: 32px;
+  margin-top: 20px;
 }
 
 .enquiry-form-badge {
@@ -3824,7 +3828,6 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   padding: 5px 14px;
   border-radius: 9999px;
   margin-bottom: 10px;
-  margin-top: 10px;
   border: 1px solid rgba(154, 0, 26, 0.15);
 }
 
@@ -6310,7 +6313,6 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   border: 2px solid var(--wine);
   user-select: none;
   -webkit-user-select: none;
-  cursor: pointer;
   transform: scale(0.92);
   opacity: 0.82;
   transform-origin: center center;
