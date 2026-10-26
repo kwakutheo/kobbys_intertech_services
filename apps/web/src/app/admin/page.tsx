@@ -76,11 +76,11 @@ export default async function AdminDashboardPage() {
 
           {/* Live Dynamic Stats */}
           <Suspense fallback={
-            <div className="admin-stats">
+            <div className="admin-stats dash-stats-grid">
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="admin-stat-card">
                   <div className="dash-stat-skeleton-text" style={{ width: '60%', marginBottom: 12 }} />
-                  <div className="dash-stat-skeleton" style={{ width: '40%', height: 36, marginBottom: 8 }} />
+                  <div className="dash-stat-skeleton" style={{ width: '40%', height: 28, marginBottom: 8 }} />
                   <div className="dash-stat-skeleton-text" style={{ width: '80%' }} />
                 </div>
               ))}

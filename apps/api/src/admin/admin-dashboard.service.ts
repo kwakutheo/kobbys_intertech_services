@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service.js';
+import { STAFF_ROLES } from '../auth/admin-roles.js';
 
 @Injectable()
 export class AdminDashboardService {
@@ -53,12 +54,16 @@ export class AdminDashboardService {
       // Total gallery photos
       this.prisma.galleryPhoto.count(),
 
-      // Total active staff members
+      // Total active staff members (with staff portal roles)
       this.prisma.user.count({
         where: {
           accountStatus: 'ACTIVE',
           roles: {
-            some: {},
+            some: {
+              role: {
+                name: { in: [...STAFF_ROLES] },
+              },
+            },
           },
         },
       }),
