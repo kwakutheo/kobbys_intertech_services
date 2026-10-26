@@ -259,7 +259,7 @@ export function ContactHub() {
             <form className="contact-direct-form" onSubmit={handleContactSubmit}>
               <div className="contact-form-grid">
                 <label className="form-field">
-                  <span className="field-label">Full Name *</span>
+                  <span className="field-label">Full Name <span className="req-star">*</span></span>
                   <input
                     name="fullName"
                     type="text"
@@ -272,7 +272,7 @@ export function ContactHub() {
                 </label>
 
                 <label className="form-field">
-                  <span className="field-label">Phone / WhatsApp Number *</span>
+                  <span className="field-label">Phone / WhatsApp Number <span className="req-star">*</span></span>
                   <input
                     name="phone"
                     type="tel"
@@ -296,7 +296,7 @@ export function ContactHub() {
                 </label>
 
                 <label className="form-field">
-                  <span className="field-label">Service of Interest *</span>
+                  <span className="field-label">Service of Interest <span className="req-star">*</span></span>
                   <select name="serviceSlug" required defaultValue={services[0]?.slug} className="form-select">
                     {services.map((svc) => (
                       <option key={svc.slug} value={svc.slug}>
@@ -308,7 +308,7 @@ export function ContactHub() {
                 </label>
 
                 <label className="form-field form-field-full">
-                  <span className="field-label">Property or Service Location in Ghana *</span>
+                  <span className="field-label">Property or Service Location in Ghana <span className="req-star">*</span></span>
                   <input
                     name="address"
                     type="text"
@@ -321,7 +321,7 @@ export function ContactHub() {
                 </label>
 
                 <label className="form-field form-field-full">
-                  <span className="field-label">How Can We Help You? *</span>
+                  <span className="field-label">How Can We Help You? <span className="req-star">*</span></span>
                   <textarea
                     name="description"
                     required

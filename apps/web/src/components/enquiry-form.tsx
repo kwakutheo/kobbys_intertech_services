@@ -104,23 +104,23 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
       <div className="form-grid">
         {/* Contact details */}
         <label>
-          Full name *
+          <span className="field-label-text">Full name <span className="req-star">*</span></span>
           <input name="fullName" autoComplete="name" required minLength={2} maxLength={120} placeholder="e.g. Kwabena Asante" />
         </label>
         <label>
-          Organisation / Company
+          <span className="field-label-text">Organisation / Company</span>
           <input name="organisationName" autoComplete="organization" maxLength={160} placeholder="e.g. Asante Holdings / Homeowner" />
         </label>
         <label>
-          Email address
+          <span className="field-label-text">Email address</span>
           <input name="email" type="email" autoComplete="email" maxLength={254} placeholder="you@example.com (optional)" />
         </label>
         <label>
-          Telephone / WhatsApp number *
+          <span className="field-label-text">Telephone / WhatsApp number <span className="req-star">*</span></span>
           <input name="phone" type="tel" autoComplete="tel" required minLength={7} maxLength={30} placeholder="+233 24 000 0000" />
         </label>
         <label>
-          Service required *
+          <span className="field-label-text">Service required <span className="req-star">*</span></span>
           <select name="serviceSlug" required defaultValue={initialServiceSlug ?? ""}>
             <option value="" disabled>Select a service</option>
             {services.map((service) => (
@@ -129,7 +129,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
           </select>
         </label>
         <label>
-          Preferred contact method
+          <span className="field-label-text">Preferred contact method</span>
           <select name="preferredContactMethod" defaultValue="PHONE">
             <option value="PHONE">Phone call</option>
             <option value="WHATSAPP">WhatsApp</option>
@@ -141,7 +141,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
         {isBooking ? (
           <>
             <label className="form-wide">
-              What service or repair do you need? *
+              <span className="field-label-text">What service or repair do you need? <span className="req-star">*</span></span>
               <textarea
                 name="description"
                 required
@@ -152,7 +152,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
               />
             </label>
             <label className="form-wide">
-              Installation / Job location *
+              <span className="field-label-text">Installation / Job location <span className="req-star">*</span></span>
               <textarea
                 name="address"
                 required
@@ -163,15 +163,15 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
               />
             </label>
             <label>
-              GhanaPost GPS address
+              <span className="field-label-text">GhanaPost GPS address</span>
               <input name="gpsAddress" maxLength={100} placeholder="e.g. GA-123-4567 / AK-456-7890" />
             </label>
             <label>
-              Preferred technician arrival date *
+              <span className="field-label-text">Preferred technician arrival date <span className="req-star">*</span></span>
               <input name="preferredDate" type="date" required />
             </label>
             <label className="form-wide">
-              Preferred time window
+              <span className="field-label-text">Preferred time window</span>
               <select name="timeWindow" defaultValue="Morning (8:00 AM – 12:00 PM)">
                 <option value="Morning (8:00 AM – 12:00 PM)">Morning (8:00 AM – 12:00 PM)</option>
                 <option value="Early Afternoon (12:00 PM – 3:00 PM)">Early Afternoon (12:00 PM – 3:00 PM)</option>
@@ -183,7 +183,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
         ) : (
           <>
             <label className="form-wide">
-              Project scope & technical requirements *
+              <span className="field-label-text">Project scope & technical requirements <span className="req-star">*</span></span>
               <textarea
                 name="description"
                 required
@@ -194,7 +194,7 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
               />
             </label>
             <label className="form-wide">
-              Site / Project city or area
+              <span className="field-label-text">Site / Project city or area <span className="req-star">*</span></span>
               <textarea
                 name="address"
                 required
@@ -205,11 +205,11 @@ export function EnquiryForm({ mode, initialServiceSlug }: EnquiryFormProps) {
               />
             </label>
             <label>
-              Digital GPS address
+              <span className="field-label-text">Digital GPS address</span>
               <input name="gpsAddress" maxLength={100} placeholder="e.g. GA-123-4567" />
             </label>
             <label>
-              Target project timeline
+              <span className="field-label-text">Target project timeline</span>
               <select name="timeWindow" defaultValue="Within 2 to 4 weeks">
                 <option value="Immediate / Ready to start">Immediate / Ready to start</option>
                 <option value="Within 2 to 4 weeks">Within 2 to 4 weeks</option>
