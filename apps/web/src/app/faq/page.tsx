@@ -11,7 +11,7 @@ const FAQ_ITEMS = [
   {
     question: "Which areas in Ghana do you serve?",
     answer:
-      "We are based in Achimota, Accra, and serve customers in Greater Accra. For requests from other parts of Ghana, contact us with your town or location and the service you need. We will confirm whether we can undertake the work and discuss any applicable transport or site-visit costs before making arrangements.",
+      "We are based in Achimota, Accra, and serve customers in Greater Accra and other parts of the country. For requests from other parts of Ghana, contact us with your town or location and the service you need. We will confirm whether we can undertake the work and discuss any applicable transport or site-visit costs before making arrangements.",
   },
   {
     question: "How does the quotation and site assessment work?",
@@ -105,6 +105,9 @@ export default function FaqPage() {
               <Link href="/contact" className="button button-small">
                 Contact Us
               </Link>
+
+              {/*--------------the WhatsApp button is removed for the mean time
+
               <a
                 href="https://wa.me/233243487160"
                 target="_blank"
@@ -113,6 +116,9 @@ export default function FaqPage() {
               >
                 Chat on WhatsApp
               </a>
+              
+              ------------------------------------------------------------*/}
+
             </div>
           </div>
         </div>
