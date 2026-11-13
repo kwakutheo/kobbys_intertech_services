@@ -36,7 +36,7 @@ export default async function Home() {
               more connected world.
             </h1>
             <p className="hero-lead">
-              CCTV, internet, networking, satellite TV, GPS tracking and electrical services for homes and businesses in Ghana, with solutions tailored to your needs and budget.
+              CCTV, internet, networking, satellite TV, GPS tracking and electrical services for homes and businesses across Ghana, with solutions tailored to your needs and budget.
             </p>
             <div className="hero-actions">
               <Link className="hero-button-primary" href="/book-service">
