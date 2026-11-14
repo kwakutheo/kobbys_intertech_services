@@ -1,7 +1,7 @@
 /**
  * Production Render API URL used as fallback when NEXT_PUBLIC_API_URL is not set.
  */
-const PRODUCTION_API_URL = 'https://kobbys-intertech-services.onrender.com/api/v1';
+const PRODUCTION_API_URL = 'https://kobbys-intertech.onrender.com/api/v1';
 
 /**
  * Dynamically resolves the API base URL.

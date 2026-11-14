@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
     const apiUrl =
       process.env.NEXT_PUBLIC_API_URL ||
       (process.env.NODE_ENV === 'production'
-        ? 'https://kobbys-intertech-services.onrender.com/api/v1'
+        ? 'https://kobbys-intertech.onrender.com/api/v1'
         : 'http://localhost:4000/api/v1');
 
     return [

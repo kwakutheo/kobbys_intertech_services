@@ -7,6 +7,7 @@ async function getGalleryPhotos() {
   try {
     const res = await fetch(`${getApiBaseUrl()}/gallery`, {
       cache: 'no-store',
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return [];
     const data = await res.json();
