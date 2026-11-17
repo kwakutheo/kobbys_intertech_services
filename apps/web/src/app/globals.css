@@ -5177,6 +5177,48 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   box-sizing: border-box;
 }
 
+.admin-password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.admin-password-wrapper .admin-login-input {
+  padding-right: 46px;
+}
+
+/* Hide Microsoft Edge / IE / Samsung native eye to prevent duplicate icons */
+.admin-password-wrapper input::-ms-reveal,
+.admin-password-wrapper input::-ms-clear {
+  display: none;
+}
+
+.admin-password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(calc(-50% - 4px));
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  border-radius: 6px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.admin-password-toggle:hover {
+  color: #0f172a;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.admin-password-toggle:focus-visible {
+  outline: 2px solid var(--admin-wine);
+  outline-offset: 1px;
+}
+
 .admin-login-input:focus {
   border-color: var(--admin-border);
   box-shadow: 0 0 0 3px var(--admin-wine-glow);
