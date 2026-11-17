@@ -167,7 +167,7 @@ export function ContactHub() {
 
             <h2 className="contact-main-value">Achimota, Accra–Ghana</h2>
             <p className="contact-card-sub">
-              On-site technical services &amp; consultations across Greater Accra
+              On-site technical services &amp; consultations
             </p>
 
             <div className="contact-card-actions">
