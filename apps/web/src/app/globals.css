@@ -1211,6 +1211,44 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   margin-top: auto;
 }
 
+.btn-label-desktop-short {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .contact-card-actions--phone-row {
+    display: grid !important;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .contact-card-actions--phone-row .btn-whatsapp,
+  .contact-card-actions--phone-row .btn-call {
+    width: 100%;
+    min-height: 40px;
+    padding: 0 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1140px) {
+  .contact-card-actions--phone-row .btn-label-desktop-full {
+    display: none;
+  }
+  .contact-card-actions--phone-row .btn-label-desktop-short {
+    display: inline;
+  }
+  .contact-card-actions--phone-row .btn-whatsapp,
+  .contact-card-actions--phone-row .btn-call {
+    font-size: 12px;
+    padding: 0 6px;
+    gap: 5px;
+  }
+}
+
 .btn-whatsapp {
   display: inline-flex;
   align-items: center;
