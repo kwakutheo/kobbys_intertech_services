@@ -280,8 +280,10 @@ export default function GalleryManagePage() {
         <div className="admin-topbar-divider" />
         <span className="admin-topbar-section">Gallery Manager</span>
         <div className="admin-topbar-spacer" />
-        <Link href="/gallery" className="admin-topbar-back" target="_blank" rel="noopener noreferrer">
-          View Live Gallery ↗
+        <Link href="/gallery" className="admin-topbar-back" target="_blank" rel="noopener noreferrer" title="View Live Gallery">
+          <span className="admin-topbar-link-full">View Live Gallery</span>
+          <span className="admin-topbar-link-short">Gallery</span>
+          <span aria-hidden="true">↗</span>
         </Link>
         <AdminLogoutButton />
       </header>

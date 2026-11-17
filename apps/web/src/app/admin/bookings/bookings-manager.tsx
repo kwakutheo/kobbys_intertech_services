@@ -218,8 +218,10 @@ export function BookingsManager() {
         <div className="admin-topbar-divider" />
         <span className="admin-topbar-section">Service Bookings &amp; Quotes</span>
         <div className="admin-topbar-spacer" />
-        <Link href="/book-service" className="admin-topbar-back">
-          Public Form ↗
+        <Link href="/book-service" className="admin-topbar-back" title="Public Booking Form">
+          <span className="admin-topbar-link-full">Public Form</span>
+          <span className="admin-topbar-link-short">Book</span>
+          <span aria-hidden="true">↗</span>
         </Link>
         <AdminLogoutButton />
       </header>

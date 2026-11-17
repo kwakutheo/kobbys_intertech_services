@@ -4032,6 +4032,78 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
   border-radius: 6px;
   border: 1px solid var(--admin-border);
   transition: color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.admin-topbar-link-short {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .admin-topbar {
+    padding: 0 14px;
+    gap: 10px;
+    height: 52px;
+  }
+
+  .admin-topbar-divider {
+    display: none;
+  }
+
+  .admin-topbar-section {
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .admin-topbar-back {
+    padding: 5px 9px;
+    font-size: 11.5px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 520px) {
+  .admin-topbar {
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .admin-topbar-link-full {
+    display: none;
+  }
+
+  .admin-topbar-link-short {
+    display: inline;
+  }
+
+  .admin-topbar-back {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  .admin-topbar-section {
+    font-size: 10.5px;
+    letter-spacing: 0.02em;
+  }
+}
+
+@media (max-width: 380px) {
+  .admin-topbar {
+    padding: 0 8px;
+    gap: 4px;
+  }
+
+  .admin-topbar-back {
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+
+  .admin-logout-text {
+    display: none;
+  }
 }
 
 .admin-topbar-back:hover {

@@ -22,8 +22,10 @@ export default async function AdminDashboardPage() {
         <div className="admin-topbar-divider" />
         <span className="admin-topbar-section">Admin Portal</span>
         <div className="admin-topbar-spacer" />
-        <Link href="/" className="admin-topbar-back">
-          View Live Site ↗
+        <Link href="/" className="admin-topbar-back" title="View Live Site">
+          <span className="admin-topbar-link-full">View Live Site</span>
+          <span className="admin-topbar-link-short">Live Site</span>
+          <span aria-hidden="true">↗</span>
         </Link>
         <AdminLogoutButton />
       </header>
