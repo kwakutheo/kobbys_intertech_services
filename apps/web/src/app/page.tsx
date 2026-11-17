@@ -3,6 +3,8 @@ import Link from "next/link";
 import { services } from "@/data/site";
 import { getApiBaseUrl } from "@/lib/api-url";
 import { HomeGalleryCarousel } from "@/components/home-gallery-carousel";
+import { JsonLd } from "@/components/json-ld";
+import { getOrganizationAndWebsiteSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: {
@@ -57,7 +59,9 @@ export default async function Home() {
   const galleryPhotos = await getGalleryPhotos();
 
   return (
-    <main>
+    <>
+      <JsonLd data={getOrganizationAndWebsiteSchema()} />
+      <main>
       <section className="hero" id="top">
         <div className="hero-container">
           <div className="hero-copy">
@@ -165,5 +169,6 @@ export default async function Home() {
       </section>
 
     </main>
+    </>
   );
 }

@@ -3,6 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { services } from "@/data/site";
 import { HeroSection } from "@/components/hero-section";
+import { JsonLd } from "@/components/json-ld";
+import { Breadcrumb } from "@/components/breadcrumb";
+import { getServiceSchema, getServiceBreadcrumbSchema } from "@/lib/schema";
 
 export function generateStaticParams() {
   return services.map(({ slug }) => ({ slug }));
@@ -67,7 +70,21 @@ export default async function ServicePage({
   )}`;
 
   return (
-    <main className="service-detail-page">
+    <>
+      <JsonLd data={getServiceSchema(service)} />
+      <JsonLd data={getServiceBreadcrumbSchema(service)} />
+      <div className="service-breadcrumb-bar">
+        <div className="service-breadcrumb-container">
+          <Breadcrumb
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Our Services", href: "/services" },
+              { label: service.name },
+            ]}
+          />
+        </div>
+      </div>
+      <main className="service-detail-page">
       {/* ── 1. Hero Section ────────────────────────────────────────── */}
       <HeroSection
         eyebrowParts={["SERVICES", service.badge.toUpperCase(), "GHANA"]}
@@ -285,5 +302,6 @@ export default async function ServicePage({
         </aside>
       </section>
     </main>
+    </>
   );
 }
