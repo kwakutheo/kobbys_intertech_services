@@ -3,11 +3,34 @@ import Link from "next/link";
 import { HeroSection } from "@/components/hero-section";
 
 export const metadata: Metadata = {
-  title: "Frequently Asked Questions (FAQ)",
+  title: "Frequently Asked Questions",
   description:
-    "Find answers to common questions about CCTV, internet, networking, satellite TV, GPS tracking, electrical works and technical services in Ghana.",
+    "Get answers to common questions about our technical services, service areas in Greater Accra and the Ashanti Region, site visit arrangements, and quotations.",
   alternates: {
     canonical: "/faq",
+  },
+  openGraph: {
+    title: "Frequently Asked Questions | Kobby's Intertech Services",
+    description:
+      "Get answers to common questions about our technical services, service areas in Greater Accra and the Ashanti Region, site visit arrangements, and quotations.",
+    url: "/faq",
+    type: "website",
+    locale: "en_GH",
+    images: [
+      {
+        url: "/hero_section_background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Frequently Asked Questions - Kobby's Intertech Services Ghana",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Frequently Asked Questions | Kobby's Intertech Services",
+    description:
+      "Get answers to common questions about our technical services, service areas in Greater Accra and the Ashanti Region, site visit arrangements, and quotations.",
+    images: ["/hero_section_background.jpg"],
   },
 };
 

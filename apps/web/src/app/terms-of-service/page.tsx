@@ -5,9 +5,32 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "Read the terms that govern use of Kobby's Intertech Services' website, service enquiries, bookings and technical services in Ghana.",
+    "Review the terms and conditions governing service bookings, quotations, site inspections, and technical installations with Kobby's Intertech Services in Ghana.",
   alternates: {
     canonical: "/terms-of-service",
+  },
+  openGraph: {
+    title: "Terms of Service | Kobby's Intertech Services",
+    description:
+      "Review the terms and conditions governing service bookings, quotations, site inspections, and technical installations with Kobby's Intertech Services in Ghana.",
+    url: "/terms-of-service",
+    type: "website",
+    locale: "en_GH",
+    images: [
+      {
+        url: "/hero_section_background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Terms of Service - Kobby's Intertech Services Ghana",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Service | Kobby's Intertech Services",
+    description:
+      "Review the terms and conditions governing service bookings, quotations, site inspections, and technical installations with Kobby's Intertech Services in Ghana.",
+    images: ["/hero_section_background.jpg"],
   },
 };
 

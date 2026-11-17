@@ -310,7 +310,7 @@ export function HomeGalleryCarousel({ photos }: HomeGalleryCarouselProps) {
                 <div className="home-carousel-img-wrap">
                   <Image
                     src={item.src}
-                    alt={item.caption || `${categoryLabel} Installation`}
+                    alt={item.caption || `${categoryLabel} installation project by Kobby's Intertech Services in Ghana`}
                     fill
                     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 45vw, 32vw"
                     className="home-carousel-img"

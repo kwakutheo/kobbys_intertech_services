@@ -21,10 +21,31 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${service.name} Installation & Support`,
-    description: service.description,
+    title: service.name,
+    description: service.summary,
     alternates: {
       canonical: `/services/${slug}`,
+    },
+    openGraph: {
+      title: `${service.name} | Kobby's Intertech Services`,
+      description: service.summary,
+      url: `/services/${slug}`,
+      type: "article",
+      locale: "en_GH",
+      images: [
+        {
+          url: service.image,
+          width: 1200,
+          height: 630,
+          alt: `${service.name} installation by Kobby's Intertech Services in Ghana`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.name} | Kobby's Intertech Services`,
+      description: service.summary,
+      images: [service.image],
     },
   };
 }
@@ -73,7 +94,7 @@ export default async function ServicePage({
         <div className="service-advisory-inner">
           <div className="service-advisory-text">
             <div className="service-advisory-info">
-              <h4>Need Immediate Advice for {service.name}?</h4>
+              <h2>Need Immediate Advice for {service.name}?</h2>
               <p>Chat directly with our lead technician or book a preliminary site survey.</p>
             </div>
           </div>
@@ -242,7 +263,7 @@ export default async function ServicePage({
             <div className="service-cta-eyebrow">GET STARTED TODAY</div>
             <h2>Ready to deploy {service.name}?</h2>
             <p>
-              Speak directly with our technical team today. We provide upfront site surveys, transparent itemised quotations, and certified installation across Ghana.
+              Speak directly with our technical team today. We provide upfront site surveys, transparent itemised quotations, and certified installation across Greater Accra, the Ashanti Region, and other parts of Ghana. You can also explore our <Link href="/gallery" style={{ color: "inherit", textDecoration: "underline" }}>project gallery</Link> to view completed on-site installations.
             </p>
           </div>
           <div className="service-cta-btns">

@@ -4,11 +4,34 @@ import { services } from "@/data/site";
 import { HeroSection } from "@/components/hero-section";
 
 export const metadata: Metadata = {
-  title: "Our Services",
+  title: "Technical & Technology Services",
   description:
-    "Explore our complete range of services in CCTV, fibre-optic & satellite internet, networking, satellite tv, electrical works, and GPS tracking across Ghana.",
+    "Explore our six core services in Ghana: CCTV security, fibre & satellite internet, enterprise networking, satellite TV, electrical installations, and GPS vehicle tracking.",
   alternates: {
     canonical: "/services",
+  },
+  openGraph: {
+    title: "Technical & Technology Services | Kobby's Intertech Services",
+    description:
+      "Explore our six core services in Ghana: CCTV security, fibre & satellite internet, enterprise networking, satellite TV, electrical installations, and GPS vehicle tracking.",
+    url: "/services",
+    type: "website",
+    locale: "en_GH",
+    images: [
+      {
+        url: "/hero_section_background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Services by Kobby's Intertech Services Ghana",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Technical & Technology Services | Kobby's Intertech Services",
+    description:
+      "Explore our six core services in Ghana: CCTV security, fibre & satellite internet, enterprise networking, satellite TV, electrical installations, and GPS vehicle tracking.",
+    images: ["/hero_section_background.jpg"],
   },
 };
 

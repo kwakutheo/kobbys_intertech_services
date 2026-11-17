@@ -3,11 +3,34 @@ import { EnquiryForm } from "@/components/enquiry-form";
 import { HeroSection } from "@/components/hero-section";
 
 export const metadata: Metadata = {
-  title: "Book a Service",
+  title: "Book a Service Technician",
   description:
-    "Book an installation, maintenance, or repair service online with Kobby's Intertech Services in Ghana.",
+    "Schedule an on-site technical inspection, repair, or new installation for CCTV, internet, networking, satellite, or electrical works in Ghana.",
   alternates: {
     canonical: "/book-service",
+  },
+  openGraph: {
+    title: "Book a Service Technician | Kobby's Intertech Services",
+    description:
+      "Schedule an on-site technical inspection, repair, or new installation for CCTV, internet, networking, satellite, or electrical works in Ghana.",
+    url: "/book-service",
+    type: "website",
+    locale: "en_GH",
+    images: [
+      {
+        url: "/hero_section_background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Book a Service Technician - Kobby's Intertech Services Ghana",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Book a Service Technician | Kobby's Intertech Services",
+    description:
+      "Schedule an on-site technical inspection, repair, or new installation for CCTV, internet, networking, satellite, or electrical works in Ghana.",
+    images: ["/hero_section_background.jpg"],
   },
 };
 

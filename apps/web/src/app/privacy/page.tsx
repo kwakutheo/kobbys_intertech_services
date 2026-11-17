@@ -5,9 +5,32 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Read how Kobby's Intertech Services collects, uses, stores and protects personal information in connection with our services in Ghana.",
+    "Read how Kobby's Intertech Services collects, uses, and safeguards personal and property information under Ghana's Data Protection Act, 2012 (Act 843).",
   alternates: {
     canonical: "/privacy",
+  },
+  openGraph: {
+    title: "Privacy Policy | Kobby's Intertech Services",
+    description:
+      "Read how Kobby's Intertech Services collects, uses, and safeguards personal and property information under Ghana's Data Protection Act, 2012 (Act 843).",
+    url: "/privacy",
+    type: "website",
+    locale: "en_GH",
+    images: [
+      {
+        url: "/hero_section_background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Privacy Policy - Kobby's Intertech Services Ghana",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy | Kobby's Intertech Services",
+    description:
+      "Read how Kobby's Intertech Services collects, uses, and safeguards personal and property information under Ghana's Data Protection Act, 2012 (Act 843).",
+    images: ["/hero_section_background.jpg"],
   },
 };
 

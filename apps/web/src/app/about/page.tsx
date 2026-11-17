@@ -1,12 +1,36 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { HeroSection } from "@/components/hero-section";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Kobby's Intertech Services, providing practical technology, security, connectivity and electrical solutions for homes and businesses in Ghana.",
+    "Learn about Kobby's Intertech Services, based in Achimota, Accra. We deliver dependable technology, CCTV security, networking, and electrical solutions across Ghana.",
   alternates: {
     canonical: "/about",
+  },
+  openGraph: {
+    title: "About Us | Kobby's Intertech Services",
+    description:
+      "Learn about Kobby's Intertech Services, based in Achimota, Accra. We deliver dependable technology, CCTV security, networking, and electrical solutions across Ghana.",
+    url: "/about",
+    type: "website",
+    locale: "en_GH",
+    images: [
+      {
+        url: "/hero_section_background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "About Kobby's Intertech Services Ghana",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | Kobby's Intertech Services",
+    description:
+      "Learn about Kobby's Intertech Services, based in Achimota, Accra. We deliver dependable technology, CCTV security, networking, and electrical solutions across Ghana.",
+    images: ["/hero_section_background.jpg"],
   },
 };
 
@@ -172,6 +196,20 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ textAlign: "center", paddingBottom: "3rem" }}>
+        <p style={{ color: "var(--muted)", maxWidth: "600px", margin: "0 auto 1.5rem" }}>
+          Want to see our completed projects or discuss an upcoming installation? Browse our authentic on-site photos or reach out to our technical team in Achimota.
+        </p>
+        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <Link href="/gallery" className="button button-small">
+            View Project Gallery &rarr;
+          </Link>
+          <Link href="/services" className="button button-small" style={{ background: "rgba(255,255,255,0.08)", color: "var(--foreground)" }}>
+            Explore All Services &rarr;
+          </Link>
         </div>
       </section>
     </main>

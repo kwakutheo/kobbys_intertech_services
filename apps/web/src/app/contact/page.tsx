@@ -5,9 +5,32 @@ import { ContactHub } from "@/components/contact-hub";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with Kobby's Intertech Services for CCTV, fibre, networking, satellite, or electrical installations in Ghana. Call, WhatsApp, or visit us in Achimota, Accra.",
+    "Get in touch with Kobby's Intertech Services in Achimota, Accra. Call or WhatsApp +233 24 348 7160 for technical inquiries, site visits, and project consultations in Ghana.",
   alternates: {
     canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact Us | Kobby's Intertech Services",
+    description:
+      "Get in touch with Kobby's Intertech Services in Achimota, Accra. Call or WhatsApp +233 24 348 7160 for technical inquiries, site visits, and project consultations in Ghana.",
+    url: "/contact",
+    type: "website",
+    locale: "en_GH",
+    images: [
+      {
+        url: "/hero_section_background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Contact Kobby's Intertech Services in Achimota, Accra, Ghana",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Us | Kobby's Intertech Services",
+    description:
+      "Get in touch with Kobby's Intertech Services in Achimota, Accra. Call or WhatsApp +233 24 348 7160 for technical inquiries, site visits, and project consultations in Ghana.",
+    images: ["/hero_section_background.jpg"],
   },
 };
 

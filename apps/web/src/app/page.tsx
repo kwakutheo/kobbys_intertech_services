@@ -1,7 +1,43 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { services } from "@/data/site";
 import { getApiBaseUrl } from "@/lib/api-url";
 import { HomeGalleryCarousel } from "@/components/home-gallery-carousel";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Kobby's Intertech Services | Technology, Security & Connectivity in Ghana",
+  },
+  description:
+    "Professional CCTV installation, fibre internet, computer networking, satellite TV, electrical works, and GPS tracking for properties and businesses in Accra and across Ghana.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Kobby's Intertech Services | Technology, Security & Connectivity in Ghana",
+    description:
+      "Professional CCTV installation, fibre internet, computer networking, satellite TV, electrical works, and GPS tracking for properties and businesses in Accra and across Ghana.",
+    url: "/",
+    siteName: "Kobby's Intertech Services",
+    type: "website",
+    locale: "en_GH",
+    images: [
+      {
+        url: "/hero_section_background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Kobby's Intertech Services Technology and Security Systems in Ghana",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kobby's Intertech Services | Technology, Security & Connectivity in Ghana",
+    description:
+      "Professional CCTV installation, fibre internet, computer networking, satellite TV, electrical works, and GPS tracking for properties and businesses in Accra and across Ghana.",
+    images: ["/hero_section_background.jpg"],
+  },
+};
 
 async function getGalleryPhotos() {
   try {

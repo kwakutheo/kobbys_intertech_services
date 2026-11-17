@@ -3,11 +3,34 @@ import { EnquiryForm } from "@/components/enquiry-form";
 import { HeroSection } from "@/components/hero-section";
 
 export const metadata: Metadata = {
-  title: "Request a Quotation",
+  title: "Request an Itemised Quotation",
   description:
-    "Request an itemised quotation for CCTV, fibre internet, networking, satellite, or electrical services across Ghana.",
+    "Request a transparent, itemised quotation for equipment and installation labor tailored to your home or commercial property in Ghana.",
   alternates: {
     canonical: "/request-quote",
+  },
+  openGraph: {
+    title: "Request an Itemised Quotation | Kobby's Intertech Services",
+    description:
+      "Request a transparent, itemised quotation for equipment and installation labor tailored to your home or commercial property in Ghana.",
+    url: "/request-quote",
+    type: "website",
+    locale: "en_GH",
+    images: [
+      {
+        url: "/hero_section_background.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Request a Quotation - Kobby's Intertech Services Ghana",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Request an Itemised Quotation | Kobby's Intertech Services",
+    description:
+      "Request a transparent, itemised quotation for equipment and installation labor tailored to your home or commercial property in Ghana.",
+    images: ["/hero_section_background.jpg"],
   },
 };
 

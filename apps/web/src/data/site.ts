@@ -733,7 +733,7 @@ export const services: Service[] = [
 ];
 
 export const faqs = [
-  ["Which areas do you serve?", "Kobby’s Intertech Services is currently available in Ghana. Contact us with your location so we can discuss your requirements."],
+  ["Which areas do you serve?", "We are based in Achimota, Accra, and provide technical services across Greater Accra and other parts of Ghana, with coverage extending across southern Ghana and into the Ashanti Region. Contact us with your town or location so we can discuss site survey and installation arrangements."],
   ["When are you open?", "Our current business hours are Monday to Saturday, 7:30 am to 5:00 pm."],
   ["Can I request a quotation?", "Yes. Tell us about the service you need and your location, and our team will review your request before providing a quotation where appropriate."],
   ["Do you offer fixed prices?", "Requirements vary by service and site. Quotations are prepared after the relevant details have been reviewed."],

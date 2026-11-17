@@ -60,7 +60,7 @@ export function PublicGalleryView({ initialPhotos }: PublicGalleryViewProps) {
 
             const altText =
               photo.caption ||
-              `${getCategoryLabel(photo.category)} installation by Kobby's Intertech`;
+              `${getCategoryLabel(photo.category)} installation by Kobby's Intertech Services in Ghana`;
 
             return (
               <figure className="gallery-item" key={photo.id}>

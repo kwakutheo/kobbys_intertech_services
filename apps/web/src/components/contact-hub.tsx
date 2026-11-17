@@ -104,7 +104,7 @@ export function ContactHub() {
               <span className="contact-eyebrow">CALL OR WHATSAPP</span>
             </div>
 
-            <h2 className="contact-main-value">+233 24 348 7160</h2>
+            <p className="contact-main-value">+233 24 348 7160</p>
             <p className="contact-card-sub">Mon–Sat: 7:30 am – 5:00 pm · Fast response</p>
 
             <div className="contact-card-actions contact-card-actions--phone-row">
@@ -142,7 +142,7 @@ export function ContactHub() {
               <span className="contact-eyebrow">OFFICIAL EMAIL</span>
             </div>
 
-            <h2 className="contact-main-value email-value">{EMAIL_ADDRESS}</h2>
+            <p className="contact-main-value email-value">{EMAIL_ADDRESS}</p>
             <p className="contact-card-sub">Inquiries, quotations &amp; technical reports</p>
 
             <div className="contact-card-actions">
@@ -165,7 +165,7 @@ export function ContactHub() {
               <span className="contact-eyebrow">PHYSICAL OFFICE</span>
             </div>
 
-            <h2 className="contact-main-value">Achimota, Accra–Ghana</h2>
+            <p className="contact-main-value">Achimota, Accra–Ghana</p>
             <p className="contact-card-sub">
               On-site technical services &amp; consultations
             </p>
@@ -381,7 +381,7 @@ export function ContactHub() {
             <div className="sidebar-card booking-cta-card">
               <div className="cta-content">
                 <span className="cta-tag">PLANNING AN INSTALLATION?</span>
-                <h4>Schedule a site visit directly online</h4>
+                <h3>Schedule a site visit directly online</h3>
                 <p>Choose your preferred date and time window with our technician team.</p>
                 <Link href="/book-service" className="btn-sidebar-book">
                   <span>Book a Service</span>
