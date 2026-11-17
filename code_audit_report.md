@@ -1,64 +1,34 @@
-# Kobby's Intertech Services — Code Audit & SEO Phase 1 Report (Corrected)
+# Kobby's Intertech Services — Code Audit & SEO Phase 1 Report (Live Verified)
 
 **Project:** Kobby's Intertech Services Monorepo  
 **Repository:** `d:\source_codes\kobbys_intertech_services`  
-**Stack:** Next.js 16 App Router (`apps/web`) + NestJS 12 (`apps/api`)  
-**Date:** 2026-11-17  
-**Scope:** SEO Phase 1 implementation & corrections + full codebase error audit
+**Live Site:** `https://kobbysintertechservices.online` / `https://www.kobbysintertechservices.online`  
+**Hosting Provider:** Vercel (Production deployment `badc1ff` live)  
+**Verification Date:** 2026-11-17  
+**Scope:** SEO Phase 1 implementation, local verification & live deployment verification
 
 ---
 
 ## Executive Summary
 
-| Area | Status | Notes |
-|---|---|---|
-| `apps/web` ESLint | ✅ 0 errors, 0 warnings | Strict rules enforced; zero global rule downgrades |
-| `apps/web` TypeScript | ✅ 0 errors | `tsc --noEmit` clean across all packages |
-| `apps/web` Production build | ✅ Exit 0 | 33 routes generated, verified |
-| `apps/api` ESLint (oxlint) | ✅ 0 errors, 0 warnings | Clean, untouched |
-| `apps/api` TypeScript | ✅ 0 errors | Clean, untouched |
-| `apps/api` Unit tests | ✅ 4 passed | Clean, untouched |
-| `apps/api` Production build | ✅ Exit 0 | Clean, untouched |
-| Dynamic `robots.txt` | ✅ Valid & consistent | Disallows private `/api/admin/`; allows crawl to discover `noindex` |
-| Dynamic XML Sitemap | ✅ 16 canonical URLs | Exact match with data source and dynamic routes |
-
----
-
-## 1. Corrected XML Sitemap URL List
-
-Dynamic generation in `apps/web/src/app/sitemap.ts` pulls live from `services` in `@/data/site`. The build output contains exactly 16 public, canonical, indexable URLs on `https://kobbysintertechservices.online`:
-
-| # | Canonical Sitemap URL | Type | Status |
+| Check | Local Status | Live Production Status | Notes |
 |---|---|---|---|
-| 1 | `https://kobbysintertechservices.online` | Homepage | 200 Indexable |
-| 2 | `https://kobbysintertechservices.online/about` | About Us | 200 Indexable |
-| 3 | `https://kobbysintertechservices.online/services` | Services Index | 200 Indexable |
-| 4 | `https://kobbysintertechservices.online/services/cctv-security` | Service: CCTV & Security | 200 Indexable |
-| 5 | `https://kobbysintertechservices.online/services/fibre-internet` | Service: Fibre & Satellite Internet | 200 Indexable |
-| 6 | `https://kobbysintertechservices.online/services/networking` | Service: Network Infrastructure | 200 Indexable |
-| 7 | `https://kobbysintertechservices.online/services/satellite` | Service: Satellite TV Support | 200 Indexable |
-| 8 | `https://kobbysintertechservices.online/services/electrical-works` | Service: Electrical Works & Power | 200 Indexable |
-| 9 | `https://kobbysintertechservices.online/services/gps-tracking` | Service: GPS Vehicle Tracking | 200 Indexable |
-| 10 | `https://kobbysintertechservices.online/gallery` | Public Gallery | 200 Indexable |
-| 11 | `https://kobbysintertechservices.online/contact` | Contact Us | 200 Indexable |
-| 12 | `https://kobbysintertechservices.online/faq` | FAQ | 200 Indexable |
-| 13 | `https://kobbysintertechservices.online/book-service` | Book Service | 200 Indexable |
-| 14 | `https://kobbysintertechservices.online/request-quote` | Request Quote | 200 Indexable |
-| 15 | `https://kobbysintertechservices.online/privacy` | Privacy Policy | 200 Indexable |
-| 16 | `https://kobbysintertechservices.online/terms-of-service` | Terms of Service | 200 Indexable |
-
-**Excluded:**
-- Private admin routes (`/admin/*`)
-- Legacy management routes (`/gallery/manage`)
-- API endpoints (`/api/*`)
-- 404 / Error pages (`/_not-found`)
-- No non-canonical or tracking-parameter URLs
+| `robots.txt` | ✅ Valid | ✅ Live (HTTP 200) | `https://www.kobbysintertechservices.online/robots.txt` |
+| `sitemap.xml` | ✅ 16 URLs | ✅ Live (HTTP 200) | `https://www.kobbysintertechservices.online/sitemap.xml` |
+| Canonical URLs | ✅ Valid | ✅ Live in HTML | Emitted on all 16 public routes |
+| Admin `noindex` | ✅ Valid | ✅ Live in HTML | Confirmed `<meta name="robots" content="noindex, nofollow"/>` |
+| 16 Content Routes | ✅ Built | ✅ 16 / 16 Live (HTTP 200) | All routes active with no 404/5xx errors |
+| Frontend ESLint | ✅ 0 errors, 0 warnings | — | Clean |
+| Frontend TypeScript | ✅ 0 errors | — | Clean |
+| Preferred Domain | ⚠️ Config conflict | ⚠️ Vercel primary is `www` | Code specifies non-www; Vercel 308s to `www` |
 
 ---
 
-## 2. Final robots.txt Output
+## 1. Live `robots.txt` Verification
 
-Generated dynamically from `apps/web/src/app/robots.ts`:
+**Live URL:** `https://www.kobbysintertechservices.online/robots.txt`  
+**HTTP Status:** `200 OK`  
+**Live Content:**
 
 ```
 User-Agent: *
@@ -69,43 +39,141 @@ Host: https://kobbysintertechservices.online
 Sitemap: https://kobbysintertechservices.online/sitemap.xml
 ```
 
----
-
-## 3. Admin Indexing & Security Strategy
-
-### Interaction Analysis
-1. **Robots.txt vs. Noindex:**
-   - As mandated by search engine standards (including Google Search Central guidelines), **pages that require de-indexing must NOT be disallowed in robots.txt**. If a URL is disallowed in `robots.txt`, search engine crawlers will never request the page and therefore will never read the `<meta name="robots" content="noindex, nofollow" />` tag.
-   - Consequently, `robots.txt` disallows only `/api/admin/` (JSON endpoints that do not render HTML or meta tags).
-2. **Authentication Middleware (`middleware.ts`):**
-   - Authentication is the authoritative security boundary. Robots.txt is never treated as a security mechanism.
-   - Unauthenticated requests to protected admin routes (`/admin`, `/admin/bookings`, `/admin/team`, `/admin/account`) receive an immediate HTTP 307 redirect to `/admin/login`.
-   - Unauthenticated requests to `/gallery/manage` receive an immediate HTTP 307 redirect to `/admin/login?from=/admin/gallery`.
-3. **Publicly Reachable Admin Pages (`/admin/login`, `/admin/forgot-password`, `/admin/activate`):**
-   - Return HTTP 200 with the login/recovery UI.
-   - They inherit `<meta name="robots" content="noindex, nofollow">` from `apps/web/src/app/admin/layout.tsx`.
-   - Crawlers can fetch these pages, encounter the `noindex` directive, and drop the URLs from search engine indexes.
-4. **`/gallery/manage`:**
-   - Routed to `/admin/gallery` via middleware.
-   - A dedicated `apps/web/src/app/gallery/manage/layout.tsx` was added declaring `robots: { index: false, follow: false }` for defense-in-depth during static prerendering.
+### Verification Points:
+- Public pages are fully crawlable (`Allow: /`).
+- Private API endpoints (`/api/admin/`) are disallowed from bot crawling.
+- Admin UI pages (`/admin/*`) are **not** blocked in `robots.txt`, allowing crawlers to discover their `<meta name="robots" content="noindex, nofollow"/>` tags.
+- Direct reference to `sitemap.xml` is present and valid.
 
 ---
 
-## 4. Review of Unrelated Code Changes & Final Status
+## 2. Live `sitemap.xml` Verification
 
-| Change | File | Original Issue | Review & Action Taken | Final Status |
-|---|---|---|---|---|
-| **Global ESLint Rule Override** | `apps/web/eslint.config.mjs` | Downgraded `react-hooks/set-state-in-effect` to `"warn"` | **Reverted**. Global weakening was improper. Replaced with localized, justified inline `eslint-disable-next-line` comments on the specific mount/sync effects. | ✅ Reverted global downgrade; strict linting preserved |
-| **Year Calculation & Hydration** | `apps/web/src/components/site-footer.tsx` | `useState` + `useEffect` triggered extra render pass and lint error | **Retained**. Synchronous `new Date().getFullYear()` with `suppressHydrationWarning` on `<span>` is the canonical Next.js/React standard. Eliminates flash and client overhead. | ✅ Retained |
-| **Booking Detail Type Safety** | `apps/web/src/app/admin/bookings/bookings-manager.tsx` | `detail?: any` caused `@typescript-eslint/no-explicit-any` | **Retained**. Replaced `any` with `{ note?: string; [key: string]: unknown } \| null`. Preserves runtime data flexibility while enforcing type safety on accessed properties. | ✅ Retained |
-| **Compression Flash Message** | `apps/web/src/app/gallery/manage/page.tsx` | Unused variable `savingsInfo` | **Retained**. The compression calculation was authored by the dev but omitted from the template string. Connecting it to the flash message resolved the unused variable and provides helpful feedback. | ✅ Retained |
-| **Dead Code / Unused Imports** | `apps/web/src/components/public-gallery-view.tsx` | Unused `Image`, `GALLERY_CATEGORIES`, and unreferenced `counts` `useMemo` | **Retained**. Cleaned dead imports and unused computation. No JSX or UI impact. | ✅ Retained |
+**Live URL:** `https://www.kobbysintertechservices.online/sitemap.xml`  
+**HTTP Status:** `200 OK`  
+**Live Content:**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://kobbysintertechservices.online</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/about</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/services</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/services/cctv-security</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/services/fibre-internet</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/services/networking</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/services/satellite</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/services/electrical-works</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/services/gps-tracking</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/gallery</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/contact</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/faq</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/book-service</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/request-quote</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/privacy</loc>
+</url>
+<url>
+<loc>https://kobbysintertechservices.online/terms-of-service</loc>
+</url>
+</urlset>
+```
+
+### Verification Points:
+- Exactly 16 URLs included.
+- All 6 active service slugs included: `cctv-security`, `fibre-internet`, `networking`, `satellite`, `electrical-works`, `gps-tracking`.
+- No obsolete or non-existent slugs.
+- Zero admin, API, or 404 pages included.
 
 ---
 
-## 5. Verification Results
+## 3. Live Probing Results for All 16 URLs
 
-- **`npm run lint --prefix apps/web`**: Exit Code 0 (0 errors, 0 warnings).
-- **TypeScript (`tsc --noEmit`)**: Exit Code 0 across all workspaces.
-- **Production Build (`npm run build --prefix apps/web`)**: Exit Code 0 (33 routes built, valid robots.txt and sitemap.xml generated).
-- **Backend (`apps/api`)**: Untouched, all tests pass.
+Tested directly against the live Vercel production deployment:
+
+| # | Route | Non-www Request | Live Production Response (`www`) | Live Canonical Tag in HTML | Indexability Status |
+|---|---|---|---|---|---|
+| 1 | `/` | `308` ➔ `www/` | `200 OK` | `https://kobbysintertechservices.online` | Indexable |
+| 2 | `/about` | `308` ➔ `www/about` | `200 OK` | `https://kobbysintertechservices.online/about` | Indexable |
+| 3 | `/services` | `308` ➔ `www/services` | `200 OK` | `https://kobbysintertechservices.online/services` | Indexable |
+| 4 | `/services/cctv-security` | `308` ➔ `www/...` | `200 OK` | `https://kobbysintertechservices.online/services/cctv-security` | Indexable |
+| 5 | `/services/fibre-internet` | `308` ➔ `www/...` | `200 OK` | `https://kobbysintertechservices.online/services/fibre-internet` | Indexable |
+| 6 | `/services/networking` | `308` ➔ `www/...` | `200 OK` | `https://kobbysintertechservices.online/services/networking` | Indexable |
+| 7 | `/services/satellite` | `308` ➔ `www/...` | `200 OK` | `https://kobbysintertechservices.online/services/satellite` | Indexable |
+| 8 | `/services/electrical-works` | `308` ➔ `www/...` | `200 OK` | `https://kobbysintertechservices.online/services/electrical-works` | Indexable |
+| 9 | `/services/gps-tracking` | `308` ➔ `www/...` | `200 OK` | `https://kobbysintertechservices.online/services/gps-tracking` | Indexable |
+| 10 | `/gallery` | `308` ➔ `www/gallery` | `200 OK` | `https://kobbysintertechservices.online/gallery` | Indexable |
+| 11 | `/contact` | `308` ➔ `www/contact` | `200 OK` | `https://kobbysintertechservices.online/contact` | Indexable |
+| 12 | `/faq` | `308` ➔ `www/faq` | `200 OK` | `https://kobbysintertechservices.online/faq` | Indexable |
+| 13 | `/book-service` | `308` ➔ `www/book-service` | `200 OK` | `https://kobbysintertechservices.online/book-service` | Indexable |
+| 14 | `/request-quote` | `308` ➔ `www/request-quote` | `200 OK` | `https://kobbysintertechservices.online/request-quote` | Indexable |
+| 15 | `/privacy` | `308` ➔ `www/privacy` | `200 OK` | `https://kobbysintertechservices.online/privacy` | Indexable |
+| 16 | `/terms-of-service` | `308` ➔ `www/terms-of-service` | `200 OK` | `https://kobbysintertechservices.online/terms-of-service` | Indexable |
+
+---
+
+## 4. Live Admin & Security Verification
+
+Testing `https://www.kobbysintertechservices.online/admin/login`:
+- **HTTP Status:** `200 OK`
+- **Rendered Robots Metadata:** `<meta name="robots" content="noindex, nofollow"/>`
+- **Confirmation:** Crawlers can reach the login page without robots.txt blockage, discover the `noindex, nofollow` directive, and permanently exclude admin pages from search results.
+- **Protected Admin Routes (`/admin`, `/admin/bookings`, etc.):** Intercepted by middleware and redirected (HTTP 307) to `/admin/login`.
+
+---
+
+## 5. Domain Alignment Finding & Recommendation
+
+> [!IMPORTANT]
+> **Domain Setting Mismatch:**  
+> In Vercel Project Settings ➔ Domains (visible in your deployment dashboard screenshot):
+> - `www.kobbysintertechservices.online` is currently configured as the **Primary Domain**.
+> - `kobbysintertechservices.online` (apex non-www) 308 redirects to `www.kobbysintertechservices.online`.
+>
+> However, our SEO canonical foundation specifies `https://kobbysintertechservices.online` (non-www) as the canonical domain:
+> `<link rel="canonical" href="https://kobbysintertechservices.online/..."/>`
+>
+> **Action Required in Vercel Dashboard:**  
+> Go to **Vercel Project Settings ➔ Domains**:
+> 1. Set `kobbysintertechservices.online` as the **Primary Domain**.
+> 2. Set `www.kobbysintertechservices.online` to redirect (308) to `kobbysintertechservices.online`.
+>
+> Once toggled, both the Vercel 308 redirects and the HTML canonical declarations will be 100% synchronized on `https://kobbysintertechservices.online`.
+
+---
+
+## 6. Submission to Search Consoles
+
+### Readiness: Ready (Following Vercel Domain Toggle)
+Once the primary domain in Vercel is set to `kobbysintertechservices.online`:
+- **Sitemap to submit:** `https://kobbysintertechservices.online/sitemap.xml`
+- **Google Search Console:** Submit `sitemap.xml` under your domain property.
+- **Bing Webmaster Tools:** Submit `https://kobbysintertechservices.online/sitemap.xml`.
