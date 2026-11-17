@@ -22,6 +22,7 @@ function AnimatedCount({ value, loading }: { value: number; loading: boolean }) 
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional reset before animation; synchronous early-return is not an async side-effect
     if (loading) { setDisplay(0); return; }
     if (value === 0) { setDisplay(0); return; }
     // Quickly count from 0 to the value
@@ -73,6 +74,7 @@ export function DashboardStats() {
 
   // Load on mount and auto-refresh every 90 seconds
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional data fetch on mount
     void load();
     const interval = setInterval(() => { void load(); }, 90_000);
     return () => clearInterval(interval);

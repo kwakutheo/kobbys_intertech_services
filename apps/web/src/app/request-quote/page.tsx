@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { HeroSection } from "@/components/hero-section";
 
-export const metadata = {
-  title: "Request a quotation | Kobby's Intertech Services",
+export const metadata: Metadata = {
+  title: "Request a Quotation",
   description:
     "Request an itemised quotation for CCTV, fibre internet, networking, satellite, or electrical services across Ghana.",
+  alternates: {
+    canonical: "/request-quote",
+  },
 };
 
 export default async function RequestQuotePage({

@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AdminLogoutButton } from '@/components/admin-logout-button';
@@ -38,7 +37,7 @@ export type ServiceRequestItem = {
     oldStatus: string | null;
     newStatus: string | null;
     createdAt: string;
-    detail?: any;
+    detail?: { note?: string; [key: string]: unknown } | null;
   }>;
 };
 
@@ -91,6 +90,7 @@ export function BookingsManager() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional async data load on mount/dependency change
     void loadRequests();
   }, [loadRequests]);
 
@@ -104,7 +104,7 @@ export function BookingsManager() {
       });
 
       if (res.ok) {
-        const updated = await res.json();
+        await res.json();
         setRequests((prev) =>
           prev.map((r) => (r.id === id ? { ...r, status: newStatus, updatedAt: new Date().toISOString() } : r))
         );

@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { AdminActivationForm } from './admin-activation-form';
 
 export const metadata: Metadata = {
-  title: "Set Staff Password | Kobby's Intertech Services",
+  title: "Set Staff Password",
   robots: { index: false, follow: false },
 };
 

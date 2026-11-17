@@ -17,12 +17,15 @@ export async function generateMetadata({
   const service = services.find((item) => item.slug === slug);
   if (!service) {
     return {
-      title: "Service Not Found | Kobby's Intertech Services",
+      title: "Service Not Found",
     };
   }
   return {
-    title: `${service.name} Installation & Support | Kobby's Intertech Services`,
+    title: `${service.name} Installation & Support`,
     description: service.description,
+    alternates: {
+      canonical: `/services/${slug}`,
+    },
   };
 }
 

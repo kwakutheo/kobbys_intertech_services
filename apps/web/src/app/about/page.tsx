@@ -1,9 +1,13 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/hero-section";
 
-export const metadata = {
-  title: "About | Kobby's Intertech Services",
+export const metadata: Metadata = {
+  title: "About Us",
   description:
     "Learn about Kobby's Intertech Services, providing practical technology, security, connectivity and electrical solutions for homes and businesses in Ghana.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 const COMPANY_VALUES = [
@@ -80,7 +84,7 @@ export default function AboutPage() {
           <div className="about-mission-right">
             <div className="about-mission-quote">
               <p className="about-mission-lead">
-                Our mission is to help individuals and businesses in Ghana address everyday security, connectivity and technical challenges through suitable solutions, careful installation and clear customer support. We consider each customer's needs, site conditions and budget before recommending the way forward.
+                Our mission is to help individuals and businesses in Ghana address everyday security, connectivity and technical challenges through suitable solutions, careful installation and clear customer support. We consider each customer&apos;s needs, site conditions and budget before recommending the way forward.
               </p>
             </div>
             <div className="about-mission-pillars">

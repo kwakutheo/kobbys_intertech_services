@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { AdminLoginForm } from './admin-login-form';
 
 export const metadata: Metadata = {
-  title: "Admin Sign In | Kobby's Intertech Services",
+  title: "Admin Sign In",
   description: "Secure login portal for Kobby's Intertech Services staff and administrators.",
   robots: {
     index: false,

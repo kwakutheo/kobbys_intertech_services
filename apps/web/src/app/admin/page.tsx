@@ -7,7 +7,7 @@ import { getAdminSession, SESSION_COOKIE } from '@/lib/admin-auth';
 import { DashboardStats } from './dashboard-stats';
 
 export const metadata: Metadata = {
-  title: "Admin Portal | Kobby's Intertech Services",
+  title: "Admin Portal",
   description: "Management dashboard for Kobby's Intertech Services staff and administrators.",
 };
 

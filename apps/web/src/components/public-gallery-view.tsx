@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { GALLERY_CATEGORIES, getCategoryLabel } from '@/lib/gallery-categories';
+import { getCategoryLabel } from '@/lib/gallery-categories';
 
 export type PublicPhoto = {
   id: string;
@@ -20,20 +20,6 @@ interface PublicGalleryViewProps {
 
 export function PublicGalleryView({ initialPhotos }: PublicGalleryViewProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
-
-  // Compute counts for each category
-  const counts = useMemo(() => {
-    const map: Record<string, number> = { all: initialPhotos.length };
-    for (const cat of GALLERY_CATEGORIES) {
-      map[cat.id] = 0;
-    }
-    for (const p of initialPhotos) {
-      if (p.category && map[p.category] !== undefined) {
-        map[p.category]++;
-      }
-    }
-    return map;
-  }, [initialPhotos]);
 
   // Filter photos based on active category
   const filteredPhotos = useMemo(() => {

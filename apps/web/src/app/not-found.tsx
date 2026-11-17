@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { HeroSection } from "@/components/hero-section";
 
-export const metadata = {
-  title: "404 - Page Not Found | Kobby's Intertech Services",
+export const metadata: Metadata = {
+  title: "404 - Page Not Found",
   description: "The page you are looking for does not exist or may have been moved.",
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 const POPULAR_DESTINATIONS = [

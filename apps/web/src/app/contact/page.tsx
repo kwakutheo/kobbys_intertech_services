@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/hero-section";
 import { ContactHub } from "@/components/contact-hub";
 
-export const metadata = {
-  title: "Contact | Kobby's Intertech Services",
+export const metadata: Metadata = {
+  title: "Contact Us",
   description:
     "Get in touch with Kobby's Intertech Services for CCTV, fibre, networking, satellite, or electrical installations in Ghana. Call, WhatsApp, or visit us in Achimota, Accra.",
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default function ContactPage() {

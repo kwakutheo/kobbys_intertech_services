@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { HeroSection } from "@/components/hero-section";
 
-export const metadata = {
-  title: "FAQ | Kobby's Intertech Services",
+export const metadata: Metadata = {
+  title: "Frequently Asked Questions (FAQ)",
   description:
     "Find answers to common questions about CCTV, internet, networking, satellite TV, GPS tracking, electrical works and technical services in Ghana.",
+  alternates: {
+    canonical: "/faq",
+  },
 };
 
 const FAQ_ITEMS = [
@@ -117,7 +121,7 @@ export default function FaqPage() {
                 Chat on WhatsApp
               </a>
               
-              ------------------------------------------------------------*/}
+              -------------------------------------------*/}
 
             </div>
           </div>

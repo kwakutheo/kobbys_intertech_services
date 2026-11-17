@@ -5,8 +5,15 @@ import { PageTransition } from "@/components/page-transition";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Kobby's Intertech Services | Technology, Security & Communication",
+  metadataBase: new URL("https://kobbysintertechservices.online"),
+  title: {
+    default: "Kobby's Intertech Services | Technology, Security & Communication",
+    template: "%s | Kobby's Intertech Services",
+  },
   description: "Technology, security and communication solutions across Ghana.",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
       { url: "/brand/footer_logo.png", type: "image/png" },

@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { Suspense } from 'react';
 import { HeroSection } from '@/components/hero-section';
 import { getApiBaseUrl } from '@/lib/api-url';
 
 export const metadata: Metadata = {
-  title: "Gallery | Kobby's Intertech Services",
+  title: "Project Gallery",
   description:
     "Photos of our installations, projects and work across Ghana — CCTV, networking, fibre, satellite and more.",
+  alternates: {
+    canonical: "/gallery",
+  },
 };
 
 import { PublicGalleryView, type PublicPhoto } from '@/components/public-gallery-view';

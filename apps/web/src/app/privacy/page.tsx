@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/hero-section";
 import Link from "next/link";
 
-export const metadata = {
-  title: "Privacy Policy | Kobby's Intertech Services",
+export const metadata: Metadata = {
+  title: "Privacy Policy",
   description:
     "Read how Kobby's Intertech Services collects, uses, stores and protects personal information in connection with our services in Ghana.",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 const PRIVACY_SECTIONS = [

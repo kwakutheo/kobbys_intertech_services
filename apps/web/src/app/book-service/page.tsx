@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { HeroSection } from "@/components/hero-section";
 
-export const metadata = {
-  title: "Book a service | Kobby's Intertech Services",
+export const metadata: Metadata = {
+  title: "Book a Service",
   description:
     "Book an installation, maintenance, or repair service online with Kobby's Intertech Services in Ghana.",
+  alternates: {
+    canonical: "/book-service",
+  },
 };
 
 export default async function BookServicePage({

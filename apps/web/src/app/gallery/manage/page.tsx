@@ -65,6 +65,7 @@ export default function GalleryManagePage() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional data fetch on mount
     void load();
   }, [load]);
 
@@ -159,7 +160,7 @@ export default function GalleryManagePage() {
     if (fail === 0) {
       flash(
         'ok',
-        `Successfully uploaded ${ok} photo${ok === 1 ? '' : 's'}.`
+        `Successfully uploaded ${ok} photo${ok === 1 ? '' : 's'}.${savingsInfo}`
       );
     } else {
       flash('err', `Uploaded ${ok} photo${ok === 1 ? '' : 's'}, ${fail} failed: ${lastError}`);
@@ -705,6 +706,7 @@ function CaptionEditor({ initial, onSave }: { initial: string; onSave: (v: strin
   const [val, setVal] = useState(initial);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync local input state when parent prop changes
     setVal(initial);
   }, [initial]);
 

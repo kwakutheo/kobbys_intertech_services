@@ -1,11 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { services } from "@/data/site";
 import { HeroSection } from "@/components/hero-section";
 
-export const metadata = {
-  title: "Services | Kobby's Intertech Services",
+export const metadata: Metadata = {
+  title: "Our Services",
   description:
     "Explore our complete range of services in CCTV, fibre-optic & satellite internet, networking, satellite tv, electrical works, and GPS tracking across Ghana.",
+  alternates: {
+    canonical: "/services",
+  },
 };
 
 export default function ServicesPage() {

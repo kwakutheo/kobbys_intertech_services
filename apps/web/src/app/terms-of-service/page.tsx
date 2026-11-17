@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/hero-section";
 import Link from "next/link";
 
-export const metadata = {
-  title: "Terms of Service | Kobby's Intertech Services",
+export const metadata: Metadata = {
+  title: "Terms of Service",
   description:
     "Read the terms that govern use of Kobby's Intertech Services' website, service enquiries, bookings and technical services in Ghana.",
+  alternates: {
+    canonical: "/terms-of-service",
+  },
 };
 
 type TermsSection = {

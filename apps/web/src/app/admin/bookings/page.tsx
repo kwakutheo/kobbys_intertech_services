@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { BookingsManager } from './bookings-manager';
 
 export const metadata: Metadata = {
-  title: "Service Bookings & Quotes Manager | Kobby's Intertech Services",
+  title: "Service Bookings & Quotes Manager",
   description: "Review and manage incoming customer service bookings and quotation inquiries.",
   robots: {
     index: false,

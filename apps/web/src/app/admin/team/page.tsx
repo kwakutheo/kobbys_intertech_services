@@ -54,6 +54,7 @@ export default function AdminTeamPage() {
     }
   }, []);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional data fetch on mount
   useEffect(() => { void loadStaff(); }, [loadStaff]);
 
   const submitStaffAccount = async (event: React.FormEvent) => {
