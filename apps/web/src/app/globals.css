@@ -1146,7 +1146,7 @@ nav a:hover, .desktop-nav a:hover, .text-link:hover { color: var(--wine); }
 
 .contact-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(154, 0, 26, 0.35);
+  border-color: var(--wine);
   box-shadow: 0 10px 28px rgba(154, 0, 26, 0.08);
 }
 
