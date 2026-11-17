@@ -16,12 +16,13 @@
 |---|---|---|
 | **Phase 1: Dynamic robots.txt** | ✅ Live Verified | Accessible at `/robots.txt` (HTTP 200). Public crawl allowed; `/api/admin/` blocked; admin pages unblocked for noindex discovery. |
 | **Phase 1: Dynamic sitemap.xml** | ✅ Live Verified | Accessible at `/sitemap.xml` (HTTP 200). Exactly 16 canonical URLs matching active service routes. |
-| **Phase 2: Titles & Meta Descriptions** | ✅ Implemented | Unique, localized, descriptive titles and descriptions across all 16 public routes. |
-| **Phase 2: Open Graph & Twitter Cards** | ✅ Implemented | Complete `openGraph` and `twitter:card` metadata across all pages with dedicated images for service pages. |
-| **Phase 2: Heading Hierarchy** | ✅ Implemented | One clear H1 per page; corrected misuse of H2 for contact values and H4 before H2/H3; visual design 100% preserved. |
-| **Phase 2: Image SEO** | ✅ Implemented | Descriptive, localized fallback alt text for carousel and gallery items; Next.js Image priority optimization. |
-| **Phase 2: Internal Linking** | ✅ Implemented | Enhanced cross-navigation between service detail pages, project gallery, booking, quote request, and FAQ. |
-| **Phase 2: Local SEO Relevance** | ✅ Implemented | Natural geographic references to Achimota, Accra, Greater Accra, southern Ghana, and the Ashanti Region. |
+| **Phase 2: Titles & Meta Descriptions** | ✅ Live Verified | Unique, localized, descriptive titles and descriptions across all 16 public routes confirmed live on production. |
+| **Phase 2: Open Graph & Twitter Cards** | ✅ Live Verified | Complete `openGraph` and `twitter:card` metadata across all pages with dedicated images for service pages confirmed live. |
+| **Phase 2: Preferred Domain & Redirect** | ✅ Live Verified | Vercel Primary Domain set to `kobbysintertechservices.online`. `www` requests return HTTP 308 redirect to non-www. |
+| **Phase 2: Heading Hierarchy** | ✅ Live Verified | One clear H1 per page; corrected misuse of H2 for contact values and H4 before H2/H3; visual design 100% preserved. |
+| **Phase 2: Image SEO** | ✅ Live Verified | Descriptive, localized fallback alt text for carousel and gallery items; Next.js Image priority optimization live. |
+| **Phase 2: Internal Linking** | ✅ Live Verified | Enhanced cross-navigation between service detail pages, project gallery, booking, quote request, and FAQ. |
+| **Phase 2: Local SEO Relevance** | ✅ Live Verified | Natural geographic references to Achimota, Accra, Greater Accra, southern Ghana, and the Ashanti Region. |
 | **Frontend ESLint** | ✅ Clean (Exit 0) | 0 errors, 0 warnings across all files. |
 | **Frontend TypeScript** | ✅ Clean (Exit 0) | `tsc --noEmit` passed with 0 errors. |
 | **Production Build** | ✅ Clean (Exit 0) | 33 routes generated, verified without compilation errors. |
@@ -167,8 +168,37 @@ Every public page has exactly **one** primary `<h1>` element.
 
 ---
 
-## 10. Outstanding Recommendations for the User
+## 10. Phase 2 Live Deployment & Preferred Domain Verification
 
-1. **Deploy Phase 2:** Commit and push the Phase 2 changes to Vercel production.
-2. **Vercel Primary Domain Alignment:** In the Vercel Dashboard under **Project Settings ➔ Domains**, set `kobbysintertechservices.online` as the Primary Domain (so `www` 308 redirects to non-www), ensuring full alignment with the canonical URLs.
-3. **Phase 3 (Next Step):** Structured Data (JSON-LD) for LocalBusiness, Service schema, and BreadcrumbList.
+On 2026-11-17, deployment `3a827a2` was published to production on Vercel and the primary domain configuration was aligned. Live testing confirmed:
+
+1. **Domain Alignment & Redirection:**
+   - Primary domain is now set to `https://kobbysintertechservices.online` (non-www).
+   - Visiting `https://www.kobbysintertechservices.online/*` returns **HTTP 308 Permanent Redirect** directly to `https://kobbysintertechservices.online/*`.
+   - Complete 1:1 parity between server redirects and declared HTML canonical tags.
+
+2. **Live HTML & Metadata Verification:**
+   - **Homepage (`/`)**: Returns HTTP 200. Live title: `Kobby's Intertech Services | Technology, Security & Connectivity in Ghana`. Canonical: `https://kobbysintertechservices.online/`.
+   - **Service Pages (e.g. `/services/cctv-security`, `/services/satellite`)**: Return HTTP 200. Live tags confirmed:
+     - `og:title`, `og:description`, `og:url` present and localized.
+     - `og:locale` set to `en_GH`.
+     - `og:image` pointing to service-specific high-resolution asset (`/services/cctv_and_security.jpg`, `/services/satellite.jpg`).
+     - `twitter:card` set to `summary_large_image`.
+     - `twitter:image` matching the high-resolution service asset.
+     - Canonical tag matching exact non-www route.
+   - **Internal Cross-Links**: Service pages now feature functional links to `/gallery`, and the `/about` page contains the bottom cross-navigation section.
+
+3. **Robots & Sitemap Parity:**
+   - `/robots.txt` and `/sitemap.xml` remain fully functional and live on the non-www domain.
+   - All 16 public canonical URLs are verified indexable with zero crawl barriers.
+
+---
+
+## 11. Current Status & Next Steps
+
+1. **Phase 1 (Technical SEO Foundation):** ✅ **Complete & Live Verified.**
+2. **Phase 2 (On-Page SEO, Metadata & Appearance):** ✅ **Complete & Live Verified.**
+3. **Preferred Domain Alignment:** ✅ **Complete & Live Verified.**
+4. **Next Step — Phase 3 (Structured Data / Schema Markup):**
+   - Implement JSON-LD schema across public routes (`LocalBusiness` on homepage and contact, `Service` schema on all 6 individual service pages, `FAQPage` schema on `/faq`, and `BreadcrumbList` navigation markup).
+   - Await user approval before starting Phase 3 implementation.
