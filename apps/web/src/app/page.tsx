@@ -8,7 +8,7 @@ import { getOrganizationAndWebsiteSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Kobby's Intertech Services | Technology, Security & Connectivity in Ghan",
+    absolute: "Kobby's Intertech Services | Technology, Security & Connectivity in Ghana",
   },
   description:
     "Professional CCTV installation, fibre internet, computer networking, satellite TV, electrical works, and GPS tracking for properties and businesses in Accra and across Ghana.",
