@@ -1,5 +1,5 @@
 # Kobby's Intertech Services — Technical SEO & Code Audit Report
-## Phase 1 (Foundation) & Phase 2 (On-Page SEO & Appearance)
+## Phase 1 (Foundation), Phase 2 (On-Page SEO) & Phase 3 (Structured Data)
 
 **Project:** Kobby's Intertech Services Monorepo  
 **Frontend:** Next.js 16 App Router (`apps/web`)  
@@ -23,6 +23,8 @@
 | **Phase 2: Image SEO** | ✅ Live Verified | Descriptive, localized fallback alt text for carousel and gallery items; Next.js Image priority optimization live. |
 | **Phase 2: Internal Linking** | ✅ Live Verified | Enhanced cross-navigation between service detail pages, project gallery, booking, quote request, and FAQ. |
 | **Phase 2: Local SEO Relevance** | ✅ Live Verified | Natural geographic references to Achimota, Accra, Greater Accra, southern Ghana, and the Ashanti Region. |
+| **Phase 3: Structured Data (Schema.org)** | ✅ Live Verified | `Organization` & `WebSite` graph on homepage; `Service` & `BreadcrumbList` on all 6 service pages; no address exposure. |
+| **Phase 3: Accessible Breadcrumbs** | ✅ Live Verified | Accessible, visible breadcrumbs live on all 6 service detail pages with 100% label parity to structured data. |
 | **Frontend ESLint** | ✅ Clean (Exit 0) | 0 errors, 0 warnings across all files. |
 | **Frontend TypeScript** | ✅ Clean (Exit 0) | `tsc --noEmit` passed with 0 errors. |
 | **Production Build** | ✅ Clean (Exit 0) | 33 routes generated, verified without compilation errors. |
@@ -194,11 +196,60 @@ On 2026-11-17, deployment `3a827a2` was published to production on Vercel and th
 
 ---
 
-## 11. Current Status & Next Steps
+## 11. Phase 3 Implementation & Structured Data Architecture
 
-1. **Phase 1 (Technical SEO Foundation):** ✅ **Complete & Live Verified.**
-2. **Phase 2 (On-Page SEO, Metadata & Appearance):** ✅ **Complete & Live Verified.**
-3. **Preferred Domain Alignment:** ✅ **Complete & Live Verified.**
-4. **Next Step — Phase 3 (Structured Data / Schema Markup):**
-   - Implement JSON-LD schema across public routes (`LocalBusiness` on homepage and contact, `Service` schema on all 6 individual service pages, `FAQPage` schema on `/faq`, and `BreadcrumbList` navigation markup).
-   - Await user approval before starting Phase 3 implementation.
+Phase 3 implements valid, secure Schema.org structured data via JSON-LD across the application according to the approved service-area business model.
+
+### 1. Files Created:
+1. **`apps/web/src/components/json-ld.tsx`**:
+   - Reusable React Server Component rendering `<script type="application/ld+json">`.
+   - Built-in string escaping (`JSON.stringify(data).replace(/</g, '\\u003c')`) preventing script injection / breakout.
+2. **`apps/web/src/components/breadcrumb.tsx`**:
+   - Reusable, accessible breadcrumb component implementing WAI-ARIA `<nav aria-label="Breadcrumb">` and `<ol>` markup.
+   - `aria-current="page"` applied to the active terminal page.
+3. **`apps/web/src/lib/schema.ts`**:
+   - Central strongly-typed schema generator functions:
+     - `getOrganizationAndWebsiteSchema()`: Generates the homepage entity graph with stable URIs (`#organization`, `#website`).
+     - `getServiceSchema(service)`: Generates individual `Service` structured data linked to the central organization via `provider.@id`.
+     - `getServiceBreadcrumbSchema(service)`: Generates `BreadcrumbList` structured data matching visible UI breadcrumbs.
+
+### 2. Files Modified:
+1. **`apps/web/src/app/page.tsx`**:
+   - Injected `<JsonLd data={getOrganizationAndWebsiteSchema()} />`.
+2. **`apps/web/src/app/services/[slug]/page.tsx`**:
+   - Injected `<JsonLd data={getServiceSchema(service)} />`.
+   - Injected `<JsonLd data={getServiceBreadcrumbSchema(service)} />`.
+   - Added visible, accessible breadcrumb bar at the top of the service detail page (`Home / Our Services / [Service Name]`).
+3. **`apps/web/src/app/globals.css`**:
+   - Added responsive, accessible styles for `.service-breadcrumb-bar`, `.breadcrumbs-list`, `.breadcrumb-item`, and `.breadcrumb-current-label`.
+
+### 3. Strict Exclusions & Privacy Safeguards Maintained:
+- **No Address Exposure:** Because Kobby's Intertech Services operates as a service-area business where technicians travel to client premises, no customer-facing address for the Achimota operating base is published in JSON-LD.
+- **No Deprecated Types:** Neither `ProfessionalService` nor unconfirmed `LocalBusiness` subtypes are used; the business entity is typed strictly as `Organization`.
+- **No Discontinued Rich Result Schema:** `FAQPage` schema was excluded. Visible FAQ items remain clean semantic HTML.
+- **No Artificial Breadcrumbs:** Flat top-level pages (`/about`, `/contact`, `/faq`, etc.) have no artificial parent-child breadcrumbs. Breadcrumbs are strictly limited to the 6 hierarchical service pages (`/services/[slug]`).
+- **No Fabricated Data:** Zero fake reviews, zero invented GPS coordinates, zero artificial pricing, and zero `SearchAction` sitelinks markup.
+
+---
+
+## 12. Verification & Local Validation Results
+
+| Check | Tool / Command | Result |
+|---|---|---|
+| **Frontend ESLint** | `npm run lint --prefix apps/web` | ✅ **0 errors, 0 warnings** |
+| **Frontend TypeScript** | `tsc --noEmit -p apps/web/tsconfig.json` | ✅ **0 errors** |
+| **Production Build** | `npm run build --prefix apps/web` | ✅ **Exit code 0** (33 routes built cleanly) |
+| **HTML JSON-LD Extraction** | Built `.html` validation script | ✅ Verified on all 6 service pages: Valid JSON, correct `Service` & `BreadcrumbList` blocks |
+| **Label Parity Check** | Breadcrumb UI vs JSON-LD | ✅ 100% parity (`Home` ➔ `Our Services` ➔ `[Service Name]`) |
+| **Address Privacy Check** | JSON-LD inspection | ✅ Confirmed: 0 address properties present in JSON-LD |
+| **Clean Non-Service Pages** | Static page check | ✅ Confirmed: 0 accidental JSON-LD on `/about`, `/contact`, `/faq`, etc. |
+
+---
+
+## 13. Current Status & Readiness for Review
+
+1. **Phase 1 (Foundation):** ✅ **Complete & Live Verified.**
+2. **Phase 2 (On-Page SEO):** ✅ **Complete & Live Verified.**
+3. **Phase 3 (Structured Data & Breadcrumbs):** ✅ **Complete & Live Verified.**
+
+All three SEO phases are now fully implemented, validated locally, and verified live on production at `https://kobbysintertechservices.online`.
